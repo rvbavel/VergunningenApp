@@ -34,8 +34,7 @@ function toevoegenVergunning() {
     document.getElementById('taal').value = 'NL';
     document.getElementById('waarschuwing').value = 7;
 
-    // Toon voorbeeldtekst in emailvak
-    document.getElementById('emailVoorbeeld').value = `Beste ${klantnaam}, uw vergunning verloopt op ${vervaldatum}. Neem tijdig contact met ons op.`;
+    document.getElementById('emailVoorbeeld').value = `Beste ${klantnaam}, uw vergunning verloopt op ${formatDateNL(vervaldatum)}. Neem tijdig contact met ons op.`;
 }
 
 function updateTabel() {
@@ -65,7 +64,7 @@ function updateTabel() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${v.klantnaam}</td>
-            <td>${v.vervaldatum}</td>
+            <td>${formatDateNL(v.vervaldatum)}</td>
             <td class="${statusClass}">${statusText}</td>
             <td>
                 <button onclick="toonEmailVoorbeeld(${v.id})">Email klant (${v.taal})</button>
@@ -77,22 +76,26 @@ function updateTabel() {
     });
 }
 
+function formatDateNL(dateString) {
+    const [year, month, day] = dateString.split('-');
+    return `${day}-${month}-${year}`;
+}
+
 function toonEmailVoorbeeld(id) {
     const vergunning = vergunningen.find(v => v.id === id);
     let boodschap = '';
 
     if (vergunning.taal === 'NL') {
-        boodschap = `Beste ${vergunning.klantnaam}, uw vergunning verloopt op ${vergunning.vervaldatum}. Neem tijdig contact met ons op.`;
+        boodschap = `Beste ${vergunning.klantnaam}, uw vergunning verloopt op ${formatDateNL(vergunning.vervaldatum)}. Neem tijdig contact met ons op.`;
     } else if (vergunning.taal === 'EN') {
-        boodschap = `Dear ${vergunning.klantnaam}, your permit expires on ${vergunning.vervaldatum}. Please contact us in time.`;
+        boodschap = `Dear ${vergunning.klantnaam}, your permit expires on ${formatDateNL(vergunning.vervaldatum)}. Please contact us in time.`;
     } else if (vergunning.taal === 'DE') {
-        boodschap = `Sehr geehrter ${vergunning.klantnaam}, Ihre Genehmigung läuft am ${vergunning.vervaldatum} ab. Bitte kontaktieren Sie uns rechtzeitig.`;
+        boodschap = `Sehr geehrter ${vergunning.klantnaam}, Ihre Genehmigung läuft am ${formatDateNL(vergunning.vervaldatum)} ab. Bitte kontaktieren Sie uns rechtzeitig.`;
     }
 
     const aangepasteBoodschap = prompt('Bekijk/bewerk het e-mailbericht hieronder en klik op OK om te verzenden:', boodschap);
     if (aangepasteBoodschap !== null) {
         alert('E-mail verzonden:\n\n' + aangepasteBoodschap);
-        // Hier kan later echte mailfunctionaliteit aan gekoppeld worden
     }
 }
 
@@ -110,7 +113,7 @@ function verwijderVergunning(id) {
 function exporteerCSV() {
     let csv = 'Klantnaam,Vervaldatum,Taal,Waarschuwing\n';
     vergunningen.forEach(v => {
-        csv += `${v.klantnaam},${v.vervaldatum},${v.taal},${v.waarschuwing}\n`;
+        csv += `${v.klantnaam},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -121,3 +124,4 @@ function exporteerCSV() {
 }
 
 window.onload = updateTabel;
+
