@@ -9,33 +9,39 @@
 
 <header>
     <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-    <h1>Vergunningenbeheer Systeem</h1>
+    <h1>SPECIAAL TRANSPORT ZWOLLE B.V.</h1>
 </header>
 
 <main>
-    <section class="input-section">
-        <h2>Nieuwe Vergunning Invoeren</h2>
-        <label>Klantnaam:
-            <input type="text" id="klantnaam">
-        </label>
-        <label>Vervaldatum:
-            <input type="date" id="vervaldatum">
-        </label>
-        <label>Taal:
-            <select id="taal">
-                <option value="NL">Nederlands</option>
-                <option value="EN">Engels</option>
-                <option value="DE">Duits</option>
-            </select>
-        </label>
-        <label>Waarschuwingsperiode (dagen vóór vervaldatum):
-            <input type="number" id="waarschuwing" value="7">
-        </label>
-        <button onclick="toevoegenVergunning()">Toevoegen</button>
+    <section class="form-section">
+        <div class="form-left">
+            <h2>Nieuwe vergunning invoeren</h2>
+            <label>Klantnaam:
+                <input type="text" id="klantnaam">
+            </label>
+            <label>Vervaldatum:
+                <input type="date" id="vervaldatum">
+            </label>
+            <label>Taal:
+                <select id="taal">
+                    <option value="NL">Nederlands</option>
+                    <option value="EN">Engels</option>
+                    <option value="DE">Duits</option>
+                </select>
+            </label>
+            <label>Waarschuwingsperiode (dagen):
+                <input type="number" id="waarschuwing" value="7">
+            </label>
+            <button onclick="toevoegenVergunning()">Vergunning toevoegen</button>
+        </div>
+        <div class="form-right">
+            <h2>Emailvoorbeeld</h2>
+            <textarea id="emailVoorbeeld" readonly>Beste [klantnaam], uw vergunning verloopt op [vervaldatum]. Neem tijdig contact met ons op.</textarea>
+        </div>
     </section>
 
     <section class="table-section">
-        <h2>Overzicht Vergunningen</h2>
+        <h2>Vergunningen</h2>
         <table id="vergunningTable">
             <thead>
                 <tr>
@@ -46,7 +52,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Dynamisch ingevuld -->
+                <!-- Dynamisch gevuld -->
             </tbody>
         </table>
         <button onclick="exporteerCSV()">Exporteer als CSV</button>
