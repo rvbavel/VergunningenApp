@@ -4,7 +4,8 @@ let vergunningen = [
         klantnaam: 'Voorbeeld B.V.',
         vervaldatum: '2025-12-01',
         taal: 'NL',
-        waarschuwing: 7
+        waarschuwing: 7,
+        aangeschreven: false
     }
 ];
 
@@ -24,7 +25,8 @@ function toevoegenVergunning() {
         klantnaam,
         vervaldatum,
         taal,
-        waarschuwing
+        waarschuwing,
+        aangeschreven: false
     };
 
     vergunningen.push(vergunning);
@@ -70,6 +72,11 @@ function updateTabel() {
                 <button onclick="toonEmailVoorbeeld(${v.id})">Email klant (${v.taal})</button>
                 <button onclick="bewerkVergunning(${v.id})">Bewerk</button>
                 <button onclick="verwijderVergunning(${v.id})">Verwijder</button>
+                ${
+                    v.aangeschreven
+                        ? '<span style="color: green; font-weight: bold; margin-left: 10px;">Aangeschreven</span>'
+                        : `<button onclick="markeerAangeschreven(${v.id})" style="margin-left: 10px;">Markeer als aangeschreven</button>`
+                }
             </td>
         `;
         tbody.appendChild(tr);
@@ -102,6 +109,14 @@ function toonEmailVoorbeeld(id) {
     }
 }
 
+function markeerAangeschreven(id) {
+    const vergunning = vergunningen.find(v => v.id === id);
+    if (vergunning) {
+        vergunning.aangeschreven = true;
+        updateTabel();
+    }
+}
+
 function bewerkVergunning(id) {
     alert('Bewerkfunctie wordt later toegevoegd.');
 }
@@ -114,9 +129,9 @@ function verwijderVergunning(id) {
 }
 
 function exporteerCSV() {
-    let csv = 'Klantnaam,Vervaldatum,Taal,Waarschuwing\n';
+    let csv = 'Klantnaam,Vervaldatum,Taal,Waarschuwing,Aangeschreven\n';
     vergunningen.forEach(v => {
-        csv += `${v.klantnaam},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing}\n`;
+        csv += `${v.klantnaam},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing},${v.aangeschreven ? 'Ja' : 'Nee'}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
