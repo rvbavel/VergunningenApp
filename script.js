@@ -1,16 +1,4 @@
-let vergunningen = [
-    {
-        id: Date.now(),
-        klantnaam: 'Voorbeeld B.V.',
-        email: 'klant@example.com',
-        vergunningsnummer: '123-ABC',
-        vervaldatum: '2025-12-01',
-        taal: 'NL',
-        waarschuwing: 7,
-        aangeschreven: false,
-        laatsteEmailDatum: null
-    }
-];
+let vergunningen = [];
 
 function toevoegenVergunning() {
     const klantnaam = document.getElementById('klantnaam').value;
@@ -19,6 +7,8 @@ function toevoegenVergunning() {
     const vervaldatum = document.getElementById('vervaldatum').value;
     const taal = document.getElementById('taal').value;
     const waarschuwing = parseInt(document.getElementById('waarschuwing').value);
+    const ontheffingFile = document.getElementById('ontheffingPdf').files[0];
+    const ontheffingNaam = ontheffingFile ? ontheffingFile.name : '';
 
     if (!klantnaam || !email || !vergunningsnummer || !vervaldatum) {
         alert('Vul alle velden in.');
@@ -34,17 +24,20 @@ function toevoegenVergunning() {
         taal,
         waarschuwing,
         aangeschreven: false,
-        laatsteEmailDatum: null
+        laatsteEmailDatum: null,
+        ontheffing: ontheffingNaam
     };
 
     vergunningen.push(vergunning);
     updateTabel();
+
     document.getElementById('klantnaam').value = '';
     document.getElementById('email').value = '';
     document.getElementById('vergunningsnummer').value = '';
     document.getElementById('vervaldatum').value = '';
     document.getElementById('taal').value = 'NL';
     document.getElementById('waarschuwing').value = 7;
+    document.getElementById('ontheffingPdf').value = '';
 
     document.getElementById('emailVoorbeeld').value = `Beste ${klantnaam},\n\nUw vergunning ${vergunningsnummer} verloopt op ${formatDateNL(vervaldatum)}.\nNeem tijdig contact met ons op.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
 }
@@ -84,10 +77,19 @@ function updateTabel() {
                 <button onclick="toonEmailVoorbeeld(${v.id})">Email klant (${v.taal})</button>
                 <button onclick="bewerkVergunning(${v.id})">Bewerk</button>
                 <button onclick="verwijderVergunning(${v.id})">Verwijder</button>
+                <button onclick="toonOntheffing('${v.ontheffing}')">Bekijk ontheffing</button>
             </td>
         `;
         tbody.appendChild(tr);
     });
+}
+
+function toonOntheffing(bestandsnaam) {
+    if (bestandsnaam) {
+        alert(`Ontheffing bestand: ${bestandsnaam}`);
+    } else {
+        alert('Er is geen ontheffing toegevoegd.');
+    }
 }
 
 function formatDateNL(dateString) {
@@ -131,9 +133,9 @@ function verwijderVergunning(id) {
 }
 
 function exporteerCSV() {
-    let csv = 'Klantnaam,Vergunningsnummer,Vervaldatum,Taal,Waarschuwing,Aangeschreven\n';
+    let csv = 'Klantnaam,Vergunningsnummer,Vervaldatum,Taal,Waarschuwing,Aangeschreven,Ontheffing\n';
     vergunningen.forEach(v => {
-        csv += `${v.klantnaam},${v.vergunningsnummer},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing},${v.aangeschreven ? 'Ja' : 'Nee'}\n`;
+        csv += `${v.klantnaam},${v.vergunningsnummer},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing},${v.aangeschreven ? 'Ja' : 'Nee'},${v.ontheffing}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
