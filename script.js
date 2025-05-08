@@ -39,7 +39,7 @@ function toevoegenVergunning() {
     document.getElementById('waarschuwing').value = 7;
     document.getElementById('ontheffingPdf').value = '';
 
-    document.getElementById('emailVoorbeeld').value = `Beste ${klantnaam},\n\nUw vergunning ${vergunningsnummer} verloopt op ${formatDateNL(vervaldatum)}.\n\Zullen wij deze voor u verlengen?\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
+    document.getElementById('opdrachtTekst').value = `Opdracht voor transportbegeleiding:\nKlant: ${klantnaam}\nVergunning: ${vergunningsnummer}\nVervaldatum: ${formatDateNL(vervaldatum)}\n\nGraag transportbegeleiding regelen.`;
 }
 
 function updateTabel() {
@@ -105,11 +105,11 @@ function toonEmailVoorbeeld(id) {
     let boodschap = '';
 
     if (vergunning.taal === 'NL') {
-        boodschap = `Beste ${vergunning.klantnaam},\n\nUw vergunning ${vergunning.vergunningsnummer} verloopt op ${formatDateNL(vergunning.vervaldatum)}.\n\Zullen wij deze voor u verlengen?\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
+        boodschap = `Beste ${vergunning.klantnaam},\n\nUw vergunning ${vergunning.vergunningsnummer} verloopt op ${formatDateNL(vergunning.vervaldatum)}.\nNeem tijdig contact met ons op.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
     } else if (vergunning.taal === 'EN') {
-        boodschap = `Dear ${vergunning.klantnaam},\n\nYour permit ${vergunning.vergunningsnummer} expires on ${formatDateNL(vergunning.vervaldatum)}.\n\Shall we renew this permit?\n\nBest regards,\nSpeciaal Transport Zwolle B.V.`;
+        boodschap = `Dear ${vergunning.klantnaam},\n\nYour permit ${vergunning.vergunningsnummer} expires on ${formatDateNL(vergunning.vervaldatum)}.\nPlease contact us in time.\n\nBest regards,\nSpeciaal Transport Zwolle B.V.`;
     } else if (vergunning.taal === 'DE') {
-        boodschap = `Sehr geehrter ${vergunning.klantnaam},\n\nIhre Genehmigung ${vergunning.vergunningsnummer} läuft am ${formatDateNL(vergunning.vervaldatum)} ab.\n\Sollen wir diese für euch verlängern?\n\nMit freundlichen Grüßen,\nSpeciaal Transport Zwolle B.V.`;
+        boodschap = `Sehr geehrter ${vergunning.klantnaam},\n\nIhre Genehmigung ${vergunning.vergunningsnummer} läuft am ${formatDateNL(vergunning.vervaldatum)} ab.\nBitte kontaktieren Sie uns rechtzeitig.\n\nMit freundlichen Grüßen,\nSpeciaal Transport Zwolle B.V.`;
     }
 
     const aangepasteBoodschap = prompt(`Email aan: ${vergunning.email}\n\nBekijk/bewerk het e-mailbericht hieronder en klik op OK om te verzenden:`, boodschap);
