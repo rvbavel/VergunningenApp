@@ -76,12 +76,12 @@ function updateTabel() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${v.klantnaam}</td>
-            <td>${v.email}</td>
             <td>${v.vergunningsnummer}</td>
             <td>${formatDateNL(v.vervaldatum)}</td>
             <td class="${statusClass}">${statusText}</td>
             <td>${v.aangeschreven ? 'Ja' : 'Nee'}</td>
             <td>
+                <button onclick="toonEmailVoorbeeld(${v.id})">Email klant (${v.taal})</button>
                 <button onclick="bewerkVergunning(${v.id})">Bewerk</button>
                 <button onclick="verwijderVergunning(${v.id})">Verwijder</button>
             </td>
@@ -98,6 +98,27 @@ function formatDateNL(dateString) {
     return `${day}-${month}-${year}`;
 }
 
+function toonEmailVoorbeeld(id) {
+    const vergunning = vergunningen.find(v => v.id === id);
+    let boodschap = '';
+
+    if (vergunning.taal === 'NL') {
+        boodschap = `Beste ${vergunning.klantnaam},\n\nUw vergunning ${vergunning.vergunningsnummer} verloopt op ${formatDateNL(vergunning.vervaldatum)}.\nNeem tijdig contact met ons op.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
+    } else if (vergunning.taal === 'EN') {
+        boodschap = `Dear ${vergunning.klantnaam},\n\nYour permit ${vergunning.vergunningsnummer} expires on ${formatDateNL(vergunning.vervaldatum)}.\nPlease contact us in time.\n\nBest regards,\nSpeciaal Transport Zwolle B.V.`;
+    } else if (vergunning.taal === 'DE') {
+        boodschap = `Sehr geehrter ${vergunning.klantnaam},\n\nIhre Genehmigung ${vergunning.vergunningsnummer} läuft am ${formatDateNL(vergunning.vervaldatum)} ab.\nBitte kontaktieren Sie uns rechtzeitig.\n\nMit freundlichen Grüßen,\nSpeciaal Transport Zwolle B.V.`;
+    }
+
+    const aangepasteBoodschap = prompt(`Email aan: ${vergunning.email}\n\nBekijk/bewerk het e-mailbericht hieronder en klik op OK om te verzenden:`, boodschap);
+    if (aangepasteBoodschap !== null) {
+        alert(`E-mail verzonden aan ${vergunning.email}:\n\n${aangepasteBoodschap}`);
+        vergunning.laatsteEmailDatum = new Date().toISOString();
+        vergunning.aangeschreven = true;
+        updateTabel();
+    }
+}
+
 function bewerkVergunning(id) {
     alert('Bewerkfunctie wordt later toegevoegd.');
 }
@@ -110,9 +131,9 @@ function verwijderVergunning(id) {
 }
 
 function exporteerCSV() {
-    let csv = 'Klantnaam,Email,Vergunningsnummer,Vervaldatum,Taal,Waarschuwing,Aangeschreven\n';
+    let csv = 'Klantnaam,Vergunningsnummer,Vervaldatum,Taal,Waarschuwing,Aangeschreven\n';
     vergunningen.forEach(v => {
-        csv += `${v.klantnaam},${v.email},${v.vergunningsnummer},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing},${v.aangeschreven ? 'Ja' : 'Nee'}\n`;
+        csv += `${v.klantnaam},${v.vergunningsnummer},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing},${v.aangeschreven ? 'Ja' : 'Nee'}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
