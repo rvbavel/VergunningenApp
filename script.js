@@ -2,6 +2,7 @@ let vergunningen = [
     {
         id: Date.now(),
         klantnaam: 'Voorbeeld B.V.',
+        email: 'klant@example.com',
         vervaldatum: '2025-12-01',
         taal: 'NL',
         waarschuwing: 7,
@@ -11,11 +12,12 @@ let vergunningen = [
 
 function toevoegenVergunning() {
     const klantnaam = document.getElementById('klantnaam').value;
+    const email = document.getElementById('email').value;
     const vervaldatum = document.getElementById('vervaldatum').value;
     const taal = document.getElementById('taal').value;
     const waarschuwing = parseInt(document.getElementById('waarschuwing').value);
 
-    if (!klantnaam || !vervaldatum) {
+    if (!klantnaam || !email || !vervaldatum) {
         alert('Vul alle velden in.');
         return;
     }
@@ -23,6 +25,7 @@ function toevoegenVergunning() {
     const vergunning = {
         id: Date.now(),
         klantnaam,
+        email,
         vervaldatum,
         taal,
         waarschuwing,
@@ -32,11 +35,12 @@ function toevoegenVergunning() {
     vergunningen.push(vergunning);
     updateTabel();
     document.getElementById('klantnaam').value = '';
+    document.getElementById('email').value = '';
     document.getElementById('vervaldatum').value = '';
     document.getElementById('taal').value = 'NL';
     document.getElementById('waarschuwing').value = 7;
 
-    document.getElementById('emailVoorbeeld').value = `Beste ${klantnaam}, uw vergunning verloopt op ${formatDateNL(vervaldatum)}. Neem tijdig contact met ons op.`;
+    document.getElementById('emailVoorbeeld').value = `Beste ${klantnaam},\n\nUw vergunning verloopt op ${formatDateNL(vervaldatum)}.\nNeem tijdig contact met ons op.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
 }
 
 function updateTabel() {
@@ -66,6 +70,7 @@ function updateTabel() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${v.klantnaam}</td>
+            <td>${v.email}</td>
             <td>${formatDateNL(v.vervaldatum)}</td>
             <td class="${statusClass}">${statusText}</td>
             <td>${v.aangeschreven ? 'Ja' : 'Nee'}</td>
@@ -97,16 +102,16 @@ function toonEmailVoorbeeld(id) {
     let boodschap = '';
 
     if (vergunning.taal === 'NL') {
-        boodschap = `Beste ${vergunning.klantnaam}, uw vergunning verloopt op ${formatDateNL(vergunning.vervaldatum)}. Neem tijdig contact met ons op.`;
+        boodschap = `Beste ${vergunning.klantnaam},\n\nUw vergunning verloopt op ${formatDateNL(vergunning.vervaldatum)}.\nNeem tijdig contact met ons op.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
     } else if (vergunning.taal === 'EN') {
-        boodschap = `Dear ${vergunning.klantnaam}, your permit expires on ${formatDateNL(vergunning.vervaldatum)}. Please contact us in time.`;
+        boodschap = `Dear ${vergunning.klantnaam},\n\nYour permit expires on ${formatDateNL(vergunning.vervaldatum)}.\nPlease contact us in time.\n\nBest regards,\nSpeciaal Transport Zwolle B.V.`;
     } else if (vergunning.taal === 'DE') {
-        boodschap = `Sehr geehrter ${vergunning.klantnaam}, Ihre Genehmigung läuft am ${formatDateNL(vergunning.vervaldatum)} ab. Bitte kontaktieren Sie uns rechtzeitig.`;
+        boodschap = `Sehr geehrter ${vergunning.klantnaam},\n\nIhre Genehmigung läuft am ${formatDateNL(vergunning.vervaldatum)} ab.\nBitte kontaktieren Sie uns rechtzeitig.\n\nMit freundlichen Grüßen,\nSpeciaal Transport Zwolle B.V.`;
     }
 
-    const aangepasteBoodschap = prompt('Bekijk/bewerk het e-mailbericht hieronder en klik op OK om te verzenden:', boodschap);
+    const aangepasteBoodschap = prompt(`Email aan: ${vergunning.email}\n\nBekijk/bewerk het e-mailbericht hieronder en klik op OK om te verzenden:`, boodschap);
     if (aangepasteBoodschap !== null) {
-        alert('E-mail verzonden:\n\n' + aangepasteBoodschap);
+        alert(`E-mail verzonden aan ${vergunning.email}:\n\n${aangepasteBoodschap}`);
     }
 }
 
@@ -130,9 +135,9 @@ function verwijderVergunning(id) {
 }
 
 function exporteerCSV() {
-    let csv = 'Klantnaam,Vervaldatum,Taal,Waarschuwing,Aangeschreven\n';
+    let csv = 'Klantnaam,Email,Vervaldatum,Taal,Waarschuwing,Aangeschreven\n';
     vergunningen.forEach(v => {
-        csv += `${v.klantnaam},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing},${v.aangeschreven ? 'Ja' : 'Nee'}\n`;
+        csv += `${v.klantnaam},${v.email},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing},${v.aangeschreven ? 'Ja' : 'Nee'}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -143,3 +148,4 @@ function exporteerCSV() {
 }
 
 window.onload = updateTabel;
+
