@@ -1,66 +1,40 @@
-# VergunningenApp
-Speciaal Transport Zwolle B.V. - permit-management
-# Permit Management Frontend
+# Speciaal Transport Zwolle B.V. - Vergunningenbeheer
 
-Dit project is een kant-en-klaar frontend voor het beheren van vergunningen voor **Speciaal Transport Zwolle B.V.**  
-Het is volledig lokaal werkend zonder backend, bedoeld als zakelijke webapplicatie.
+Dit project is een frontend-only vergunningenbeheersysteem voor Speciaal Transport Zwolle B.V.  
+Het draait volledig in HTML, CSS en JavaScript en kan worden gehost op **GitHub Pages**.
 
 ---
 
-## ✅ Functionaliteiten
+## 📦 Projectinhoud
 
-- Vergunningen toevoegen (klantnaam, vervaldatum, taal, waarschuwing)
-- Automatische statuskleuren:
-  - Groen → geldig
-  - Oranje → gaat vervallen
-  - Rood → vervallen
-- E-mailvoorbeeld genereren (bewerken in pop-up, geen echte verzending)
-- Vergunningen verwijderen
-- CSV-exportfunctie
-- Zakelijke blauwe/grijze layout met logo
-- Footertekst: “Ontwikkeld door René van Bavel”
+- `index.html` → de hoofdpagina
+- `styles.css` → de opmaak (zelf nog aan te vullen)
+- `script.js` → de logica en dynamische functies
+- `logo.png` → bedrijfslogo
 
 ---
 
-## 📂 Bestanden
+## ⚙ Functionaliteiten
 
-- `index.html` → hoofdpagina
-- `styles.css` → stijlen
-- `script.js` → logica
-- `logo.png` → jouw bedrijfslogo (zelf toevoegen!)
-- `README.md` → deze uitleg
+✅ Vergunningen toevoegen met:
+- klantnaam
+- e-mailadres
+- vergunningsnummer
+- vervaldatum
+- taal (Nederlands, Engels, Duits)
+- waarschuwingstermijn (dagen)
+- optioneel ontheffing-bestand (alleen naam onthouden, géén upload)
 
----
+✅ Automatische statuskleuren (groen, oranje, rood) op basis van vervaldatum
 
-## 🚀 Installatie en gebruik
+✅ E-mailknop opent standaard e-mailprogramma (mailto-link) met ingevuld e-mailadres, onderwerp en bericht
 
-1️⃣ Maak een map, bijvoorbeeld `permit-management-frontend`.  
-2️⃣ Plaats daarin alle bestanden.  
-3️⃣ Voeg je eigen **logo.png** toe in de map.  
-4️⃣ Dubbelklik op `index.html` → opent direct in je browser.  
+✅ CSV-export met alle vergunninggegevens
 
-✅ Er is geen backend of server nodig; alles werkt lokaal.
-
----
-
-## 🌍 Optioneel online plaatsen (GitHub Pages)
-
-1️⃣ Maak een GitHub-repository aan.  
-2️⃣ Upload alle bestanden.  
-3️⃣ Ga naar **Settings** → **Pages** → kies branch `main` en folder `/root`.  
-4️⃣ Je krijgt een live link, bijvoorbeeld `https://jouwnaam.github.io/permit-management-frontend/`.
+✅ Opdrachttekst voor transportbegeleiding wordt automatisch gegenereerd in een tekstvak
 
 ---
 
-## ℹ️ Opmerkingen
+## 🚀 Installeren en draaien op GitHub Pages
 
-- De bewerkfunctie is voorlopig een placeholder.
-- Echte e-mailverzending kan later via een backend of service gekoppeld worden.
-- Data wordt niet permanent opgeslagen; bij herladen van de pagina gaan gegevens verloren.
-
----
-
-## ✏️ Ontwikkeld door
-
-Speciaal Transport Zwolle B.V.  
-Ontwikkeld door René van Bavel
+1️⃣ Maak een repository aan op GitHub, bijvoorbeeld:
