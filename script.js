@@ -33,6 +33,9 @@ function toevoegenVergunning() {
     document.getElementById('vervaldatum').value = '';
     document.getElementById('taal').value = 'NL';
     document.getElementById('waarschuwing').value = 7;
+
+    // Toon voorbeeldtekst in emailvak
+    document.getElementById('emailVoorbeeld').value = `Beste ${klantnaam}, uw vergunning verloopt op ${vervaldatum}. Neem tijdig contact met ons op.`;
 }
 
 function updateTabel() {
@@ -79,7 +82,7 @@ function toonEmailVoorbeeld(id) {
     let boodschap = '';
 
     if (vergunning.taal === 'NL') {
-        boodschap = `Beste ${vergunning.klantnaam}, uw vergunning verloopt op ${vergunning.vervaldatum}. Neem tijdig contact op.`;
+        boodschap = `Beste ${vergunning.klantnaam}, uw vergunning verloopt op ${vergunning.vervaldatum}. Neem tijdig contact met ons op.`;
     } else if (vergunning.taal === 'EN') {
         boodschap = `Dear ${vergunning.klantnaam}, your permit expires on ${vergunning.vervaldatum}. Please contact us in time.`;
     } else if (vergunning.taal === 'DE') {
@@ -89,7 +92,7 @@ function toonEmailVoorbeeld(id) {
     const aangepasteBoodschap = prompt('Bekijk/bewerk het e-mailbericht hieronder en klik op OK om te verzenden:', boodschap);
     if (aangepasteBoodschap !== null) {
         alert('E-mail verzonden:\n\n' + aangepasteBoodschap);
-        // Hier kan later een echte mailfunctionaliteit aan gekoppeld worden
+        // Hier kan later echte mailfunctionaliteit aan gekoppeld worden
     }
 }
 
