@@ -77,7 +77,7 @@ function updateTabel() {
 }
 
 function formatDateNL(dateString) {
-    const [year, month, day] = dateString.split('-');
+    const [day, month, year] = dateString.split('-');
     return `${day}-${month}-${year}`;
 }
 
