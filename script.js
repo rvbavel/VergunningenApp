@@ -2,7 +2,7 @@ let vergunningen = [
     {
         id: Date.now(),
         klantnaam: 'Voorbeeld B.V.',
-        vervaldatum: '01-12-2025',
+        vervaldatum: '2025-12-01',
         taal: 'NL',
         waarschuwing: 7
     }
@@ -77,7 +77,10 @@ function updateTabel() {
 }
 
 function formatDateNL(dateString) {
-    const [day, month, year] = dateString.split('-');
+    const dateObj = new Date(dateString);
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const year = dateObj.getFullYear();
     return `${day}-${month}-${year}`;
 }
 
@@ -124,4 +127,3 @@ function exporteerCSV() {
 }
 
 window.onload = updateTabel;
-
