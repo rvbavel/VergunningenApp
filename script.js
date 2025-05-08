@@ -2,7 +2,7 @@ let vergunningen = [
     {
         id: Date.now(),
         klantnaam: 'Voorbeeld B.V.',
-        vervaldatum: '2025-12-01',
+        vervaldatum: '01-12-2025',
         taal: 'NL',
         waarschuwing: 7
     }
