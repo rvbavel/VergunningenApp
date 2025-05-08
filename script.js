@@ -39,7 +39,7 @@ function toevoegenVergunning() {
     document.getElementById('waarschuwing').value = 7;
     document.getElementById('ontheffingPdf').value = '';
 
-    document.getElementById('emailVoorbeeld').value = `Beste ${klantnaam},\n\nUw vergunning ${vergunningsnummer} verloopt op ${formatDateNL(vervaldatum)}.\nNeem tijdig contact met ons op.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
+    document.getElementById('emailVoorbeeld').value = `Beste ${klantnaam},\n\nUw vergunning ${vergunningsnummer} verloopt op ${formatDateNL(vervaldatum)}.\n\Zullen wij deze voor u verlengen?\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
 }
 
 function updateTabel() {
