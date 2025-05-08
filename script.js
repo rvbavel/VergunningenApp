@@ -78,11 +78,6 @@ function updateTabel() {
                 <button onclick="toonEmailVoorbeeld(${v.id})">Email klant (${v.taal})</button>
                 <button onclick="bewerkVergunning(${v.id})">Bewerk</button>
                 <button onclick="verwijderVergunning(${v.id})">Verwijder</button>
-                ${
-                    !v.aangeschreven
-                        ? `<button onclick="markeerAangeschreven(${v.id})" style="margin-left: 10px;">Markeer als aangeschreven</button>`
-                        : ''
-                }
             </td>
         `;
         tbody.appendChild(tr);
@@ -112,6 +107,8 @@ function toonEmailVoorbeeld(id) {
     const aangepasteBoodschap = prompt(`Email aan: ${vergunning.email}\n\nBekijk/bewerk het e-mailbericht hieronder en klik op OK om te verzenden:`, boodschap);
     if (aangepasteBoodschap !== null) {
         alert(`E-mail verzonden aan ${vergunning.email}:\n\n${aangepasteBoodschap}`);
+        vergunning.aangeschreven = true;
+        updateTabel();
     }
 }
 
@@ -148,4 +145,3 @@ function exporteerCSV() {
 }
 
 window.onload = updateTabel;
-
