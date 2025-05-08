@@ -6,7 +6,8 @@ let vergunningen = [
         vervaldatum: '2025-12-01',
         taal: 'NL',
         waarschuwing: 7,
-        aangeschreven: false
+        aangeschreven: false,
+        laatsteEmailDatum: null
     }
 ];
 
@@ -29,7 +30,8 @@ function toevoegenVergunning() {
         vervaldatum,
         taal,
         waarschuwing,
-        aangeschreven: false
+        aangeschreven: false,
+        laatsteEmailDatum: null
     };
 
     vergunningen.push(vergunning);
@@ -107,9 +109,20 @@ function toonEmailVoorbeeld(id) {
     const aangepasteBoodschap = prompt(`Email aan: ${vergunning.email}\n\nBekijk/bewerk het e-mailbericht hieronder en klik op OK om te verzenden:`, boodschap);
     if (aangepasteBoodschap !== null) {
         alert(`E-mail verzonden aan ${vergunning.email}:\n\n${aangepasteBoodschap}`);
-        vergunning.aangeschreven = true;
+        vergunning.laatsteEmailDatum = new Date().toISOString();
+        vergunning.aangeschreven = false; // blijven wachten op reactie
+        startHerinnering(vergunning);
         updateTabel();
     }
+}
+
+function startHerinnering(vergunning) {
+    // Simulatie: normaal wacht je 7 dagen → hier zetten we 10 seconden voor demo
+    setTimeout(() => {
+        if (!vergunning.aangeschreven) {
+            alert(`Herinnering:\n${vergunning.klantnaam} (${vergunning.email}) heeft nog niet gereageerd op de e-mail van 7 dagen geleden. Overweeg een herinnering te sturen.`);
+        }
+    }, 10000); // 10 seconden (demo); normaal 1000 * 60 * 60 * 24 * 7
 }
 
 function markeerAangeschreven(id) {
