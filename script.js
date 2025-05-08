@@ -74,7 +74,7 @@ function updateTabel() {
             <td class="${statusClass}">${statusText}</td>
             <td>${v.aangeschreven ? 'Ja' : 'Nee'}</td>
             <td>
-                <button onclick="toonEmailVoorbeeld(${v.id})">Email klant (${v.taal})</button>
+                <button onclick="stuurEmail(${v.id})">Email klant</button>
                 <button onclick="bewerkVergunning(${v.id})">Bewerk</button>
                 <button onclick="verwijderVergunning(${v.id})">Verwijder</button>
                 <button onclick="toonOntheffing('${v.ontheffing}')">Bekijk ontheffing</button>
@@ -82,6 +82,28 @@ function updateTabel() {
         `;
         tbody.appendChild(tr);
     });
+}
+
+function stuurEmail(id) {
+    const vergunning = vergunningen.find(v => v.id === id);
+    let boodschap = '';
+
+    if (vergunning.taal === 'NL') {
+        boodschap = `Beste ${vergunning.klantnaam},\n\nUw vergunning ${vergunning.vergunningsnummer} verloopt op ${formatDateNL(vergunning.vervaldatum)}.\nNeem tijdig contact met ons op.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
+    } else if (vergunning.taal === 'EN') {
+        boodschap = `Dear ${vergunning.klantnaam},\n\nYour permit ${vergunning.vergunningsnummer} expires on ${formatDateNL(vergunning.vervaldatum)}.\nPlease contact us in time.\n\nBest regards,\nSpeciaal Transport Zwolle B.V.`;
+    } else if (vergunning.taal === 'DE') {
+        boodschap = `Sehr geehrter ${vergunning.klantnaam},\n\nIhre Genehmigung ${vergunning.vergunningsnummer} läuft am ${formatDateNL(vergunning.vervaldatum)} ab.\nBitte kontaktieren Sie uns rechtzeitig.\n\nMit freundlichen Grüßen,\nSpeciaal Transport Zwolle B.V.`;
+    }
+
+    const onderwerp = 'Uw vergunning bij Speciaal Transport Zwolle B.V.';
+    const mailtoLink = `mailto:${vergunning.email}?subject=${encodeURIComponent(onderwerp)}&body=${encodeURIComponent(boodschap)}`;
+
+    window.location.href = mailtoLink;
+
+    vergunning.laatsteEmailDatum = new Date().toISOString();
+    vergunning.aangeschreven = true;
+    updateTabel();
 }
 
 function toonOntheffing(bestandsnaam) {
@@ -98,27 +120,6 @@ function formatDateNL(dateString) {
     const month = String(dateObj.getMonth() + 1).padStart(2, '0');
     const year = dateObj.getFullYear();
     return `${day}-${month}-${year}`;
-}
-
-function toonEmailVoorbeeld(id) {
-    const vergunning = vergunningen.find(v => v.id === id);
-    let boodschap = '';
-
-    if (vergunning.taal === 'NL') {
-        boodschap = `Beste ${vergunning.klantnaam},\n\nUw vergunning ${vergunning.vergunningsnummer} verloopt op ${formatDateNL(vergunning.vervaldatum)}.\nNeem tijdig contact met ons op.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
-    } else if (vergunning.taal === 'EN') {
-        boodschap = `Dear ${vergunning.klantnaam},\n\nYour permit ${vergunning.vergunningsnummer} expires on ${formatDateNL(vergunning.vervaldatum)}.\nPlease contact us in time.\n\nBest regards,\nSpeciaal Transport Zwolle B.V.`;
-    } else if (vergunning.taal === 'DE') {
-        boodschap = `Sehr geehrter ${vergunning.klantnaam},\n\nIhre Genehmigung ${vergunning.vergunningsnummer} läuft am ${formatDateNL(vergunning.vervaldatum)} ab.\nBitte kontaktieren Sie uns rechtzeitig.\n\nMit freundlichen Grüßen,\nSpeciaal Transport Zwolle B.V.`;
-    }
-
-    const aangepasteBoodschap = prompt(`Email aan: ${vergunning.email}\n\nBekijk/bewerk het e-mailbericht hieronder en klik op OK om te verzenden:`, boodschap);
-    if (aangepasteBoodschap !== null) {
-        alert(`E-mail verzonden aan ${vergunning.email}:\n\n${aangepasteBoodschap}`);
-        vergunning.laatsteEmailDatum = new Date().toISOString();
-        vergunning.aangeschreven = true;
-        updateTabel();
-    }
 }
 
 function bewerkVergunning(id) {
