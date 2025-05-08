@@ -68,14 +68,15 @@ function updateTabel() {
             <td>${v.klantnaam}</td>
             <td>${formatDateNL(v.vervaldatum)}</td>
             <td class="${statusClass}">${statusText}</td>
+            <td>${v.aangeschreven ? 'Ja' : 'Nee'}</td>
             <td>
                 <button onclick="toonEmailVoorbeeld(${v.id})">Email klant (${v.taal})</button>
                 <button onclick="bewerkVergunning(${v.id})">Bewerk</button>
                 <button onclick="verwijderVergunning(${v.id})">Verwijder</button>
                 ${
-                    v.aangeschreven
-                        ? '<span style="color: green; font-weight: bold; margin-left: 10px;">Aangeschreven</span>'
-                        : `<button onclick="markeerAangeschreven(${v.id})" style="margin-left: 10px;">Markeer als aangeschreven</button>`
+                    !v.aangeschreven
+                        ? `<button onclick="markeerAangeschreven(${v.id})" style="margin-left: 10px;">Markeer als aangeschreven</button>`
+                        : ''
                 }
             </td>
         `;
