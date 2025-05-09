@@ -4,22 +4,11 @@ function verstuurOntheffingenRapport() {
 
     const data = {
         referentienummer: referentienummer,
-        omschrijving: getVal('omschrijving'),
+        behandelaar: getVal('behandelaar'),
         opdrachtgever: getVal('opdrachtgever'),
         vervoerder: getVal('vervoerder'),
-        factuurprijs: getVal('factuurprijs'),
-        datum: getVal('datum'),
-        aangevraagd_bij: getVal('aangevraagd_bij'),
-        afgegeven: getVal('afgegeven'),
-        totaal_factuur: getVal('totaal_factuur'),
-        inkoop: getVal('inkoop'),
-        marge: getVal('marge'),
-        behandelaar: getVal('behandelaar'),
-        afgewerkt_door: getVal('afgewerkt_door'),
         referentie_klant: getVal('referentie_klant'),
-        inkoopfacturen_aan: getVal('inkoopfacturen_aan'),
-        rapport_verkoop: getVal('rapport_verkoop'),
-        opmerkingen_facturatie: getVal('opmerkingen_facturatie'),
+        // hier kun je later extra velden toevoegen
         aanvraagregels: []
     };
 
