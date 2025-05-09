@@ -1,1 +1,36 @@
+/* Printstijl voor voorblad.html */
+
+@media print {
+    header,
+    nav.top-menu,
+    footer,
+    button,
+    section.saved-reports {
+        display: none !important;
+    }
+
+    body {
+        background: #fff !important;
+        color: #000 !important;
+    }
+
+    main.card {
+        box-shadow: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    input, textarea, select {
+        border: none !important;
+        outline: none !important;
+        width: 100% !important;
+        font-size: 14pt !important;
+    }
+
+    label {
+        font-size: 12pt !important;
+        font-weight: bold !important;
+    }
+}
 
