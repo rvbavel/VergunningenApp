@@ -1,10 +1,7 @@
-/* Algemene layout */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #f4f6f8;
-    color: #333;
+    background-color: #e6f0fa;
 }
 
 header {
@@ -15,169 +12,146 @@ header {
 }
 
 header img.logo {
-    height: 60px;
-    vertical-align: middle;
-    margin-right: 10px;
+    height: 50px;
+    margin-bottom: 10px;
 }
 
 h1 {
-    font-size: 24px;
-    margin: 10px 0 0 0;
+    font-size: 22px;
+    margin: 0;
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
-
-/* Menu bovenaan */
 nav.top-menu {
-    background-color: #e0e6ef;
-    padding: 10px;
+    background-color: #1457c8;
     text-align: center;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 10px 0;
 }
 
 nav.top-menu button {
-    background-color: #0b3d91;
-    color: #fff;
+    background: none;
     border: none;
-    padding: 8px 14px;
-    margin: 4px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-nav.top-menu button:first-child {
-    background-color: #1457c8; /* iets lichter blauw voor HOME */
+    color: #fff;
     font-weight: bold;
+    margin: 0 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s;
 }
 
 nav.top-menu button:hover {
-    background-color: #062a68;
-    transform: scale(1.05);
+    background-color: #0b3d91;
 }
 
-/* Formulieren */
-.form-section {
-    display: flex;
-    width: 90%;
-    max-width: 1200px;
-    margin-bottom: 30px;
-    gap: 20px;
-}
-
-.form-left, .form-right {
+main.card {
     background-color: #fff;
+    margin: 20px auto;
     padding: 20px;
-    border-radius: 8px;
+    width: 90%;
+    max-width: 1000px;
+    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    flex: 1;
 }
 
-.form-left h2, .form-right h2 {
-    margin-top: 0;
+h2 {
     color: #0b3d91;
+    margin-top: 0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-bottom: 10px;
     font-weight: bold;
+    margin-bottom: 5px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="date"],
-input[type="number"],
-select,
-textarea {
+input, select {
     width: 100%;
     padding: 8px;
-    margin-top: 4px;
-    margin-bottom: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-textarea {
-    height: 150px;
-    resize: none;
-}
-
-button {
+.primary-btn {
     background-color: #0b3d91;
     color: #fff;
     border: none;
-    padding: 10px 16px;
+    padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    margin-right: 8px;
-    margin-bottom: 8px;
-    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
 }
 
-button:hover {
+.primary-btn:hover {
     background-color: #062a68;
-    transform: scale(1.05);
 }
 
-/* Tabellen */
-.table-section {
-    width: 90%;
-    max-width: 1200px;
+.secondary-btn {
+    background-color: #1457c8;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.secondary-btn:hover {
+    background-color: #0b3d91;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
+    margin-top: 20px;
 }
 
 th, td {
-    padding: 12px 15px;
-    text-align: left;
+    padding: 10px;
     border-bottom: 1px solid #ddd;
+    text-align: left;
 }
 
 th {
-    background-color: #0b3d91;
+    background-color: #1457c8;
     color: #fff;
-}
-
-tr:hover {
-    background-color: #f1f1f1;
 }
 
 .status-green {
-    color: green;
-    font-weight: bold;
+    background-color: #d4edda;
+    color: #155724;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
 }
 
 .status-orange {
-    color: orange;
-    font-weight: bold;
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
 }
 
 .status-red {
-    color: red;
-    font-weight: bold;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
 }
 
-/* Footer */
 footer {
-    text-align: center;
-    padding: 15px;
     background-color: #0b3d91;
     color: #fff;
+    text-align: center;
+    padding: 15px;
     font-size: 13px;
-    margin-top: 30px;
-    border-top: 2px solid #062a68;
+    margin-top: 20px;
 }
