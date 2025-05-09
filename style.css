@@ -201,3 +201,17 @@ footer {
 .split-input input {
     border-radius: 0 4px 4px 0;
 }
+
+.form-grid-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
