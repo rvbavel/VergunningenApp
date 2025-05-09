@@ -5,7 +5,8 @@
     nav.top-menu,
     footer,
     button,
-    section.saved-reports {
+    section.saved-reports,
+    .primary-btn {
         display: none !important;
     }
 
@@ -25,7 +26,7 @@
         border: none !important;
         outline: none !important;
         width: 100% !important;
-        font-size: 14pt !important;
+        font-size: 12pt !important;
     }
 
     label {
@@ -33,4 +34,3 @@
         font-weight: bold !important;
     }
 }
-
