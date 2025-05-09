@@ -1,3 +1,4 @@
+/* Algemene layout */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -62,7 +63,8 @@ h2 {
     color: #0b3d91;
 }
 
-.form-grid, .form-grid-three, .form-grid-single {
+/* Form grids */
+.form-grid, .form-grid-three, .form-grid-single, .form-grid-five {
     display: grid;
     gap: 15px;
     margin-bottom: 20px;
@@ -81,14 +83,12 @@ h2 {
 }
 
 .form-grid-five {
-    display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
     align-items: center;
     justify-items: center;
 }
 
+/* Binnen de 5-koloms blokken */
 .form-grid-five div {
     display: flex;
     flex-direction: column;
@@ -97,6 +97,7 @@ h2 {
     width: 100%;
 }
 
+/* Labels */
 label {
     font-weight: bold;
     font-size: 14px;
@@ -105,6 +106,7 @@ label {
     text-align: center;
 }
 
+/* Velden */
 input, select, textarea {
     width: 90%;
     padding: 6px;
@@ -120,6 +122,7 @@ textarea {
     min-height: 100px;
 }
 
+/* Split input voor referentienummer */
 .split-input {
     display: flex;
     align-items: center;
@@ -142,6 +145,7 @@ textarea {
     border-radius: 0 4px 4px 0;
 }
 
+/* Knoppen */
 .primary-btn {
     background-color: #0b3d91;
     color: #fff;
@@ -158,6 +162,7 @@ textarea {
     transform: scale(1.05);
 }
 
+/* Footer */
 footer {
     background-color: #0b3d91;
     color: #fff;
