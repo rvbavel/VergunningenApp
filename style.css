@@ -1,8 +1,8 @@
-/* Algemene layout */
+/* Algemene basisstijl */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #f0f4f8;
+    background-color: #f5f7fa;
     color: #333;
 }
 
@@ -61,14 +61,12 @@ main.card {
 
 h2 {
     color: #0b3d91;
-    margin-top: 0;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
-p {
-    line-height: 1.6;
-}
-
-/* Form grids */
+/* Formulier grids */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -76,73 +74,28 @@ p {
     margin-bottom: 20px;
 }
 
-.form-grid-three {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.form-grid-five {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.form-grid-single {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.form-grid label, .form-grid-three label, .form-grid-five label, .form-grid-single label {
-    display: flex;
-    flex-direction: column;
+label {
     font-weight: bold;
     font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
 }
 
 input, select, textarea {
     width: 100%;
     padding: 8px;
-    margin-top: 4px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
+    box-sizing: border-box;
 }
 
 textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 80px;
 }
 
-/* Speciale split-input */
-.split-input {
-    display: flex;
-    align-items: center;
-}
-
-.split-input .prefix {
-    padding: 8px 12px;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-right: none;
-    border-radius: 4px 0 0 4px;
-    font-family: monospace;
-}
-
-.split-input input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-left: none;
-    border-radius: 0 4px 4px 0;
-}
-
-/* Knoppen */
-.primary-btn, .secondary-btn {
+.primary-btn {
     background-color: #0b3d91;
     color: #fff;
     border: none;
@@ -151,11 +104,51 @@ textarea {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     font-size: 14px;
+    display: block;
+    margin: 10px 0;
 }
 
-.primary-btn:hover, .secondary-btn:hover {
+.primary-btn:hover {
     background-color: #062a68;
     transform: scale(1.05);
+}
+
+/* Tabellen */
+.saved-permits, .saved-reports {
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.saved-permits table, .saved-reports table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.saved-permits th, .saved-permits td,
+.saved-reports th, .saved-reports td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.saved-permits th, .saved-reports th {
+    background-color: #0b3d91;
+    color: #fff;
+}
+
+.edit-btn {
+    padding: 4px 10px;
+    border: none;
+    background-color: #1976d2;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #0b3d91;
 }
 
 /* Footer */
