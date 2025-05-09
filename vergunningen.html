@@ -25,17 +25,26 @@
         <label>Klantnaam:
             <input type="text" id="klantnaam" placeholder="Naam van de klant">
         </label>
+        <label>E-mail klant:
+            <input type="email" id="email_klant" placeholder="email@voorbeeld.nl">
+        </label>
+    </div>
+
+    <div class="form-grid">
         <label>Vergunningsnummer:
             <input type="text" id="vergunningsnummer" placeholder="Bijvoorbeeld: V-12345">
         </label>
         <label>Vervaldatum:
             <input type="date" id="vervaldatum">
         </label>
-        <label>Status:
-            <select id="status">
-                <option value="groen">Niet verlopen (groen)</option>
-                <option value="rood">Verlopen (rood)</option>
-            </select>
+    </div>
+
+    <div class="form-grid">
+        <label>Waarschuwingsdrempel (dagen voor verval):
+            <input type="number" id="waarschuwingsdrempel" placeholder="Bijvoorbeeld: 7">
+        </label>
+        <label>Vergunning (PDF) toevoegen:
+            <input type="file" id="pdf_vergunning" accept="application/pdf">
         </label>
     </div>
 
@@ -47,9 +56,11 @@
             <thead>
                 <tr>
                     <th>Klantnaam</th>
+                    <th>E-mail</th>
                     <th>Vergunningsnummer</th>
                     <th>Vervaldatum</th>
-                    <th>Status</th>
+                    <th>Waarschuwingsdrempel</th>
+                    <th>PDF Bestand</th>
                     <th>Actie</th>
                 </tr>
             </thead>
