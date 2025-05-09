@@ -1,11 +1,10 @@
 let vergunningen = [];
 
 function toevoegenVergunning() {
-    const klantnaam = document.getElementById('klantnaam').value;
-    const email = document.getElementById('email').value;
-    const vergunningsnummer = document.getElementById('vergunningsnummer').value;
+    const klantnaam = document.getElementById('klantnaam').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const vergunningsnummer = document.getElementById('vergunningsnummer').value.trim();
     const vervaldatum = document.getElementById('vervaldatum').value;
-    const taal = document.getElementById('taal').value;
     const waarschuwing = parseInt(document.getElementById('waarschuwing').value);
     const ontheffingFile = document.getElementById('ontheffingPdf').files[0];
 
@@ -20,7 +19,6 @@ function toevoegenVergunning() {
         email,
         vergunningsnummer,
         vervaldatum,
-        taal,
         waarschuwing,
         bestandNaam: ontheffingFile ? ontheffingFile.name : 'Geen bestand geselecteerd',
         aangeschreven: false
@@ -34,7 +32,6 @@ function toevoegenVergunning() {
     document.getElementById('email').value = '';
     document.getElementById('vergunningsnummer').value = '';
     document.getElementById('vervaldatum').value = '';
-    document.getElementById('taal').value = 'NL';
     document.getElementById('waarschuwing').value = 7;
     document.getElementById('ontheffingPdf').value = '';
 }
@@ -42,6 +39,17 @@ function toevoegenVergunning() {
 function updateTabel() {
     const tbody = document.querySelector('#vergunningTable tbody');
     tbody.innerHTML = '';
+
+    if (vergunningen.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 4;
+        td.textContent = 'Nog geen vergunningen toegevoegd.';
+        td.style.textAlign = 'center';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+    }
 
     const vandaag = new Date();
 
@@ -100,9 +108,9 @@ function verwijderVergunning(id) {
 }
 
 function exporteerCSV() {
-    let csv = 'Klantnaam,E-mail,Vergunningsnummer,Vervaldatum,Taal,Waarschuwing,Bestand\n';
+    let csv = 'Klantnaam,E-mail,Vergunningsnummer,Vervaldatum,Waarschuwing,Bestand\n';
     vergunningen.forEach(v => {
-        csv += `${v.klantnaam},${v.email},${v.vergunningsnummer},${v.vervaldatum},${v.taal},${v.waarschuwing},${v.bestandNaam}\n`;
+        csv += `${v.klantnaam},${v.email},${v.vergunningsnummer},${v.vervaldatum},${v.waarschuwing},${v.bestandNaam}\n`;
     });
 
     const blob = new Blob([csv], { type: 'text/csv' });
