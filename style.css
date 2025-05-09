@@ -63,32 +63,38 @@ h2 {
     color: #0b3d91;
 }
 
-/* Form grids */
-.form-grid, .form-grid-three, .form-grid-single, .form-grid-five {
+/* Form grids zonder centrering */
+.form-grid, .form-grid-three, .form-grid-single {
     display: grid;
     gap: 15px;
     margin-bottom: 20px;
 }
 
+/* Twee kolommen */
 .form-grid {
     grid-template-columns: 1fr 1fr;
 }
 
+/* Drie kolommen */
 .form-grid-three {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+/* Eén kolom */
 .form-grid-single {
     grid-template-columns: 1fr;
 }
 
+/* Alleen vijf kolommen gecentreerd */
 .form-grid-five {
+    display: grid;
     grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
     align-items: center;
     justify-items: center;
 }
 
-/* Binnen de 5-koloms blokken */
 .form-grid-five div {
     display: flex;
     flex-direction: column;
