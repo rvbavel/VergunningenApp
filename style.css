@@ -1,142 +1,148 @@
+/* Algemene layout */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f4f8;
     margin: 0;
     padding: 0;
+    background-color: #f4f6f8;
     color: #333;
 }
 
 header {
-    background-color: #1f3a60;
-    color: white;
+    background-color: #0b3d91;
+    color: #fff;
+    padding: 20px;
     text-align: center;
-    padding: 30px 20px;
 }
 
 header img.logo {
-    max-height: 80px;
-    display: block;
-    margin: 0 auto 10px;
+    height: 60px;
+    vertical-align: middle;
+    margin-right: 10px;
 }
 
 h1 {
-    font-size: 2em;
-    margin: 0;
+    font-size: 24px;
+    margin: 10px 0 0 0;
 }
 
 main {
-    max-width: 1200px;
-    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
 }
 
 .form-section {
     display: flex;
-    gap: 20px;
+    width: 90%;
+    max-width: 1200px;
     margin-bottom: 30px;
+    gap: 20px;
 }
 
 .form-left, .form-right {
-    flex: 1;
-    background: white;
+    background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    flex: 1;
+}
+
+.form-left h2, .form-right h2 {
+    margin-top: 0;
+    color: #0b3d91;
 }
 
 label {
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
-input, select, button, textarea {
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    box-sizing: border-box;
-    border-radius: 4px;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 12px;
     border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 textarea {
-    height: 200px;
+    height: 150px;
     resize: none;
-    background-color: #f9f9f9;
 }
 
 button {
-    background-color: #1f7ac0;
-    color: white;
+    background-color: #0b3d91;
+    color: #fff;
     border: none;
-    cursor: pointer;
-    transition: background 0.3s;
+    padding: 10px 16px;
     border-radius: 4px;
-    padding: 8px 12px;
-    margin: 4px 2px;
+    cursor: pointer;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #155d8b;
+    background-color: #062a68;
 }
 
 .table-section {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 1200px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
-    table-layout: fixed;
-    word-wrap: break-word;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
+    padding: 12px 15px;
     text-align: left;
-    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
 }
 
 th {
-    background-color: #e9eef3;
+    background-color: #0b3d91;
+    color: #fff;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
 }
 
 .status-green {
-    background-color: #d4edda;
-    color: #155724;
+    color: green;
+    font-weight: bold;
 }
 
 .status-orange {
-    background-color: #fff3cd;
-    color: #856404;
+    color: orange;
+    font-weight: bold;
 }
 
 .status-red {
-    background-color: #f8d7da;
-    color: #721c24;
+    color: red;
+    font-weight: bold;
 }
 
 footer {
-    background-color: #1f3a60;
-    color: white;
     text-align: center;
-    padding: 15px;
-    margin-top: 40px;
-    font-size: 0.9em;
-}
-
-td button {
-    display: inline-block;
-    margin: 2px 0;
-    font-size: 0.85em;
-    padding: 6px 10px;
-}
-
-td span {
-    font-size: 0.9em;
-    font-weight: bold;
+    padding: 20px;
+    background-color: #0b3d91;
+    color: #fff;
+    margin-top: 30px;
+    font-size: 14px;
 }
