@@ -16,54 +16,25 @@
     <button onclick="window.location.href='index.html'">🏠 HOME</button>
     <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
     <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-    <button onclick="begeleidingenRapport()">BEGELEIDINGEN RAPPORT</button>
     <button onclick="window.location.href='voorblad.html'">VOORBLAD ONTHEFFING</button>
-    <button onclick="aanvraagTransportbegeleiding()">AANVRAAG TRANSPORTBEGELEIDING</button>
 </nav>
 
 <main class="card">
     <h2>Voorbladgegevens invullen</h2>
 
-    <div class="form-grid">
+    <div class="form-grid-single">
         <label>Naam klant:
             <input type="text" id="naam_klant" placeholder="Naam klant">
         </label>
-        <label>Adres:
-            <input type="text" id="adres" placeholder="Adres klant">
-        </label>
     </div>
 
-    <div class="form-grid">
-        <label>Postcode:
-            <input type="text" id="postcode" placeholder="Postcode">
-        </label>
-        <label>Plaats:
-            <input type="text" id="plaats" placeholder="Plaats">
-        </label>
-    </div>
-
-    <div class="form-grid">
-        <label>Land:
-            <input type="text" id="land" placeholder="Land">
-        </label>
-        <label>Contactpersoon:
-            <input type="text" id="contactpersoon" placeholder="Naam contactpersoon">
-        </label>
-    </div>
-
-    <div class="form-grid">
-        <label>Telefoon:
-            <input type="tel" id="telefoon" placeholder="Telefoonnummer">
-        </label>
-        <label>E-mail:
-            <input type="email" id="email" placeholder="Emailadres">
-        </label>
-    </div>
-
-    <div class="form-grid">
+    <div class="form-grid-single">
         <label>Soort ontheffing:
             <input type="text" id="soort_ontheffing" placeholder="Type permit">
         </label>
+    </div>
+
+    <div class="form-grid-single">
         <label>Afmetingen:
             <input type="text" id="afmetingen" placeholder="Afmetingen">
         </label>
@@ -73,36 +44,35 @@
         <label>Geldigheid van:
             <input type="date" id="datum_van">
         </label>
-        <label>Geldigheid tot:
+        <label>Geldigheid t/m:
             <input type="date" id="datum_tot">
         </label>
     </div>
 
-    <div class="form-grid">
-        <label>Kenteken:
-            <input type="text" id="kenteken" placeholder="Kenteken / plate numbers">
-        </label>
+    <div class="form-grid-three">
+        <label>Kenteken:</label>
         <label>Trekkend voertuig:
             <input type="text" id="trekkend" placeholder="Trekkend voertuig">
         </label>
-    </div>
-
-    <div class="form-grid">
         <label>Getrokken voertuig:
             <input type="text" id="getrokken" placeholder="Getrokken voertuig">
         </label>
+    </div>
+
+    <div class="form-grid-single">
         <label>Begeleidingsvoorschriften:
             <textarea id="begeleiding" placeholder="Begeleidingsvoorschriften / guidance instructions"></textarea>
         </label>
     </div>
 
-    <div class="form-grid">
+    <div class="form-grid-single">
         <label>Opmerkingen:
             <textarea id="opmerkingen" placeholder="Opmerkingen / notifications"></textarea>
         </label>
     </div>
 
     <button onclick="opslaanVoorblad()" class="primary-btn">OPSLAAN VOORBLAD</button>
+    <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
 
     <section class="saved-reports">
         <h3>Opgeslagen Voorbladen</h3>
@@ -113,7 +83,7 @@
                     <th>Soort ontheffing</th>
                     <th>Afmetingen</th>
                     <th>Periode</th>
-                    <th>Kenteken</th>
+                    <th>Trekkend/Getrokken</th>
                     <th>Actie</th>
                 </tr>
             </thead>
