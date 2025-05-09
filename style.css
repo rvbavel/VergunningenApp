@@ -42,7 +42,7 @@ nav.top-menu button {
 }
 
 nav.top-menu button:first-child {
-    background-color: #1976d2; /* accent voor HOME */
+    background-color: #1976d2;
 }
 
 nav.top-menu button:hover {
