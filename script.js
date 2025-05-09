@@ -10,6 +10,9 @@ function verstuurOntheffingenRapport() {
         referentie_klant: getVal('referentie_klant'),
         omschrijving: getVal('omschrijving'),
         opmerkingen_facturatie: getVal('opmerkingen_facturatie'),
+        inkoop_totaal: getVal('inkoop_totaal'),
+        verkoop_totaal: getVal('verkoop_totaal'),
+        marge: getVal('marge'),
         aanvraagregels: []
     };
 
