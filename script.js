@@ -2,12 +2,14 @@ let vergunningen = [];
 
 function toevoegenVergunning() {
     const klantnaam = document.getElementById('klantnaam').value;
+    const email = document.getElementById('email').value;
     const vergunningsnummer = document.getElementById('vergunningsnummer').value;
     const vervaldatum = document.getElementById('vervaldatum').value;
     const taal = document.getElementById('taal').value;
     const waarschuwing = parseInt(document.getElementById('waarschuwing').value);
+    const ontheffingFile = document.getElementById('ontheffingPdf').files[0];
 
-    if (!klantnaam || !vergunningsnummer || !vervaldatum) {
+    if (!klantnaam || !email || !vergunningsnummer || !vervaldatum) {
         alert('Vul alle velden in.');
         return;
     }
@@ -15,21 +17,26 @@ function toevoegenVergunning() {
     const vergunning = {
         id: Date.now(),
         klantnaam,
+        email,
         vergunningsnummer,
         vervaldatum,
         taal,
         waarschuwing,
+        bestandNaam: ontheffingFile ? ontheffingFile.name : 'Geen bestand geselecteerd',
         aangeschreven: false
     };
 
     vergunningen.push(vergunning);
     updateTabel();
 
+    // Velden resetten
     document.getElementById('klantnaam').value = '';
+    document.getElementById('email').value = '';
     document.getElementById('vergunningsnummer').value = '';
     document.getElementById('vervaldatum').value = '';
     document.getElementById('taal').value = 'NL';
     document.getElementById('waarschuwing').value = 7;
+    document.getElementById('ontheffingPdf').value = '';
 }
 
 function updateTabel() {
@@ -58,7 +65,7 @@ function updateTabel() {
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${v.klantnaam}</td>
+            <td>${v.klantnaam} <br><small>${v.email}</small></td>
             <td>${v.vergunningsnummer}</td>
             <td><span class="${statusClass}">${statusText}</span></td>
             <td>
@@ -74,7 +81,7 @@ function updateTabel() {
 function stuurEmail(id) {
     const vergunning = vergunningen.find(v => v.id === id);
     const emailBody = `Beste ${vergunning.klantnaam},\n\nUw vergunning ${vergunning.vergunningsnummer} verloopt op ${formatDateNL(vergunning.vervaldatum)}.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
-    const mailtoLink = `mailto:?subject=Vergunning melding&body=${encodeURIComponent(emailBody)}`;
+    const mailtoLink = `mailto:${vergunning.email}?subject=Vergunning melding&body=${encodeURIComponent(emailBody)}`;
     window.location.href = mailtoLink;
 
     vergunning.aangeschreven = true;
@@ -93,9 +100,9 @@ function verwijderVergunning(id) {
 }
 
 function exporteerCSV() {
-    let csv = 'Klantnaam,Vergunningsnummer,Vervaldatum,Taal,Waarschuwing\n';
+    let csv = 'Klantnaam,E-mail,Vergunningsnummer,Vervaldatum,Taal,Waarschuwing,Bestand\n';
     vergunningen.forEach(v => {
-        csv += `${v.klantnaam},${v.vergunningsnummer},${v.vervaldatum},${v.taal},${v.waarschuwing}\n`;
+        csv += `${v.klantnaam},${v.email},${v.vergunningsnummer},${v.vervaldatum},${v.taal},${v.waarschuwing},${v.bestandNaam}\n`;
     });
 
     const blob = new Blob([csv], { type: 'text/csv' });
