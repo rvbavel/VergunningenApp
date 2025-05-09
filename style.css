@@ -1,4 +1,3 @@
-/* Algemene layout */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -61,33 +60,24 @@ main.card {
 
 h2 {
     color: #0b3d91;
-    margin-top: 0;
 }
 
-p {
-    line-height: 1.6;
-}
-
-/* Form grids */
-.form-grid {
+.form-grid, .form-grid-three, .form-grid-single {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 15px;
     margin-bottom: 20px;
+}
+
+.form-grid {
+    grid-template-columns: 1fr 1fr;
 }
 
 .form-grid-three {
-    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
 }
 
 .form-grid-single {
-    display: grid;
     grid-template-columns: 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
 }
 
 .form-grid-five {
@@ -102,15 +92,12 @@ p {
 .form-grid-five div {
     display: flex;
     flex-direction: column;
-    align-items: center;         /* horizontaal centreren binnen kolom */
-    justify-content: center;     /* verticaal centreren binnen kolom */
+    align-items: center;
+    justify-content: center;
     width: 100%;
 }
 
-.form-grid label,
-.form-grid-three label,
-.form-grid-five label,
-.form-grid-single label {
+label {
     font-weight: bold;
     font-size: 14px;
     margin-bottom: 5px;
@@ -119,17 +106,13 @@ p {
 }
 
 input, select, textarea {
-    width: 100%;
+    width: 90%;
     padding: 6px;
     margin-bottom: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-}
-
-.form-grid-five input {
-    width: 90%;                  /* kleinere breedte binnen gecentreerde kolommen */
-    text-align: center;          /* optioneel: tekst centreren in inputveld */
+    text-align: center;
 }
 
 textarea {
@@ -137,7 +120,6 @@ textarea {
     min-height: 100px;
 }
 
-/* Speciale split-input */
 .split-input {
     display: flex;
     align-items: center;
@@ -160,7 +142,6 @@ textarea {
     border-radius: 0 4px 4px 0;
 }
 
-/* Knoppen */
 .primary-btn {
     background-color: #0b3d91;
     color: #fff;
@@ -177,7 +158,6 @@ textarea {
     transform: scale(1.05);
 }
 
-/* Footer */
 footer {
     background-color: #0b3d91;
     color: #fff;
