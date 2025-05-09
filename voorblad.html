@@ -26,19 +26,52 @@
         <label>Naam klant:
             <input type="text" id="naam_klant" placeholder="Naam klant">
         </label>
-        <label>Soort ontheffing:
-            <input type="text" id="soort_ontheffing" placeholder="Type permit">
+        <label>Adres:
+            <input type="text" id="adres" placeholder="Adres klant">
         </label>
     </div>
 
     <div class="form-grid">
+        <label>Postcode:
+            <input type="text" id="postcode" placeholder="Postcode">
+        </label>
+        <label>Plaats:
+            <input type="text" id="plaats" placeholder="Plaats">
+        </label>
+    </div>
+
+    <div class="form-grid">
+        <label>Land:
+            <input type="text" id="land" placeholder="Land">
+        </label>
+        <label>Contactpersoon:
+            <input type="text" id="contactpersoon" placeholder="Naam contactpersoon">
+        </label>
+    </div>
+
+    <div class="form-grid">
+        <label>Telefoon:
+            <input type="tel" id="telefoon" placeholder="Telefoonnummer">
+        </label>
+        <label>E-mail:
+            <input type="email" id="email" placeholder="Emailadres">
+        </label>
+    </div>
+
+    <div class="form-grid">
+        <label>Soort ontheffing:
+            <input type="text" id="soort_ontheffing" placeholder="Type permit">
+        </label>
         <label>Afmetingen:
             <input type="text" id="afmetingen" placeholder="Afmetingen">
         </label>
-        <label>Geldigheid (van):
+    </div>
+
+    <div class="form-grid">
+        <label>Geldigheid van:
             <input type="date" id="datum_van">
         </label>
-        <label>Geldigheid (t/m):
+        <label>Geldigheid tot:
             <input type="date" id="datum_tot">
         </label>
     </div>
@@ -47,15 +80,15 @@
         <label>Kenteken:
             <input type="text" id="kenteken" placeholder="Kenteken / plate numbers">
         </label>
-        <label>Trekkend:
+        <label>Trekkend voertuig:
             <input type="text" id="trekkend" placeholder="Trekkend voertuig">
-        </label>
-        <label>Getrokken:
-            <input type="text" id="getrokken" placeholder="Getrokken voertuig">
         </label>
     </div>
 
     <div class="form-grid">
+        <label>Getrokken voertuig:
+            <input type="text" id="getrokken" placeholder="Getrokken voertuig">
+        </label>
         <label>Begeleidingsvoorschriften:
             <textarea id="begeleiding" placeholder="Begeleidingsvoorschriften / guidance instructions"></textarea>
         </label>
@@ -75,7 +108,7 @@
             <thead>
                 <tr>
                     <th>Naam klant</th>
-                    <th>Soort</th>
+                    <th>Soort ontheffing</th>
                     <th>Afmetingen</th>
                     <th>Periode</th>
                     <th>Kenteken</th>
@@ -96,4 +129,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
