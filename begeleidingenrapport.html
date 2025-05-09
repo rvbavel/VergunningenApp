@@ -23,11 +23,122 @@
 </nav>
 
 <main class="card">
-    <h2>Begeleidingenrapport Aanmaken</h2>
+    <h2>BEGELEIDINGEN RAPPORT</h2>
 
-    <!-- Hier staan nu dezelfde velden en blokken als in ontheffingenrapport.html -->
-    <!-- Deze kunnen we straks samen aanpassen -->
+    <div class="form-grid">
+        <label>Referentienummer:
+            <div class="split-input">
+                <span class="prefix">2025.</span>
+                <input type="text" id="referentienummer" maxlength="4" placeholder="4 cijfers">
+            </div>
+        </label>
+        <label>Behandelaar:
+            <select id="behandelaar">
+                <option value="">--- Maak keuze ---</option>
+                <option value="René">René</option>
+                <option value="Anke">Anke</option>
+                <option value="Sia">Sia</option>
+                <option value="Martijn">Martijn</option>
+            </select>
+        </label>
+    </div>
 
+    <div class="form-grid-three">
+        <label>Opdrachtgever:
+            <input type="text" id="opdrachtgever" placeholder="Naam opdrachtgever">
+        </label>
+        <label>Vervoerder:
+            <input type="text" id="vervoerder" placeholder="Naam vervoerder">
+        </label>
+        <label>Referentie klant:
+            <input type="text" id="referentie_klant" placeholder="Referentie klant">
+        </label>
+    </div>
+
+    <div class="form-grid-single">
+        <label>Omschrijving:
+            <textarea id="omschrijving" placeholder="Ontheffing, Afmetingen, Kentekens, Ontheffingsnummer, Geldigheid"></textarea>
+        </label>
+    </div>
+
+    <div class="form-grid-single">
+        <label>Opmerkingen t.a.v. facturatie:
+            <textarea id="opmerkingen_facturatie" placeholder="Bijvoorbeeld factuurreferenties of betaalafspraken"></textarea>
+        </label>
+    </div>
+
+    <h3>Details per regel</h3>
+    <div class="form-grid-five">
+        <div>
+            <label>Aangevraagd bij:</label>
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+        </div>
+        <div>
+            <label>Aanvraagdatum:</label>
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+        </div>
+        <div>
+            <label>Afgiftedatum:</label>
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+        </div>
+        <div>
+            <label>Inkoopprijs (€):</label>
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+        </div>
+        <div>
+            <label>Verkoopprijs (€):</label>
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+        </div>
+    </div>
+
+    <div class="form-grid-three">
+        <label>Inkoopprijs totaal (€):
+            <input type="text" id="inkoop_totaal" readonly>
+        </label>
+        <label>Verkoopprijs totaal (€):
+            <input type="text" id="verkoop_totaal" readonly>
+        </label>
+        <label>Marge (€):
+            <input type="text" id="marge" readonly>
+        </label>
+    </div>
+
+    <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
 </main>
 
 <footer>
@@ -47,4 +158,3 @@ function aanvraagTransportbegeleiding() {
 <script src="script.js"></script>
 </body>
 </html>
-
