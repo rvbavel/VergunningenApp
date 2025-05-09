@@ -32,6 +32,32 @@ main {
     padding: 20px;
 }
 
+/* Menu bovenaan */
+nav.top-menu {
+    background-color: #e0e6ef;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+nav.top-menu button {
+    background-color: #0b3d91;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    margin: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+nav.top-menu button:hover {
+    background-color: #062a68;
+    transform: scale(1.05);
+}
+
+/* Formulieren */
 .form-section {
     display: flex;
     width: 90%;
@@ -87,13 +113,15 @@ button {
     cursor: pointer;
     margin-right: 8px;
     margin-bottom: 8px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover {
     background-color: #062a68;
+    transform: scale(1.05);
 }
 
+/* Tabellen */
 .table-section {
     width: 90%;
     max-width: 1200px;
@@ -138,6 +166,7 @@ tr:hover {
     font-weight: bold;
 }
 
+/* Footer */
 footer {
     text-align: center;
     padding: 20px;
