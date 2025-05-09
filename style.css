@@ -70,22 +70,19 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* Twee kolommen */
 .form-grid {
     grid-template-columns: 1fr 1fr;
 }
 
-/* Drie kolommen */
 .form-grid-three {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-/* Eén kolom */
 .form-grid-single {
     grid-template-columns: 1fr;
 }
 
-/* Alleen vijf kolommen gecentreerd */
+/* Alleen vijf kolommen gecentreerd qua blok */
 .form-grid-five {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -112,7 +109,7 @@ label {
     text-align: center;
 }
 
-/* Velden */
+/* Velden links uitgelijnd */
 input, select, textarea {
     width: 90%;
     padding: 6px;
@@ -120,7 +117,7 @@ input, select, textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    text-align: center;
+    /* geen text-align:center → standaard links */
 }
 
 textarea {
