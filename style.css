@@ -1,3 +1,4 @@
+/* Algemene basisstijl */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -65,9 +66,33 @@ h2 {
     margin-bottom: 20px;
 }
 
+/* Formulier grids */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-grid-five {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-grid-five div {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-grid-five input {
+    margin-bottom: 8px;
+}
+
+.form-grid-three {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     margin-bottom: 20px;
 }
@@ -111,24 +136,26 @@ textarea {
     transform: scale(1.05);
 }
 
-.saved-permits {
+/* Tabellen */
+.saved-permits, .saved-reports {
     margin: 30px auto;
     width: 90%;
     max-width: 1200px;
 }
 
-.saved-permits table {
+.saved-permits table, .saved-reports table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.saved-permits th, .saved-permits td {
+.saved-permits th, .saved-permits td,
+.saved-reports th, .saved-reports td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: center;
 }
 
-.saved-permits th {
+.saved-permits th, .saved-reports th {
     background-color: #0b3d91;
     color: #fff;
 }
@@ -155,4 +182,22 @@ footer {
     font-size: 13px;
     margin-top: 20px;
     border-top: 2px solid #062a68;
+}
+
+/* Split input voor referentienummer */
+.split-input {
+    display: flex;
+    align-items: center;
+}
+
+.split-input .prefix {
+    background-color: #e0e0e0;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.split-input input {
+    border-radius: 0 4px 4px 0;
 }
