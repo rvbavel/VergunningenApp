@@ -19,8 +19,9 @@
 </nav>
 
 <main class="card">
-    <h2>ONTHEFFINGEN RAPPORT</h2>
+    <h2>Ontheffingenrapportformulier</h2>
 
+    <!-- Regel 1 -->
     <div class="form-grid">
         <label>Referentienummer:
             <div class="split-input">
@@ -39,8 +40,20 @@
         </label>
     </div>
 
-    <!-- Overige velden kunnen hier blijven staan -->
+    <!-- Regel 2 -->
+    <div class="form-grid-three">
+        <label>Opdrachtgever (klantnaam):
+            <input type="text" id="opdrachtgever" placeholder="Naam van de klant">
+        </label>
+        <label>Vervoerder (indien afwijkend):
+            <input type="text" id="vervoerder" placeholder="Naam van de vervoerder">
+        </label>
+        <label>Referentie klant:
+            <input type="text" id="referentie_klant" placeholder="Referentienummer klant">
+        </label>
+    </div>
 
+    <!-- Extra knoppen en velden hierna -->
     <button onclick="verstuurOntheffingenRapport()" class="primary-btn">VERSTUREN</button>
 </main>
 
