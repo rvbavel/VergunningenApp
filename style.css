@@ -1,184 +1,21 @@
-/* Algemene layout */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f0f4f8;
-    color: #333;
-}
-
-header {
-    background-color: #0b3d91;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-}
-
-header img.logo {
-    height: 50px;
-    margin-bottom: 10px;
-}
-
-h1, h2, h3 {
-    margin: 0;
-    padding: 10px 0;
-}
-
-nav.top-menu {
-    background-color: #1457c8;
-    text-align: center;
-    padding: 10px 0;
-}
-
-nav.top-menu button {
-    background: none;
-    border: none;
-    color: #fff;
-    font-weight: bold;
-    margin: 0 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.3s;
-}
-
-nav.top-menu button:first-child {
-    background-color: #1976d2;
-}
-
-nav.top-menu button:hover {
-    background-color: #0b3d91;
-}
-
-main.card {
-    background-color: #fff;
-    margin: 20px auto;
-    padding: 20px;
-    width: 90%;
-    max-width: 1200px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-h2 {
-    color: #0b3d91;
-}
-
-/* Form grids zonder centrering */
-.form-grid, .form-grid-three, .form-grid-single {
-    display: grid;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.form-grid {
-    grid-template-columns: 1fr 1fr;
-}
-
-.form-grid-three {
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-.form-grid-single {
-    grid-template-columns: 1fr;
-}
-
-/* Alleen vijf kolommen gecentreerd qua blok */
-.form-grid-five {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
-    align-items: center;
-    justify-items: center;
-}
-
-.form-grid-five div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-/* Labels */
-label {
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 5px;
-    width: 100%;
-    text-align: center;
-}
-
-input, select, textarea {
-    width: 90%;
-    padding: 6px;
-    margin-bottom: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-.split-input {
-    display: flex;
-    align-items: center;
-}
-
-.split-input .prefix {
-    padding: 8px 12px;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-right: none;
-    border-radius: 4px 0 0 4px;
-    font-family: monospace;
-}
-
-.split-input input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-left: none;
-    border-radius: 0 4px 4px 0;
-}
-
-.primary-btn {
-    background-color: #0b3d91;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    font-size: 14px;
-}
-
-.primary-btn:hover {
-    background-color: #062a68;
-    transform: scale(1.05);
-}
-
-.saved-reports {
+.saved-permits {
     margin: 30px auto;
     width: 90%;
     max-width: 1200px;
 }
 
-.saved-reports table {
+.saved-permits table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.saved-reports th, .saved-reports td {
+.saved-permits th, .saved-permits td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: center;
 }
 
-.saved-reports th {
+.saved-permits th {
     background-color: #0b3d91;
     color: #fff;
 }
@@ -195,14 +32,4 @@ textarea {
 
 .edit-btn:hover {
     background-color: #0b3d91;
-}
-
-footer {
-    background-color: #0b3d91;
-    color: #fff;
-    text-align: center;
-    padding: 15px;
-    font-size: 13px;
-    margin-top: 20px;
-    border-top: 2px solid #062a68;
 }
