@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
 
@@ -22,7 +23,7 @@
 </nav>
 
 <main class="card">
-    <h2>Ontheffingenrapport Aanmaken</h2>
+    <h2>ONTHEFFINGEN RAPPORT</h2>
 
     <div class="form-grid">
         <label>Referentienummer:
@@ -42,18 +43,27 @@
         </label>
     </div>
 
-    <div class="form-grid">
+    <div class="form-grid-three">
         <label>Opdrachtgever:
-            <input type="text" id="opdrachtgever" placeholder="Naam van de opdrachtgever">
+            <input type="text" id="opdrachtgever" placeholder="Naam opdrachtgever">
         </label>
         <label>Vervoerder:
-            <input type="text" id="vervoerder" placeholder="Naam van de vervoerder">
+            <input type="text" id="vervoerder" placeholder="Naam vervoerder">
+        </label>
+        <label>Referentie klant:
+            <input type="text" id="referentie_klant" placeholder="Referentie klant">
         </label>
     </div>
 
-    <div class="form-grid">
-        <label>Referentie klant:
-            <input type="text" id="referentie_klant" placeholder="Referentienummer klant">
+    <div class="form-grid-single">
+        <label>Omschrijving:
+            <textarea id="omschrijving" placeholder="Ontheffing, Afmetingen, Kentekens, Ontheffingsnummer, Geldigheid"></textarea>
+        </label>
+    </div>
+
+    <div class="form-grid-single">
+        <label>Opmerkingen t.a.v. facturatie:
+            <textarea id="opmerkingen_facturatie" placeholder="Bijvoorbeeld factuurreferenties of betaalafspraken"></textarea>
         </label>
     </div>
 
@@ -61,58 +71,58 @@
     <div class="form-grid-five">
         <div>
             <label>Aangevraagd bij:</label>
-            <input type="text" id="aangevraagd_bij1">
-            <input type="text" id="aangevraagd_bij2">
-            <input type="text" id="aangevraagd_bij3">
-            <input type="text" id="aangevraagd_bij4">
-            <input type="text" id="aangevraagd_bij5">
-            <input type="text" id="aangevraagd_bij6">
-            <input type="text" id="aangevraagd_bij7">
-            <input type="text" id="aangevraagd_bij8">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
+            <input type="text">
         </div>
         <div>
             <label>Aanvraagdatum:</label>
-            <input type="date" id="datum1">
-            <input type="date" id="datum2">
-            <input type="date" id="datum3">
-            <input type="date" id="datum4">
-            <input type="date" id="datum5">
-            <input type="date" id="datum6">
-            <input type="date" id="datum7">
-            <input type="date" id="datum8">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
         </div>
         <div>
             <label>Afgiftedatum:</label>
-            <input type="date" id="afgegeven1">
-            <input type="date" id="afgegeven2">
-            <input type="date" id="afgegeven3">
-            <input type="date" id="afgegeven4">
-            <input type="date" id="afgegeven5">
-            <input type="date" id="afgegeven6">
-            <input type="date" id="afgegeven7">
-            <input type="date" id="afgegeven8">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
+            <input type="date">
         </div>
         <div>
             <label>Inkoopprijs (€):</label>
-            <input type="number" id="inkoop1" step="0.01">
-            <input type="number" id="inkoop2" step="0.01">
-            <input type="number" id="inkoop3" step="0.01">
-            <input type="number" id="inkoop4" step="0.01">
-            <input type="number" id="inkoop5" step="0.01">
-            <input type="number" id="inkoop6" step="0.01">
-            <input type="number" id="inkoop7" step="0.01">
-            <input type="number" id="inkoop8" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
         </div>
         <div>
             <label>Verkoopprijs (€):</label>
-            <input type="number" id="totaal_factuur1" step="0.01">
-            <input type="number" id="totaal_factuur2" step="0.01">
-            <input type="number" id="totaal_factuur3" step="0.01">
-            <input type="number" id="totaal_factuur4" step="0.01">
-            <input type="number" id="totaal_factuur5" step="0.01">
-            <input type="number" id="totaal_factuur6" step="0.01">
-            <input type="number" id="totaal_factuur7" step="0.01">
-            <input type="number" id="totaal_factuur8" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
+            <input type="number" step="0.01">
         </div>
     </div>
 
@@ -128,29 +138,22 @@
         </label>
     </div>
 
-    <button onclick="opslaanRapport()" class="primary-btn">OPSLAAN RAPPORT</button>
-
-    <section class="saved-reports">
-        <h3>Opgeslagen Ontheffingen</h3>
-        <table id="reportsTable">
-            <thead>
-                <tr>
-                    <th>Projectnummer</th>
-                    <th>Opdrachtgever</th>
-                    <th>Status</th>
-                    <th>Actie</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Hier komen de opgeslagen regels -->
-            </tbody>
-        </table>
-    </section>
+    <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
 </main>
 
 <footer>
     Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
 </footer>
+
+<script>
+function begeleidingenRapport() {
+    window.location.href = 'begeleidingenrapport.html';
+}
+
+function aanvraagTransportbegeleiding() {
+    window.location.href = 'aanvraagtransportbegeleiding.html';
+}
+</script>
 
 <script src="script.js"></script>
 </body>
