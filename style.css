@@ -18,9 +18,9 @@ header img.logo {
     margin-bottom: 10px;
 }
 
-h1 {
-    font-size: 24px;
+h1, h2, h3 {
     margin: 0;
+    padding: 10px 0;
 }
 
 nav.top-menu {
@@ -54,7 +54,7 @@ main.card {
     margin: 20px auto;
     padding: 20px;
     width: 90%;
-    max-width: 1000px;
+    max-width: 1200px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
@@ -83,6 +83,13 @@ p {
     margin-bottom: 20px;
 }
 
+.form-grid-five {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
 .form-grid-single {
     display: grid;
     grid-template-columns: 1fr;
@@ -90,7 +97,7 @@ p {
     margin-bottom: 20px;
 }
 
-.form-grid label, .form-grid-three label, .form-grid-single label {
+.form-grid label, .form-grid-three label, .form-grid-five label, .form-grid-single label {
     display: flex;
     flex-direction: column;
     font-weight: bold;
