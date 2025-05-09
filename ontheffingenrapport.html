@@ -65,11 +65,36 @@ Geldigheid</textarea>
         </label>
     </div>
 
-    <!-- Nieuw toegevoegd: Opmerkingen -->
+    <!-- Regel 4 -->
     <div class="form-grid-single">
         <label>Opmerkingen t.a.v. facturatie:
             <textarea id="opmerkingen_facturatie" placeholder="Vul hier eventuele opmerkingen in..."></textarea>
         </label>
+    </div>
+
+    <!-- Herhaalde blokken (8x) -->
+    <h3>Aanvraagregels</h3>
+    <div id="aanvraagBlokken">
+        <!-- De 8 herhalingen -->
+        ${[1,2,3,4,5,6,7,8].map(i => `
+        <div class="form-grid-five">
+            <label>Aangevraagd bij:
+                <input type="text" id="aangevraagd_bij${i}" placeholder="Instantie">
+            </label>
+            <label>Aanvraag datum:
+                <input type="date" id="datum${i}">
+            </label>
+            <label>Afgifte datum:
+                <input type="date" id="afgegeven${i}">
+            </label>
+            <label>Inkoopprijs:
+                <input type="number" id="inkoop${i}" placeholder="€">
+            </label>
+            <label>Verkoopprijs:
+                <input type="number" id="totaal_factuur${i}" placeholder="€">
+            </label>
+        </div>
+        `).join('')}
     </div>
 
     <button onclick="verstuurOntheffingenRapport()" class="primary-btn">VERSTUREN</button>
