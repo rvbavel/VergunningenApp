@@ -20,12 +20,10 @@ function berekenOntheffingen() {
     document.getElementById('inkoop_totaal').value = formatter.format(inkoopTotaal);
     document.getElementById('verkoop_totaal').value = formatter.format(verkoopTotaal);
     document.getElementById('marge').value = formatter.format(marge);
+}
 
-    console.log('Berekening uitgevoerd:', {
-        inkoopTotaal: inkoopTotaal,
-        verkoopTotaal: verkoopTotaal,
-        marge: marge
-    });
-
-    alert('Berekening uitgevoerd. Zie console voor details.');
+// Automatisch triggeren bij invoer
+for (let i = 1; i <= 8; i++) {
+    document.getElementById(`inkoop${i}`).addEventListener('input', berekenOntheffingen);
+    document.getElementById(`totaal_factuur${i}`).addEventListener('input', berekenOntheffingen);
 }
