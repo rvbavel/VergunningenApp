@@ -169,9 +169,10 @@ tr:hover {
 /* Footer */
 footer {
     text-align: center;
-    padding: 20px;
+    padding: 15px;
     background-color: #0b3d91;
     color: #fff;
+    font-size: 13px;
     margin-top: 30px;
-    font-size: 14px;
+    border-top: 2px solid #062a68;
 }
