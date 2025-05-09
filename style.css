@@ -83,7 +83,14 @@ p {
     margin-bottom: 20px;
 }
 
-.form-grid label, .form-grid-three label {
+.form-grid-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-grid label, .form-grid-three label, .form-grid-single label {
     display: flex;
     flex-direction: column;
     font-weight: bold;
@@ -101,7 +108,7 @@ input, select, textarea {
 
 textarea {
     resize: vertical;
-    min-height: 60px;
+    min-height: 100px;
 }
 
 /* Speciale split-input */
