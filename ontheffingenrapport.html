@@ -53,7 +53,7 @@
         </label>
     </div>
 
-    <!-- Regel 3 -->
+    <!-- Omschrijving -->
     <div class="form-grid-single">
         <label>Omschrijving:
             <textarea id="omschrijving" placeholder="Vul hier de details in...">Ontheffing
@@ -65,36 +65,79 @@ Geldigheid</textarea>
         </label>
     </div>
 
-    <!-- Regel 4 -->
+    <!-- Opmerkingen -->
     <div class="form-grid-single">
         <label>Opmerkingen t.a.v. facturatie:
             <textarea id="opmerkingen_facturatie" placeholder="Vul hier eventuele opmerkingen in..."></textarea>
         </label>
     </div>
 
-    <!-- Herhaalde blokken (8x) -->
-    <h3>Aanvraagregels</h3>
-    <div id="aanvraagBlokken">
-        <!-- De 8 herhalingen -->
-        ${[1,2,3,4,5,6,7,8].map(i => `
-        <div class="form-grid-five">
-            <label>Aangevraagd bij:
-                <input type="text" id="aangevraagd_bij${i}" placeholder="Instantie">
-            </label>
-            <label>Aanvraag datum:
-                <input type="date" id="datum${i}">
-            </label>
-            <label>Afgifte datum:
-                <input type="date" id="afgegeven${i}">
-            </label>
-            <label>Inkoopprijs:
-                <input type="number" id="inkoop${i}" placeholder="€">
-            </label>
-            <label>Verkoopprijs:
-                <input type="number" id="totaal_factuur${i}" placeholder="€">
-            </label>
+    <!-- 5 kolommen, 8 velden elk -->
+    <div class="form-grid-five">
+        <!-- Kolom 1 -->
+        <div>
+            <label>Aangevraagd bij:</label>
+            <input type="text" id="aangevraagd_bij1">
+            <input type="text" id="aangevraagd_bij2">
+            <input type="text" id="aangevraagd_bij3">
+            <input type="text" id="aangevraagd_bij4">
+            <input type="text" id="aangevraagd_bij5">
+            <input type="text" id="aangevraagd_bij6">
+            <input type="text" id="aangevraagd_bij7">
+            <input type="text" id="aangevraagd_bij8">
         </div>
-        `).join('')}
+
+        <!-- Kolom 2 -->
+        <div>
+            <label>Aanvraag datum:</label>
+            <input type="date" id="datum1">
+            <input type="date" id="datum2">
+            <input type="date" id="datum3">
+            <input type="date" id="datum4">
+            <input type="date" id="datum5">
+            <input type="date" id="datum6">
+            <input type="date" id="datum7">
+            <input type="date" id="datum8">
+        </div>
+
+        <!-- Kolom 3 -->
+        <div>
+            <label>Afgifte datum:</label>
+            <input type="date" id="afgegeven1">
+            <input type="date" id="afgegeven2">
+            <input type="date" id="afgegeven3">
+            <input type="date" id="afgegeven4">
+            <input type="date" id="afgegeven5">
+            <input type="date" id="afgegeven6">
+            <input type="date" id="afgegeven7">
+            <input type="date" id="afgegeven8">
+        </div>
+
+        <!-- Kolom 4 -->
+        <div>
+            <label>Inkoopprijs:</label>
+            <input type="number" id="inkoop1" placeholder="€">
+            <input type="number" id="inkoop2" placeholder="€">
+            <input type="number" id="inkoop3" placeholder="€">
+            <input type="number" id="inkoop4" placeholder="€">
+            <input type="number" id="inkoop5" placeholder="€">
+            <input type="number" id="inkoop6" placeholder="€">
+            <input type="number" id="inkoop7" placeholder="€">
+            <input type="number" id="inkoop8" placeholder="€">
+        </div>
+
+        <!-- Kolom 5 -->
+        <div>
+            <label>Verkoopprijs:</label>
+            <input type="number" id="totaal_factuur1" placeholder="€">
+            <input type="number" id="totaal_factuur2" placeholder="€">
+            <input type="number" id="totaal_factuur3" placeholder="€">
+            <input type="number" id="totaal_factuur4" placeholder="€">
+            <input type="number" id="totaal_factuur5" placeholder="€">
+            <input type="number" id="totaal_factuur6" placeholder="€">
+            <input type="number" id="totaal_factuur7" placeholder="€">
+            <input type="number" id="totaal_factuur8" placeholder="€">
+        </div>
     </div>
 
     <button onclick="verstuurOntheffingenRapport()" class="primary-btn">VERSTUREN</button>
