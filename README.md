@@ -1,40 +1,42 @@
-# Speciaal Transport Zwolle B.V. - Vergunningenbeheer
+# Speciaal Transport Zwolle B.V. - Vergunningbeheer
 
-Dit project is een frontend-only vergunningenbeheersysteem voor Speciaal Transport Zwolle B.V.  
-Het draait volledig in HTML, CSS en JavaScript en kan worden gehost op **GitHub Pages**.
+Dit project is een webapplicatie voor het beheren van vergunningen en transportbegeleiding.
+
+## 📦 Inhoud
+
+- `index.html` → Hoofdmenu met toegang tot modules
+- `vergunningen.html` → Vergunningen invoeren en beheren
+- `style.css` → Blauw-witte moderne layout met afgeronde blokken
+- `script.js` → Frontend-logica voor vergunningbeheer
+- `logo.png` → Bedrijfslogo bovenaan de pagina’s
+
+## ⚙ Functies
+
+✅ Vergunningen toevoegen met klantnaam, nummer, vervaldatum, taal en waarschuwingsperiode  
+✅ Dynamisch statuslabel: geldig, gaat vervallen, vervallen  
+✅ E-mailklantknop (opent standaard mailprogramma)  
+✅ CSV-export van alle vergunningen  
+✅ Gebruiksvriendelijk menu met HOME-knop en rapportknoppen (placeholder)
+
+## 📁 Installatie
+
+1. Download of clone dit project.
+2. Plaats alle bestanden in één map.
+3. Open `index.html` in een webbrowser.
+
+## 💻 Gebruik
+
+- Klik op **INBOEKEN VERGUNNINGEN** om naar de invoerpagina te gaan.
+- Vul de velden in en sla vergunningen op.
+- Gebruik de knoppen **E-mail klant**, **Bewerk** (placeholder), of **Verwijder** per rij.
+- Exporteer alle data als CSV-bestand.
+
+## 🏗 Toekomstige uitbreiding
+
+- Backend koppeling (bijvoorbeeld met Firebase of Node.js)
+- Automatische herinneringen per e-mail
+- Upload en opslaan van ontheffings-PDF’s
 
 ---
 
-## 📦 Projectinhoud
-
-- `index.html` → de hoofdpagina
-- `styles.css` → de opmaak (zelf nog aan te vullen)
-- `script.js` → de logica en dynamische functies
-- `logo.png` → bedrijfslogo
-
----
-
-## ⚙ Functionaliteiten
-
-✅ Vergunningen toevoegen met:
-- klantnaam
-- e-mailadres
-- vergunningsnummer
-- vervaldatum
-- taal (Nederlands, Engels, Duits)
-- waarschuwingstermijn (dagen)
-- optioneel ontheffing-bestand (alleen naam onthouden, géén upload)
-
-✅ Automatische statuskleuren (groen, oranje, rood) op basis van vervaldatum
-
-✅ E-mailknop opent standaard e-mailprogramma (mailto-link) met ingevuld e-mailadres, onderwerp en bericht
-
-✅ CSV-export met alle vergunninggegevens
-
-✅ Opdrachttekst voor transportbegeleiding wordt automatisch gegenereerd in een tekstvak
-
----
-
-## 🚀 Installeren en draaien op GitHub Pages
-
-1️⃣ Maak een repository aan op GitHub, bijvoorbeeld:
+**Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.**
