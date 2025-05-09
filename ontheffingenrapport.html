@@ -21,7 +21,6 @@
 <main class="card">
     <h2>Ontheffingenrapportformulier</h2>
 
-    <!-- Regel 1 -->
     <div class="form-grid">
         <label>Referentienummer:
             <div class="split-input">
@@ -40,7 +39,6 @@
         </label>
     </div>
 
-    <!-- Regel 2 -->
     <div class="form-grid-three">
         <label>Opdrachtgever (klantnaam):
             <input type="text" id="opdrachtgever" placeholder="Naam van de klant">
@@ -53,10 +51,9 @@
         </label>
     </div>
 
-    <!-- Omschrijving -->
     <div class="form-grid-single">
         <label>Omschrijving:
-            <textarea id="omschrijving" placeholder="Vul hier de details in...">Ontheffing
+            <textarea id="omschrijving">Ontheffing
 Afmetingen
 Kentekens
 
@@ -65,18 +62,14 @@ Geldigheid</textarea>
         </label>
     </div>
 
-    <!-- Opmerkingen -->
     <div class="form-grid-single">
         <label>Opmerkingen t.a.v. facturatie:
-            <textarea id="opmerkingen_facturatie" placeholder="Vul hier eventuele opmerkingen in..."></textarea>
+            <textarea id="opmerkingen_facturatie"></textarea>
         </label>
     </div>
 
-    <!-- 5 kolommen, 8 velden elk -->
     <div class="form-grid-five">
-        <!-- Kolom 1 -->
-        <div>
-            <label>Aangevraagd bij:</label>
+        <div><label>Aangevraagd bij:</label>
             <input type="text" id="aangevraagd_bij1">
             <input type="text" id="aangevraagd_bij2">
             <input type="text" id="aangevraagd_bij3">
@@ -86,10 +79,7 @@ Geldigheid</textarea>
             <input type="text" id="aangevraagd_bij7">
             <input type="text" id="aangevraagd_bij8">
         </div>
-
-        <!-- Kolom 2 -->
-        <div>
-            <label>Aanvraag datum:</label>
+        <div><label>Aanvraag datum:</label>
             <input type="date" id="datum1">
             <input type="date" id="datum2">
             <input type="date" id="datum3">
@@ -99,10 +89,7 @@ Geldigheid</textarea>
             <input type="date" id="datum7">
             <input type="date" id="datum8">
         </div>
-
-        <!-- Kolom 3 -->
-        <div>
-            <label>Afgifte datum:</label>
+        <div><label>Afgifte datum:</label>
             <input type="date" id="afgegeven1">
             <input type="date" id="afgegeven2">
             <input type="date" id="afgegeven3">
@@ -112,31 +99,25 @@ Geldigheid</textarea>
             <input type="date" id="afgegeven7">
             <input type="date" id="afgegeven8">
         </div>
-
-        <!-- Kolom 4 -->
-        <div>
-            <label>Inkoopprijs:</label>
-            <input type="number" id="inkoop1" placeholder="€">
-            <input type="number" id="inkoop2" placeholder="€">
-            <input type="number" id="inkoop3" placeholder="€">
-            <input type="number" id="inkoop4" placeholder="€">
-            <input type="number" id="inkoop5" placeholder="€">
-            <input type="number" id="inkoop6" placeholder="€">
-            <input type="number" id="inkoop7" placeholder="€">
-            <input type="number" id="inkoop8" placeholder="€">
+        <div><label>Inkoopprijs:</label>
+            <input type="number" id="inkoop1">
+            <input type="number" id="inkoop2">
+            <input type="number" id="inkoop3">
+            <input type="number" id="inkoop4">
+            <input type="number" id="inkoop5">
+            <input type="number" id="inkoop6">
+            <input type="number" id="inkoop7">
+            <input type="number" id="inkoop8">
         </div>
-
-        <!-- Kolom 5 -->
-        <div>
-            <label>Verkoopprijs:</label>
-            <input type="number" id="totaal_factuur1" placeholder="€">
-            <input type="number" id="totaal_factuur2" placeholder="€">
-            <input type="number" id="totaal_factuur3" placeholder="€">
-            <input type="number" id="totaal_factuur4" placeholder="€">
-            <input type="number" id="totaal_factuur5" placeholder="€">
-            <input type="number" id="totaal_factuur6" placeholder="€">
-            <input type="number" id="totaal_factuur7" placeholder="€">
-            <input type="number" id="totaal_factuur8" placeholder="€">
+        <div><label>Verkoopprijs:</label>
+            <input type="number" id="totaal_factuur1">
+            <input type="number" id="totaal_factuur2">
+            <input type="number" id="totaal_factuur3">
+            <input type="number" id="totaal_factuur4">
+            <input type="number" id="totaal_factuur5">
+            <input type="number" id="totaal_factuur6">
+            <input type="number" id="totaal_factuur7">
+            <input type="number" id="totaal_factuur8">
         </div>
     </div>
 
@@ -148,6 +129,5 @@ Geldigheid</textarea>
 </footer>
 
 <script src="script.js"></script>
-
 </body>
 </html>
