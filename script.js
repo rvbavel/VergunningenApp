@@ -1,6 +1,8 @@
 let vergunningen = [];
 
 function toevoegenVergunning() {
+    console.log('Start toevoegenVergunning');
+
     const klantnaam = document.getElementById('klantnaam').value.trim();
     const email = document.getElementById('email').value.trim();
     const vergunningsnummer = document.getElementById('vergunningsnummer').value.trim();
@@ -24,10 +26,11 @@ function toevoegenVergunning() {
         aangeschreven: false
     };
 
+    console.log('Nieuwe vergunning toegevoegd:', vergunning);
+
     vergunningen.push(vergunning);
     updateTabel();
 
-    // Velden resetten
     document.getElementById('klantnaam').value = '';
     document.getElementById('email').value = '';
     document.getElementById('vergunningsnummer').value = '';
@@ -37,7 +40,14 @@ function toevoegenVergunning() {
 }
 
 function updateTabel() {
+    console.log('Start updateTabel');
+
     const tbody = document.querySelector('#vergunningTable tbody');
+    if (!tbody) {
+        console.error('Kan #vergunningTable tbody niet vinden!');
+        return;
+    }
+
     tbody.innerHTML = '';
 
     if (vergunningen.length === 0) {
@@ -84,49 +94,8 @@ function updateTabel() {
         `;
         tbody.appendChild(tr);
     });
-}
 
-function stuurEmail(id) {
-    const vergunning = vergunningen.find(v => v.id === id);
-    const emailBody = `Beste ${vergunning.klantnaam},\n\nUw vergunning ${vergunning.vergunningsnummer} verloopt op ${formatDateNL(vergunning.vervaldatum)}.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
-    const mailtoLink = `mailto:${vergunning.email}?subject=Vergunning melding&body=${encodeURIComponent(emailBody)}`;
-    window.location.href = mailtoLink;
-
-    vergunning.aangeschreven = true;
-    updateTabel();
-}
-
-function bewerkVergunning(id) {
-    alert('Bewerkfunctie volgt later.');
-}
-
-function verwijderVergunning(id) {
-    if (confirm('Weet je zeker dat je deze vergunning wilt verwijderen?')) {
-        vergunningen = vergunningen.filter(v => v.id !== id);
-        updateTabel();
-    }
-}
-
-function exporteerCSV() {
-    let csv = 'Klantnaam,E-mail,Vergunningsnummer,Vervaldatum,Waarschuwing,Bestand\n';
-    vergunningen.forEach(v => {
-        csv += `${v.klantnaam},${v.email},${v.vergunningsnummer},${v.vervaldatum},${v.waarschuwing},${v.bestandNaam}\n`;
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'vergunningen.csv';
-    a.click();
-}
-
-function formatDateNL(dateStr) {
-    const d = new Date(dateStr);
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const year = d.getFullYear();
-    return `${day}-${month}-${year}`;
+    console.log('Tabel succesvol bijgewerkt');
 }
 
 window.onload = updateTabel;
