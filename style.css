@@ -109,7 +109,6 @@ label {
     text-align: center;
 }
 
-/* Velden links uitgelijnd */
 input, select, textarea {
     width: 90%;
     padding: 6px;
@@ -117,7 +116,6 @@ input, select, textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    /* geen text-align:center → standaard links */
 }
 
 textarea {
@@ -125,7 +123,6 @@ textarea {
     min-height: 100px;
 }
 
-/* Split input voor referentienummer */
 .split-input {
     display: flex;
     align-items: center;
@@ -148,7 +145,6 @@ textarea {
     border-radius: 0 4px 4px 0;
 }
 
-/* Knoppen */
 .primary-btn {
     background-color: #0b3d91;
     color: #fff;
@@ -165,7 +161,42 @@ textarea {
     transform: scale(1.05);
 }
 
-/* Footer */
+.saved-reports {
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.saved-reports table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.saved-reports th, .saved-reports td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.saved-reports th {
+    background-color: #0b3d91;
+    color: #fff;
+}
+
+.edit-btn {
+    padding: 4px 8px;
+    border: none;
+    background-color: #1976d2;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #0b3d91;
+}
+
 footer {
     background-color: #0b3d91;
     color: #fff;
