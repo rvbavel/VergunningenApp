@@ -2,15 +2,12 @@ let vergunningen = [];
 
 function toevoegenVergunning() {
     const klantnaam = document.getElementById('klantnaam').value;
-    const email = document.getElementById('email').value;
     const vergunningsnummer = document.getElementById('vergunningsnummer').value;
     const vervaldatum = document.getElementById('vervaldatum').value;
     const taal = document.getElementById('taal').value;
     const waarschuwing = parseInt(document.getElementById('waarschuwing').value);
-    const ontheffingFile = document.getElementById('ontheffingPdf').files[0];
-    const ontheffingNaam = ontheffingFile ? ontheffingFile.name : '';
 
-    if (!klantnaam || !email || !vergunningsnummer || !vervaldatum) {
+    if (!klantnaam || !vergunningsnummer || !vervaldatum) {
         alert('Vul alle velden in.');
         return;
     }
@@ -18,28 +15,21 @@ function toevoegenVergunning() {
     const vergunning = {
         id: Date.now(),
         klantnaam,
-        email,
         vergunningsnummer,
         vervaldatum,
         taal,
         waarschuwing,
-        aangeschreven: false,
-        laatsteEmailDatum: null,
-        ontheffing: ontheffingNaam
+        aangeschreven: false
     };
 
     vergunningen.push(vergunning);
     updateTabel();
 
     document.getElementById('klantnaam').value = '';
-    document.getElementById('email').value = '';
     document.getElementById('vergunningsnummer').value = '';
     document.getElementById('vervaldatum').value = '';
     document.getElementById('taal').value = 'NL';
     document.getElementById('waarschuwing').value = 7;
-    document.getElementById('ontheffingPdf').value = '';
-
-    console.log('Vergunning toegevoegd:', vergunning);
 }
 
 function updateTabel() {
@@ -70,14 +60,11 @@ function updateTabel() {
         tr.innerHTML = `
             <td>${v.klantnaam}</td>
             <td>${v.vergunningsnummer}</td>
-            <td>${formatDateNL(v.vervaldatum)}</td>
-            <td class="${statusClass}">${statusText}</td>
-            <td>${v.aangeschreven ? 'Ja' : 'Nee'}</td>
+            <td><span class="${statusClass}">${statusText}</span></td>
             <td>
-                <button onclick="stuurEmail(${v.id})">Email klant</button>
+                <button onclick="stuurEmail(${v.id})">E-mail klant</button>
                 <button onclick="bewerkVergunning(${v.id})">Bewerk</button>
                 <button onclick="verwijderVergunning(${v.id})">Verwijder</button>
-                <button onclick="toonOntheffing('${v.ontheffing}')">Bekijk ontheffing</button>
             </td>
         `;
         tbody.appendChild(tr);
@@ -86,44 +73,16 @@ function updateTabel() {
 
 function stuurEmail(id) {
     const vergunning = vergunningen.find(v => v.id === id);
-    let boodschap = '';
-
-    if (vergunning.taal === 'NL') {
-        boodschap = `Beste ${vergunning.klantnaam},\n\nUw vergunning ${vergunning.vergunningsnummer} verloopt op ${formatDateNL(vergunning.vervaldatum)}.\nNeem tijdig contact met ons op.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
-    } else if (vergunning.taal === 'EN') {
-        boodschap = `Dear ${vergunning.klantnaam},\n\nYour permit ${vergunning.vergunningsnummer} expires on ${formatDateNL(vergunning.vervaldatum)}.\nPlease contact us in time.\n\nBest regards,\nSpeciaal Transport Zwolle B.V.`;
-    } else if (vergunning.taal === 'DE') {
-        boodschap = `Sehr geehrter ${vergunning.klantnaam},\n\nIhre Genehmigung ${vergunning.vergunningsnummer} läuft am ${formatDateNL(vergunning.vervaldatum)} ab.\nBitte kontaktieren Sie uns rechtzeitig.\n\nMit freundlichen Grüßen,\nSpeciaal Transport Zwolle B.V.`;
-    }
-
-    const onderwerp = 'Uw vergunning bij Speciaal Transport Zwolle B.V.';
-    const mailtoLink = `mailto:${vergunning.email}?subject=${encodeURIComponent(onderwerp)}&body=${encodeURIComponent(boodschap)}`;
-
+    const emailBody = `Beste ${vergunning.klantnaam},\n\nUw vergunning ${vergunning.vergunningsnummer} verloopt op ${formatDateNL(vergunning.vervaldatum)}.\n\nMet vriendelijke groet,\nSpeciaal Transport Zwolle B.V.`;
+    const mailtoLink = `mailto:?subject=Vergunning melding&body=${encodeURIComponent(emailBody)}`;
     window.location.href = mailtoLink;
 
-    vergunning.laatsteEmailDatum = new Date().toISOString();
     vergunning.aangeschreven = true;
     updateTabel();
 }
 
-function toonOntheffing(bestandsnaam) {
-    if (bestandsnaam) {
-        alert(`Ontheffing bestand: ${bestandsnaam}`);
-    } else {
-        alert('Er is geen ontheffing toegevoegd.');
-    }
-}
-
-function formatDateNL(dateString) {
-    const dateObj = new Date(dateString);
-    const day = String(dateObj.getDate()).padStart(2, '0');
-    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-    const year = dateObj.getFullYear();
-    return `${day}-${month}-${year}`;
-}
-
 function bewerkVergunning(id) {
-    alert('Bewerkfunctie wordt later toegevoegd.');
+    alert('Bewerkfunctie volgt later.');
 }
 
 function verwijderVergunning(id) {
@@ -134,10 +93,11 @@ function verwijderVergunning(id) {
 }
 
 function exporteerCSV() {
-    let csv = 'Klantnaam,Vergunningsnummer,Vervaldatum,Taal,Waarschuwing,Aangeschreven,Ontheffing\n';
+    let csv = 'Klantnaam,Vergunningsnummer,Vervaldatum,Taal,Waarschuwing\n';
     vergunningen.forEach(v => {
-        csv += `${v.klantnaam},${v.vergunningsnummer},${formatDateNL(v.vervaldatum)},${v.taal},${v.waarschuwing},${v.aangeschreven ? 'Ja' : 'Nee'},${v.ontheffing}\n`;
+        csv += `${v.klantnaam},${v.vergunningsnummer},${v.vervaldatum},${v.taal},${v.waarschuwing}\n`;
     });
+
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -146,25 +106,12 @@ function exporteerCSV() {
     a.click();
 }
 
-// Nieuwe knoppen
-function inboekenVergunningen() {
-    alert('INBOEKEN VERGUNNINGEN: Deze functie wordt later toegevoegd.');
-}
-
-function ontheffingenRapport() {
-    alert('ONTHEFFINGEN RAPPORT: Deze functie wordt later toegevoegd.');
-}
-
-function begeleidingenRapport() {
-    alert('BEGELEIDINGEN RAPPORT: Deze functie wordt later toegevoegd.');
-}
-
-function voorbladOntheffing() {
-    alert('VOORBLAD ONTHEFFING: Deze functie wordt later toegevoegd.');
-}
-
-function aanvraagTransportbegeleiding() {
-    alert('AANVRAAG TRANSPORTBEGELEIDING: Deze functie wordt later toegevoegd.');
+function formatDateNL(dateStr) {
+    const d = new Date(dateStr);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
 }
 
 window.onload = updateTabel;
