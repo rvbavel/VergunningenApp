@@ -1,7 +1,9 @@
+/* Algemene layout */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     background-color: #e6f0fa;
+    color: #333;
 }
 
 header {
@@ -39,6 +41,10 @@ nav.top-menu button {
     transition: background 0.3s;
 }
 
+nav.top-menu button:first-child {
+    background-color: #1976d2; /* extra accent voor HOME-knop */
+}
+
 nav.top-menu button:hover {
     background-color: #0b3d91;
 }
@@ -58,6 +64,11 @@ h2 {
     margin-top: 0;
 }
 
+p {
+    line-height: 1.6;
+}
+
+/* Formuliergrid */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -65,55 +76,53 @@ h2 {
     margin-bottom: 20px;
 }
 
-label {
-    display: block;
+.form-grid label {
+    display: flex;
+    flex-direction: column;
     font-weight: bold;
-    margin-bottom: 5px;
 }
 
 input, select {
     width: 100%;
     padding: 8px;
+    margin-top: 4px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.primary-btn {
+/* Knoppen */
+.primary-btn, .secondary-btn, .form-grid button {
     background-color: #0b3d91;
     color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-.primary-btn:hover {
+.primary-btn:hover, .secondary-btn:hover, .form-grid button:hover {
     background-color: #062a68;
+    transform: scale(1.05);
 }
 
 .secondary-btn {
     background-color: #1457c8;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
 }
 
-.secondary-btn:hover {
-    background-color: #0b3d91;
-}
-
+/* Tabellen */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 th, td {
-    padding: 10px;
+    padding: 12px 15px;
     border-bottom: 1px solid #ddd;
     text-align: left;
 }
@@ -123,12 +132,18 @@ th {
     color: #fff;
 }
 
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Status labels */
 .status-green {
     background-color: #d4edda;
     color: #155724;
     padding: 4px 8px;
     border-radius: 4px;
     display: inline-block;
+    font-size: 12px;
 }
 
 .status-orange {
@@ -137,6 +152,7 @@ th {
     padding: 4px 8px;
     border-radius: 4px;
     display: inline-block;
+    font-size: 12px;
 }
 
 .status-red {
@@ -145,8 +161,10 @@ th {
     padding: 4px 8px;
     border-radius: 4px;
     display: inline-block;
+    font-size: 12px;
 }
 
+/* Footer */
 footer {
     background-color: #0b3d91;
     color: #fff;
@@ -154,4 +172,5 @@ footer {
     padding: 15px;
     font-size: 13px;
     margin-top: 20px;
+    border-top: 2px solid #062a68;
 }
