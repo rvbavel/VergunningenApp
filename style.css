@@ -83,22 +83,39 @@ p {
     margin-bottom: 20px;
 }
 
+.form-grid-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
 .form-grid-five {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 15px;
     margin-bottom: 20px;
+    align-items: center;
+    justify-items: center;
 }
 
 .form-grid-five div {
     display: flex;
     flex-direction: column;
+    align-items: center;         /* horizontaal centreren binnen kolom */
+    justify-content: center;     /* verticaal centreren binnen kolom */
+    width: 100%;
 }
 
-.form-grid label, .form-grid-three label, .form-grid-five label, .form-grid-single label {
+.form-grid label,
+.form-grid-three label,
+.form-grid-five label,
+.form-grid-single label {
     font-weight: bold;
     font-size: 14px;
     margin-bottom: 5px;
+    width: 100%;
+    text-align: center;
 }
 
 input, select, textarea {
@@ -108,6 +125,11 @@ input, select, textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
+}
+
+.form-grid-five input {
+    width: 90%;                  /* kleinere breedte binnen gecentreerde kolommen */
+    text-align: center;          /* optioneel: tekst centreren in inputveld */
 }
 
 textarea {
