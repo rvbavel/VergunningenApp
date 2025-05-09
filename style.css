@@ -42,7 +42,7 @@ nav.top-menu button {
 }
 
 nav.top-menu button:first-child {
-    background-color: #1976d2; /* extra accent voor HOME-knop */
+    background-color: #1976d2; /* accent voor HOME */
 }
 
 nav.top-menu button:hover {
@@ -68,7 +68,7 @@ p {
     line-height: 1.6;
 }
 
-/* Formulieren */
+/* Form grids */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -76,7 +76,14 @@ p {
     margin-bottom: 20px;
 }
 
-.form-grid label {
+.form-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-grid label, .form-grid-three label {
     display: flex;
     flex-direction: column;
     font-weight: bold;
@@ -97,7 +104,7 @@ textarea {
     min-height: 60px;
 }
 
-/* Speciale split-input (bijvoorbeeld voor referentienummer) */
+/* Speciale split-input */
 .split-input {
     display: flex;
     align-items: center;
@@ -121,7 +128,7 @@ textarea {
 }
 
 /* Knoppen */
-.primary-btn, .secondary-btn, .form-grid button {
+.primary-btn, .secondary-btn {
     background-color: #0b3d91;
     color: #fff;
     border: none;
@@ -132,67 +139,9 @@ textarea {
     font-size: 14px;
 }
 
-.primary-btn:hover, .secondary-btn:hover, .form-grid button:hover {
+.primary-btn:hover, .secondary-btn:hover {
     background-color: #062a68;
     transform: scale(1.05);
-}
-
-.secondary-btn {
-    background-color: #1457c8;
-}
-
-/* Tabellen */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-th, td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background-color: #1457c8;
-    color: #fff;
-}
-
-tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Status labels (optioneel) */
-.status-green {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    font-size: 12px;
-}
-
-.status-orange {
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    font-size: 12px;
-}
-
-.status-red {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    font-size: 12px;
 }
 
 /* Footer */
