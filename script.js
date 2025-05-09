@@ -9,6 +9,7 @@ function verstuurOntheffingenRapport() {
         vervoerder: getVal('vervoerder'),
         referentie_klant: getVal('referentie_klant'),
         omschrijving: getVal('omschrijving'),
+        opmerkingen_facturatie: getVal('opmerkingen_facturatie'),
         aanvraagregels: []
     };
 
