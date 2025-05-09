@@ -1,3 +1,4 @@
+/* Algemene layout */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -60,8 +61,14 @@ main.card {
 
 h2 {
     color: #0b3d91;
+    margin-top: 0;
 }
 
+p {
+    line-height: 1.6;
+}
+
+/* Form grids */
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -69,15 +76,38 @@ h2 {
     margin-bottom: 20px;
 }
 
-label {
+.form-grid-three {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-grid-five {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-grid-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-grid label, .form-grid-three label, .form-grid-five label, .form-grid-single label {
+    display: flex;
+    flex-direction: column;
     font-weight: bold;
     font-size: 14px;
 }
 
 input, select, textarea {
     width: 100%;
-    padding: 6px;
-    margin-top: 5px;
+    padding: 8px;
+    margin-top: 4px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
@@ -88,7 +118,31 @@ textarea {
     min-height: 100px;
 }
 
-.primary-btn {
+/* Speciale split-input */
+.split-input {
+    display: flex;
+    align-items: center;
+}
+
+.split-input .prefix {
+    padding: 8px 12px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-family: monospace;
+}
+
+.split-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Knoppen */
+.primary-btn, .secondary-btn {
     background-color: #0b3d91;
     color: #fff;
     border: none;
@@ -99,47 +153,12 @@ textarea {
     font-size: 14px;
 }
 
-.primary-btn:hover {
+.primary-btn:hover, .secondary-btn:hover {
     background-color: #062a68;
     transform: scale(1.05);
 }
 
-.saved-permits {
-    margin: 30px auto;
-    width: 90%;
-    max-width: 1200px;
-}
-
-.saved-permits table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.saved-permits th, .saved-permits td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-}
-
-.saved-permits th {
-    background-color: #0b3d91;
-    color: #fff;
-}
-
-.edit-btn {
-    padding: 4px 8px;
-    border: none;
-    background-color: #1976d2;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.edit-btn:hover {
-    background-color: #0b3d91;
-}
-
+/* Footer */
 footer {
     background-color: #0b3d91;
     color: #fff;
