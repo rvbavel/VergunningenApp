@@ -16,33 +16,100 @@
     <button onclick="window.location.href='index.html'">🏠 HOME</button>
     <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
     <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-    <button onclick="begeleidingenRapport()">BEGELEIDINGEN RAPPORT</button>
-    <button onclick="voorbladOntheffing()">VOORBLAD ONTHEFFING</button>
-    <button onclick="aanvraagTransportbegeleiding()">AANVRAAG TRANSPORTBEGELEIDING</button>
 </nav>
 
 <main class="card">
-    <h2>Ontheffingenrapport</h2>
-    <p>
-        Hier vindt u een overzicht van alle ingevoerde ontheffingen, inclusief status en details.
-        U kunt dit rapport exporteren als CSV-bestand of specifieke acties uitvoeren.
-    </p>
+    <h2>Ontheffingenrapportformulier</h2>
+    <div class="form-grid">
+        <label>Omschrijving:
+            <input type="text" id="omschrijving">
+        </label>
+        <label>Referentienummer:
+            <input type="text" id="referentienummer">
+        </label>
+        <label>Opdrachtgever:
+            <input type="text" id="opdrachtgever">
+        </label>
+        <label>Vervoerder:
+            <input type="text" id="vervoerder">
+        </label>
+        <label>Factuurprijs:
+            <input type="text" id="factuurprijs">
+        </label>
+        <label>Datum:
+            <input type="date" id="datum">
+        </label>
+        <label>Aangevraagd bij:
+            <input type="text" id="aangevraagd_bij">
+        </label>
+        <label>Afgegeven:
+            <input type="text" id="afgegeven">
+        </label>
+        <label>Totaal op factuur:
+            <input type="text" id="totaal_factuur">
+        </label>
+        <label>INKOOP:
+            <input type="text" id="inkoop">
+        </label>
+        <label>MARGE:
+            <input type="text" id="marge">
+        </label>
+        <label>Behandelaar:
+            <select id="behandelaar">
+                <option value="">--- Maak keuze ---</option>
+                <option value="persoon1">Persoon 1</option>
+                <option value="persoon2">Persoon 2</option>
+            </select>
+        </label>
+        <label>Afgewerkt door:
+            <select id="afgewerkt_door">
+                <option value="">--- Maak keuze ---</option>
+                <option value="persoon1">Persoon 1</option>
+                <option value="persoon2">Persoon 2</option>
+            </select>
+        </label>
+        <label>Referentie klant:
+            <input type="text" id="referentie_klant">
+        </label>
+        <label>Inkoopfacturen aan:
+            <input type="email" id="inkoopfacturen_aan" value="facturen@speciaaltransportzwolle.nl">
+        </label>
+        <label>Rapport versturen aan verkoop:
+            <input type="email" id="rapport_verkoop">
+        </label>
+        <label>Opmerkingen t.a.v. facturatie:
+            <textarea id="opmerkingen_facturatie"></textarea>
+        </label>
+    </div>
 
-    <table id="vergunningTable">
+    <h3>Aanvraagregels</h3>
+    <table>
         <thead>
             <tr>
-                <th>Klantnaam</th>
-                <th>Ontheffingsnummer</th>
-                <th>Status</th>
-                <th>Acties</th>
+                <th>Refnr Klant</th>
+                <th>Vervoerder</th>
+                <th>Klant</th>
+                <th>Datum aanvraag</th>
+                <th>Doorgestuurd/Gefaxt</th>
+                <th>Prijs per stuk</th>
+                <th>Instantie</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Dynamisch gevuld -->
+        <tbody id="aanvraagTabel">
+            <!-- Dynamisch regels toevoegen -->
+            <tr>
+                <td><input type="text" placeholder="Refnr"></td>
+                <td><input type="text" placeholder="Vervoerder"></td>
+                <td><input type="text" placeholder="Klant"></td>
+                <td><input type="date"></td>
+                <td><input type="text" placeholder="Doorgestuurd/Gefaxt"></td>
+                <td><input type="text" placeholder="Prijs"></td>
+                <td><input type="text" placeholder="Instantie"></td>
+            </tr>
         </tbody>
     </table>
 
-    <button onclick="exporteerCSV()" class="secondary-btn">Exporteer rapport als CSV</button>
+    <button onclick="verstuurOntheffingenRapport()" class="primary-btn">VERSTUREN</button>
 </main>
 
 <footer>
@@ -50,11 +117,6 @@
 </footer>
 
 <script src="script.js"></script>
-<script>
-function begeleidingenRapport() { alert('BEGELEIDINGEN RAPPORT: Deze functie wordt later toegevoegd.'); }
-function voorbladOntheffing() { alert('VOORBLAD ONTHEFFING: Deze functie wordt later toegevoegd.'); }
-function aanvraagTransportbegeleiding() { alert('AANVRAAG TRANSPORTBEGELEIDING: Deze functie wordt later toegevoegd.'); }
-</script>
 
 </body>
 </html>
