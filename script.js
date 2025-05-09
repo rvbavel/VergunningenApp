@@ -1,3 +1,5 @@
+// ---------------- VERGUNNINGEN ----------------
+
 let opgeslagenVergunningen = [];
 
 function opslaanVergunning() {
@@ -58,6 +60,60 @@ function bewerkVergunning(index) {
 
     alert(`Vergunning ${vergunning.vergunningsnummer} geladen voor bewerking.`);
 }
+
+// ---------------- ONTHEFFINGEN ----------------
+
+let opgeslagenRapporten = [];
+
+function opslaanRapport() {
+    const referentie = '2025.' + document.getElementById('referentienummer').value.trim();
+    const opdrachtgever = document.getElementById('opdrachtgever').value.trim();
+    const status = 'groen'; // standaardstatus
+
+    if (!referentie || !opdrachtgever) {
+        alert('Vul minimaal referentienummer en opdrachtgever in.');
+        return;
+    }
+
+    const rapport = {
+        referentie,
+        opdrachtgever,
+        status
+    };
+
+    opgeslagenRapporten.push(rapport);
+    updateRapportTabel();
+}
+
+function updateRapportTabel() {
+    const tableBody = document.getElementById('reportsTable').querySelector('tbody');
+    tableBody.innerHTML = '';
+
+    opgeslagenRapporten.forEach((rapport, index) => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td>${rapport.referentie}</td>
+            <td>${rapport.opdrachtgever}</td>
+            <td style="color: ${rapport.status === 'groen' ? 'green' : 'red'};">
+                ${rapport.status === 'groen' ? 'Niet afgewerkt' : 'Afgewerkt'}
+            </td>
+            <td><button class="edit-btn" onclick="bewerkRapport(${index})">BEWERK</button></td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
+
+function bewerkRapport(index) {
+    const rapport = opgeslagenRapporten[index];
+    document.getElementById('referentienummer').value = rapport.referentie.replace('2025.', '');
+    document.getElementById('opdrachtgever').value = rapport.opdrachtgever;
+
+    alert(`Rapport ${rapport.referentie} geladen voor bewerking.`);
+}
+
+// ---------------- HULPFUNCTIE ----------------
 
 function formatDatumNL(dateString) {
     const date = new Date(dateString);
