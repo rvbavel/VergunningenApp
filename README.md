@@ -1,42 +1,33 @@
-# Speciaal Transport Zwolle B.V. - Vergunningbeheer
+# Ontheffingen Management Systeem - Speciaal Transport Zwolle B.V.
 
-Dit project is een webapplicatie voor het beheren van vergunningen en transportbegeleiding.
-
-## 📦 Inhoud
-
-- `index.html` → Hoofdmenu met toegang tot modules
-- `vergunningen.html` → Vergunningen invoeren en beheren
-- `style.css` → Blauw-witte moderne layout met afgeronde blokken
-- `script.js` → Frontend-logica voor vergunningbeheer
-- `logo.png` → Bedrijfslogo bovenaan de pagina’s
-
-## ⚙ Functies
-
-✅ Vergunningen toevoegen met klantnaam, nummer, vervaldatum, taal en waarschuwingsperiode  
-✅ Dynamisch statuslabel: geldig, gaat vervallen, vervallen  
-✅ E-mailklantknop (opent standaard mailprogramma)  
-✅ CSV-export van alle vergunningen  
-✅ Gebruiksvriendelijk menu met HOME-knop en rapportknoppen (placeholder)
-
-## 📁 Installatie
-
-1. Download of clone dit project.
-2. Plaats alle bestanden in één map.
-3. Open `index.html` in een webbrowser.
-
-## 💻 Gebruik
-
-- Klik op **INBOEKEN VERGUNNINGEN** om naar de invoerpagina te gaan.
-- Vul de velden in en sla vergunningen op.
-- Gebruik de knoppen **E-mail klant**, **Bewerk** (placeholder), of **Verwijder** per rij.
-- Exporteer alle data als CSV-bestand.
-
-## 🏗 Toekomstige uitbreiding
-
-- Backend koppeling (bijvoorbeeld met Firebase of Node.js)
-- Automatische herinneringen per e-mail
-- Upload en opslaan van ontheffings-PDF’s
+Dit systeem is ontwikkeld voor **Speciaal Transport Zwolle B.V.**  
+Het is een frontend-rapportagesysteem om ontheffingen vast te leggen en overzichtelijk weer te geven.
 
 ---
 
-**Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.**
+## 📦 Bestanden
+
+- **ontheffingenrapport.html** → hoofd-HTML-pagina  
+- **style.css** → opmaak en layout (met bedrijfsstijl)  
+- **script.js** → JavaScript-logica om formuliergegevens te verzamelen
+
+---
+
+## 💻 Functionaliteit
+
+✔ Referentienummer (met prefix 2025.) invoeren  
+✔ Keuze behandelaar uit dropdown (René, Anke, Sia, Martijn)  
+✔ Klant- en vervoerdergegevens invoeren  
+✔ Omschrijving en facturatie-opmerkingen noteren  
+✔ Tabel met:
+   - 8 rijen ‘Aangevraagd bij’
+   - 8 rijen ‘Aanvraag datum’
+   - 8 rijen ‘Afgifte datum’
+   - 8 rijen ‘Inkoopprijs’
+   - 8 rijen ‘Verkoopprijs’  
+✔ Bij klikken op **VERSTUREN** worden alle gegevens verzameld en zichtbaar gemaakt in de browserconsole.
+
+---
+
+## 🏗 Projectstructuur
+
