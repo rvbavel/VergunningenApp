@@ -39,7 +39,7 @@ function toevoegenVergunning() {
     document.getElementById('waarschuwing').value = 7;
     document.getElementById('ontheffingPdf').value = '';
 
-    document.getElementById('opdrachtTekst').value = `Opdracht voor transportbegeleiding:\nKlant: ${klantnaam}\nVergunning: ${vergunningsnummer}\nVervaldatum: ${formatDateNL(vervaldatum)}\n\nGraag transportbegeleiding regelen.`;
+    console.log('Vergunning toegevoegd:', vergunning);
 }
 
 function updateTabel() {
@@ -144,6 +144,27 @@ function exporteerCSV() {
     a.href = url;
     a.download = 'vergunningen.csv';
     a.click();
+}
+
+// Nieuwe knoppen
+function inboekenVergunningen() {
+    alert('INBOEKEN VERGUNNINGEN: Deze functie wordt later toegevoegd.');
+}
+
+function ontheffingenRapport() {
+    alert('ONTHEFFINGEN RAPPORT: Deze functie wordt later toegevoegd.');
+}
+
+function begeleidingenRapport() {
+    alert('BEGELEIDINGEN RAPPORT: Deze functie wordt later toegevoegd.');
+}
+
+function voorbladOntheffing() {
+    alert('VOORBLAD ONTHEFFING: Deze functie wordt later toegevoegd.');
+}
+
+function aanvraagTransportbegeleiding() {
+    alert('AANVRAAG TRANSPORTBEGELEIDING: Deze functie wordt later toegevoegd.');
 }
 
 window.onload = updateTabel;
