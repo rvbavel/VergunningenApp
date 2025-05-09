@@ -2,8 +2,8 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Speciaal Transport Zwolle B.V.</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Speciaal Transport Zwolle B.V. - MENU</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -13,72 +13,37 @@
 </header>
 
 <main>
-    <section class="form-section">
-        <div class="form-left">
-            <h2>Nieuwe vergunning invoeren</h2>
-            <label>Klantnaam:
-                <input type="text" id="klantnaam">
-            </label>
-            <label>Emailadres klant:
-                <input type="email" id="email">
-            </label>
-            <label>Vergunningsnummer:
-                <input type="text" id="vergunningsnummer">
-            </label>
-            <label>Vervaldatum:
-                <input type="date" id="vervaldatum">
-            </label>
-            <label>Taal:
-                <select id="taal">
-                    <option value="NL">Nederlands</option>
-                    <option value="EN">Engels</option>
-                    <option value="DE">Duits</option>
-                </select>
-            </label>
-            <label>Waarschuwingsperiode (dagen):
-                <input type="number" id="waarschuwing" value="7">
-            </label>
-            <label>Ontheffing PDF:
-                <input type="file" id="ontheffingPdf" accept="application/pdf">
-            </label>
-            <button onclick="toevoegenVergunning()">Vergunning toevoegen</button>
-        </div>
-        <div class="form-right">
-    <h2>Speciaal Transport Zwolle B.V. - MENU</h2>
-    <button onclick="inboekenVergunningen()">INBOEKEN VERGUNNINGEN</button>
-    <button onclick="ontheffingenRapport()">ONTHEFFINGEN RAPPORT</button>
-    <button onclick="begeleidingenRapport()">BEGELEIDINGEN RAPPORT</button>
-    <button onclick="voorbladOntheffing()">VOORBLAD ONTHEFFING</button>
-    <button onclick="aanvraagTransportbegeleiding()">AANVRAAG TRANSPORTBEGELEIDING</button>
-</div>
-    </section>
-
-    <section class="table-section">
-        <h2>Vergunningen</h2>
-        <table id="vergunningTable">
-            <thead>
-                <tr>
-                    <th>Klantnaam</th>
-                    <th>Vergunningsnummer</th>
-                    <th>Vervaldatum</th>
-                    <th>Status</th>
-                    <th>Aangeschreven</th>
-                    <th>Acties</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Dynamisch gevuld -->
-            </tbody>
-        </table>
-        <button onclick="exporteerCSV()">Exporteer als CSV</button>
+    <section class="form-right">
+        <h2>Speciaal Transport Zwolle B.V. - MENU</h2>
+        <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+        <button onclick="ontheffingenRapport()">ONTHEFFINGEN RAPPORT</button>
+        <button onclick="begeleidingenRapport()">BEGELEIDINGEN RAPPORT</button>
+        <button onclick="voorbladOntheffing()">VOORBLAD ONTHEFFING</button>
+        <button onclick="aanvraagTransportbegeleiding()">AANVRAAG TRANSPORTBEGELEIDING</button>
     </section>
 </main>
 
 <footer>
-    Ontwikkeld door René van Bavel - ©2025 Speciaal Transport Zwolle B.V.
+    Ontwikkeld door René van Bavel
 </footer>
 
-<script src="script.js"></script>
+<script>
+function ontheffingenRapport() {
+    alert('ONTHEFFINGEN RAPPORT: Deze functie wordt later toegevoegd.');
+}
+
+function begeleidingenRapport() {
+    alert('BEGELEIDINGEN RAPPORT: Deze functie wordt later toegevoegd.');
+}
+
+function voorbladOntheffing() {
+    alert('VOORBLAD ONTHEFFING: Deze functie wordt later toegevoegd.');
+}
+
+function aanvraagTransportbegeleiding() {
+    alert('AANVRAAG TRANSPORTBEGELEIDING: Deze functie wordt later toegevoegd.');
+}
+</script>
 
 </body>
 </html>
