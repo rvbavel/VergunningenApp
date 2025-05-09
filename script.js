@@ -2,20 +2,25 @@ let opgeslagenVergunningen = [];
 
 function opslaanVergunning() {
     const klantnaam = document.getElementById('klantnaam').value.trim();
+    const emailKlant = document.getElementById('email_klant').value.trim();
     const vergunningsnummer = document.getElementById('vergunningsnummer').value.trim();
     const vervaldatum = document.getElementById('vervaldatum').value;
-    const status = document.getElementById('status').value;
+    const waarschuwingsdrempel = document.getElementById('waarschuwingsdrempel').value.trim();
+    const pdfInput = document.getElementById('pdf_vergunning');
+    const pdfBestand = pdfInput.files.length > 0 ? pdfInput.files[0].name : 'Geen bestand geselecteerd';
 
-    if (!klantnaam || !vergunningsnummer || !vervaldatum) {
+    if (!klantnaam || !emailKlant || !vergunningsnummer || !vervaldatum || !waarschuwingsdrempel) {
         alert('Vul alle velden in voordat je opslaat.');
         return;
     }
 
     const vergunning = {
-        klantnaam: klantnaam,
-        vergunningsnummer: vergunningsnummer,
-        vervaldatum: vervaldatum,
-        status: status
+        klantnaam,
+        emailKlant,
+        vergunningsnummer,
+        vervaldatum,
+        waarschuwingsdrempel,
+        pdfBestand
     };
 
     opgeslagenVergunningen.push(vergunning);
@@ -29,30 +34,15 @@ function updateVergunningenTabel() {
     opgeslagenVergunningen.forEach((vergunning, index) => {
         const row = document.createElement('tr');
 
-        const klantCell = document.createElement('td');
-        klantCell.textContent = vergunning.klantnaam;
-        row.appendChild(klantCell);
-
-        const nummerCell = document.createElement('td');
-        nummerCell.textContent = vergunning.vergunningsnummer;
-        row.appendChild(nummerCell);
-
-        const datumCell = document.createElement('td');
-        datumCell.textContent = formatDatumNL(vergunning.vervaldatum);
-        row.appendChild(datumCell);
-
-        const statusCell = document.createElement('td');
-        statusCell.textContent = vergunning.status === 'groen' ? 'Niet verlopen' : 'Verlopen';
-        statusCell.style.color = vergunning.status === 'groen' ? 'green' : 'red';
-        row.appendChild(statusCell);
-
-        const actieCell = document.createElement('td');
-        const bewerkBtn = document.createElement('button');
-        bewerkBtn.textContent = 'BEWERK';
-        bewerkBtn.className = 'edit-btn';
-        bewerkBtn.onclick = () => bewerkVergunning(index);
-        actieCell.appendChild(bewerkBtn);
-        row.appendChild(actieCell);
+        row.innerHTML = `
+            <td>${vergunning.klantnaam}</td>
+            <td>${vergunning.emailKlant}</td>
+            <td>${vergunning.vergunningsnummer}</td>
+            <td>${formatDatumNL(vergunning.vervaldatum)}</td>
+            <td>${vergunning.waarschuwingsdrempel} dagen</td>
+            <td>${vergunning.pdfBestand}</td>
+            <td><button class="edit-btn" onclick="bewerkVergunning(${index})">BEWERK</button></td>
+        `;
 
         tableBody.appendChild(row);
     });
@@ -61,9 +51,10 @@ function updateVergunningenTabel() {
 function bewerkVergunning(index) {
     const vergunning = opgeslagenVergunningen[index];
     document.getElementById('klantnaam').value = vergunning.klantnaam;
+    document.getElementById('email_klant').value = vergunning.emailKlant;
     document.getElementById('vergunningsnummer').value = vergunning.vergunningsnummer;
     document.getElementById('vervaldatum').value = vergunning.vervaldatum;
-    document.getElementById('status').value = vergunning.status;
+    document.getElementById('waarschuwingsdrempel').value = vergunning.waarschuwingsdrempel;
 
     alert(`Vergunning ${vergunning.vergunningsnummer} geladen voor bewerking.`);
 }
