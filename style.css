@@ -85,29 +85,26 @@ p {
 
 .form-grid-five {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
     gap: 15px;
     margin-bottom: 20px;
 }
 
-.form-grid-single {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-    margin-bottom: 20px;
+.form-grid-five div {
+    display: flex;
+    flex-direction: column;
 }
 
 .form-grid label, .form-grid-three label, .form-grid-five label, .form-grid-single label {
-    display: flex;
-    flex-direction: column;
     font-weight: bold;
     font-size: 14px;
+    margin-bottom: 5px;
 }
 
 input, select, textarea {
     width: 100%;
-    padding: 8px;
-    margin-top: 4px;
+    padding: 6px;
+    margin-bottom: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
@@ -142,7 +139,7 @@ textarea {
 }
 
 /* Knoppen */
-.primary-btn, .secondary-btn {
+.primary-btn {
     background-color: #0b3d91;
     color: #fff;
     border: none;
@@ -153,7 +150,7 @@ textarea {
     font-size: 14px;
 }
 
-.primary-btn:hover, .secondary-btn:hover {
+.primary-btn:hover {
     background-color: #062a68;
     transform: scale(1.05);
 }
