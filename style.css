@@ -52,6 +52,11 @@ nav.top-menu button {
     transition: background-color 0.3s, transform 0.2s;
 }
 
+nav.top-menu button:first-child {
+    background-color: #1457c8; /* iets lichter blauw voor HOME */
+    font-weight: bold;
+}
+
 nav.top-menu button:hover {
     background-color: #062a68;
     transform: scale(1.05);
