@@ -27,21 +27,20 @@
         <label>Klantnaam:
             <input type="text" id="klantnaam">
         </label>
+        <label>E-mail klant:
+            <input type="email" id="email">
+        </label>
         <label>Vergunningsnummer:
             <input type="text" id="vergunningsnummer">
         </label>
         <label>Vervaldatum:
             <input type="date" id="vervaldatum">
         </label>
-        <label>Taal:
-            <select id="taal">
-                <option value="NL">Nederlands</option>
-                <option value="EN">Engels</option>
-                <option value="DE">Duits</option>
-            </select>
-        </label>
-        <label>Waarschuwingsdrempel:
+        <label>Waarschuwingsdrempel (dagen):
             <input type="number" id="waarschuwing" value="7">
+        </label>
+        <label>Vergunning toevoegen (PDF):
+            <input type="file" id="ontheffingPdf" accept="application/pdf">
         </label>
     </div>
     <button onclick="toevoegenVergunning()" class="primary-btn">Opslaan</button>
