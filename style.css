@@ -132,6 +132,7 @@ footer {
   font-size: 14px;
   margin-top: 40px;
 }
+
 .form-grid-seven {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
