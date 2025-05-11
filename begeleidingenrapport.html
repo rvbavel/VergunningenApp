@@ -1,129 +1,44 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-  <meta charset="UTF-8" />
-  <title>Speciaal Transport Zwolle B.V. - Begeleidingenrapport</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="print.css" media="print" />
-</head>
-<body>
-  <header>
-    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
-    <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - BEGELEIDINGENRAPPORT</h1>
-  </header>
-
-  <nav class="top-menu">
-    <button onclick="window.location.href='index.html'">🏠 HOME</button>
-    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-    <button onclick="window.location.href='voorblad.html'">VOORBLAD ONTHEFFING</button>
-    <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-  </nav>
-
-  <main class="card">
-    <h2>BEGELEIDINGEN RAPPORT</h2>
-
-    <div class="form-grid">
-      <label>Referentienummer:
-        <div class="split-input">
-          <span class="prefix">2025.</span>
-          <input type="text" id="referentienummer" maxlength="4" placeholder="4 cijfers" />
-        </div>
-      </label>
-      <label>Behandelaar:
-        <select id="behandelaar">
-          <option value="">--- Maak keuze ---</option>
-          <option value="René">René</option>
-          <option value="Anke">Anke</option>
-          <option value="Sia">Sia</option>
-          <option value="Martijn">Martijn</option>
-        </select>
-      </label>
-    </div>
-
-    <div class="form-grid-three">
-      <label>Opdrachtgever:
-        <input type="text" id="opdrachtgever" placeholder="Naam opdrachtgever" />
-      </label>
-      <label>Vervoerder:
-        <input type="text" id="vervoerder" placeholder="Naam vervoerder" />
-      </label>
-      <label>Referentie klant:
-        <input type="text" id="referentie_klant" placeholder="Referentie klant" />
-      </label>
-    </div>
-
-    <div class="form-grid-single">
-      <label>Omschrijving:
-        <textarea id="omschrijving" placeholder="Route: Kentekens: Chauffeur & Telefoonnummer"></textarea>
-      </label>
-    </div>
-
-    <div class="form-grid-single">
-      <label>Opmerkingen t.a.v. facturatie:
-        <textarea id="opmerkingen_facturatie" placeholder="Bijvoorbeeld factuurreferenties of betaalafspraken"></textarea>
-      </label>
-    </div>
-
-    <h3>Details per regel</h3>
-    <div class="form-grid-seven">
-      <div>
-        <label>Begeleidingsfirma:</label>
-        <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-        <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-      </div>
-      <div>
-        <label>Transportdatum:</label>
-        <input type="date" /><input type="date" /><input type="date" /><input type="date" />
-        <input type="date" /><input type="date" /><input type="date" /><input type="date" />
-      </div>
-      <div>
-        <label>Van:</label>
-        <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-        <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-      </div>
-      <div>
-        <label>Naar:</label>
-        <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-        <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-      </div>
-      <div>
-        <label>Aantal uren:</label>
-        <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-        <input type="text" /><input type="text" /><input type="text" /><input type="text" />
-      </div>
-      <div>
-        <label>Inkoopprijs (€):</label>
-        <input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" />
-        <input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" />
-      </div>
-      <div>
-        <label>Verkoopprijs (€):</label>
-        <input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" />
-        <input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" />
-      </div>
-    </div>
-
-    <div class="form-grid-three">
-      <label>Inkoopprijs totaal (€):
-        <input type="text" id="inkoop_totaal" readonly />
-      </label>
-      <label>Verkoopprijs totaal (€):
-        <input type="text" id="verkoop_totaal" readonly />
-      </label>
-      <label>Marge (€):
-        <input type="text" id="marge" readonly />
-      </label>
-    </div>
-
-    <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
-  </main>
-
-  <footer>
-    Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+<div class="form-grid-seven">
+  <div>
+    <label>Begeleidingsfirma:</label>
+    <input type="text" value="Bemiddeling STZ." />
+    <input type="text" /><input type="text" /><input type="text" />
+    <input type="text" /><input type="text" /><input type="text" /><input type="text" />
+  </div>
+  <div>
+    <label>Transportdatum:</label>
+    <input type="date" />
+    <input type="date" /><input type="date" /><input type="date" />
+    <input type="date" /><input type="date" /><input type="date" /><input type="date" />
+  </div>
+  <div>
+    <label>Van:</label>
+    <input type="text" />
+    <input type="text" /><input type="text" /><input type="text" />
+    <input type="text" /><input type="text" /><input type="text" /><input type="text" />
+  </div>
+  <div>
+    <label>Naar:</label>
+    <input type="text" />
+    <input type="text" /><input type="text" /><input type="text" />
+    <input type="text" /><input type="text" /><input type="text" /><input type="text" />
+  </div>
+  <div>
+    <label>Aantal uren:</label>
+    <input type="text" />
+    <input type="text" /><input type="text" /><input type="text" />
+    <input type="text" /><input type="text" /><input type="text" /><input type="text" />
+  </div>
+  <div>
+    <label>Inkoopprijs (€):</label>
+    <input type="number" step="0.01" value="0.00" />
+    <input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" />
+    <input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" />
+  </div>
+  <div>
+    <label>Verkoopprijs (€):</label>
+    <input type="number" step="0.01" value="75.00" />
+    <input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" />
+    <input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" /><input type="number" step="0.01" />
+  </div>
+</div>
