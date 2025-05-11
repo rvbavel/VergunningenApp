@@ -1,17 +1,17 @@
-/* Algemene instellingen */
+/* Universeel lettertype: Verdana overal */
+body, header, footer, input, select, textarea, button, h1, h2, h3, label {
+  font-family: Verdana, sans-serif;
+}
+
+/* Algemene stijl */
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background: #f4f7fa;
   color: #333;
 }
 
-/* Header en footer behouden eigen font */
-header, footer {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
+/* Header */
 header {
   background: #002b45;
   color: #fff;
@@ -24,6 +24,7 @@ header .logo {
   margin-bottom: 10px;
 }
 
+/* Footer */
 footer {
   background: #002b45;
   color: white;
@@ -33,7 +34,7 @@ footer {
   margin-top: 40px;
 }
 
-/* Navigatie bovenaan */
+/* Navigatiebalk */
 nav.top-menu {
   background-color: #004466;
   display: flex;
@@ -58,7 +59,7 @@ nav.top-menu button:hover {
   background-color: #005f7a;
 }
 
-/* Hoofdkaart-styling */
+/* Hoofdcontainer */
 main.card {
   background: white;
   max-width: 1200px;
@@ -105,7 +106,7 @@ h2, h3 {
   grid-template-columns: repeat(7, 1fr);
 }
 
-/* Kolommen binnen grids */
+/* Kolomvelden */
 .form-grid-five > div,
 .form-grid-seven > div {
   display: flex;
@@ -113,10 +114,8 @@ h2, h3 {
   gap: 8px;
 }
 
-/* Formulierelementen */
-input,
-select,
-textarea {
+/* Invoervelden */
+input, select, textarea {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -129,7 +128,7 @@ textarea {
   min-height: 80px;
 }
 
-/* Prefixed referentienummer */
+/* Split veld met prefix */
 .split-input {
   display: flex;
   align-items: center;
