@@ -157,3 +157,57 @@ textarea {
 .primary-btn:hover {
   background-color: #005f7a;
 }
+
+/* ✅ Responsive mobiele ondersteuning */
+@media (max-width: 768px) {
+  main.card {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  nav.top-menu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav.top-menu button {
+    width: 90%;
+    margin: 5px 0;
+    font-size: 16px;
+  }
+
+  .form-grid,
+  .form-grid-three,
+  .form-grid-five,
+  .form-grid-seven {
+    grid-template-columns: 1fr !important;
+  }
+
+  .form-grid label,
+  .form-grid-three label,
+  .form-grid-five label,
+  .form-grid-seven label {
+    font-size: 16px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  .primary-btn {
+    width: 100%;
+    font-size: 18px;
+    padding: 12px;
+  }
+
+  header .logo {
+    max-height: 60px;
+  }
+
+  h2, h3 {
+    font-size: 20px;
+    text-align: center;
+  }
+}
