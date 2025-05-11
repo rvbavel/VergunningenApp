@@ -20,7 +20,7 @@ header {
 }
 
 header .logo {
-  height: 80px;
+  height: auto;
   width: auto;
 }
 
