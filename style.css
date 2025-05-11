@@ -20,8 +20,10 @@ header {
 }
 
 header .logo {
+  max-height: 90px;
   height: auto;
-  width: 50px;
+  width: auto;
+  margin-bottom: 10px;
 }
 
 /* Footer */
