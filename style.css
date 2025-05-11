@@ -1,3 +1,80 @@
+/* Algemene instellingen */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f7fa;
+  color: #333;
+}
+
+/* Header en footer behouden eigen font */
+header, footer {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+  background: #002b45;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+header .logo {
+  max-height: 50px;
+  margin-bottom: 10px;
+}
+
+footer {
+  background: #002b45;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+  margin-top: 40px;
+}
+
+/* Navigatie bovenaan */
+nav.top-menu {
+  background-color: #004466;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+}
+
+nav.top-menu button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  background-color: #007199;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+nav.top-menu button:hover {
+  background-color: #005f7a;
+}
+
+/* Hoofdkaart-styling */
+main.card {
+  background: white;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titels */
+h2, h3 {
+  color: #004466;
+  margin-top: 20px;
+}
+
+/* Grid layouts */
 .form-grid,
 .form-grid-three,
 .form-grid-single,
@@ -28,15 +105,18 @@
   grid-template-columns: repeat(7, 1fr);
 }
 
-.form-grid-five div,
-.form-grid-seven div {
+/* Kolommen binnen grids */
+.form-grid-five > div,
+.form-grid-seven > div {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* Algemeen */
-input, select, textarea {
+/* Formulierelementen */
+input,
+select,
+textarea {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -49,55 +129,7 @@ textarea {
   min-height: 80px;
 }
 
-header {
-  background: #002b45;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
-
-header .logo {
-  max-height: 50px;
-  margin-bottom: 10px;
-}
-
-nav.top-menu {
-  background-color: #004466;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 10px;
-}
-
-nav.top-menu button {
-  margin: 5px;
-  padding: 10px 15px;
-  border: none;
-  background-color: #007199;
-  color: white;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-nav.top-menu button:hover {
-  background-color: #005f7a;
-}
-
-main.card {
-  background: white;
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-h2, h3 {
-  color: #004466;
-}
-
+/* Prefixed referentienummer */
 .split-input {
   display: flex;
   align-items: center;
@@ -108,6 +140,7 @@ h2, h3 {
   font-weight: bold;
 }
 
+/* Primaire knop */
 .primary-btn {
   background-color: #007199;
   color: white;
@@ -123,26 +156,3 @@ h2, h3 {
 .primary-btn:hover {
   background-color: #005f7a;
 }
-
-footer {
-  background: #002b45;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  font-size: 14px;
-  margin-top: 40px;
-}
-
-.form-grid-seven {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.form-grid-seven > div {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
