@@ -1,9 +1,14 @@
 // Functie om totaalbedragen te berekenen per pagina
 function updateTotals(section) {
-    // Selecteer alle inkoopprijsvelden (4e kolom) in .form-grid-five
-    const inkoopInputs = section.querySelectorAll('.form-grid-five > div:nth-child(4) input[type="number"]');
-    // Selecteer alle verkoopprijsvelden (5e kolom) in .form-grid-five
-    const verkoopInputs = section.querySelectorAll('.form-grid-five > div:nth-child(5) input[type="number"]');
+    // Selecteer alle inkoopprijsvelden uit zowel 5- als 7-kolomsblokken
+    const inkoopInputs = section.querySelectorAll(
+        '.form-grid-five > div:nth-child(4) input[type="number"], .form-grid-seven > div:nth-child(6) input[type="number"]'
+    );
+
+    // Selecteer alle verkoopprijsvelden uit zowel 5- als 7-kolomsblokken
+    const verkoopInputs = section.querySelectorAll(
+        '.form-grid-five > div:nth-child(5) input[type="number"], .form-grid-seven > div:nth-child(7) input[type="number"]'
+    );
 
     let inkoopTotaal = 0;
     let verkoopTotaal = 0;
@@ -44,7 +49,7 @@ document.addEventListener('input', function (e) {
     }
 });
 
-// Navigatieknoppen (zoals in alle menu's gebruikt)
+// Navigatieknoppen
 function begeleidingenRapport() {
     window.location.href = 'begeleidingenrapport.html';
 }
