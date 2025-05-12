@@ -69,5 +69,120 @@
       apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
       authDomain: "vergunningenapp-8455e.firebaseapp.com",
       projectId: "vergunningenapp-8455e",
-      storageBucket: "vergunningenapp-8455e.fire
+      storageBucket: "vergunningenapp-8455e.firebasestorage.app",
+      messagingSenderId: "882694266288",
+      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+    };
 
+    // ✅ Initialisatie
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    const tbody = document.getElementById("vergunningen-tbody");
+
+    // ✅ Check of de gebruiker is ingelogd
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        laadVergunningen(user.uid);
+      } else {
+        alert("Je bent niet ingelogd.");
+        window.location.href = "index.html";
+      }
+    });
+
+    // ✅ Vergunning toevoegen
+    document.getElementById("vergunningForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+
+      const vergunning = {
+        naam: form.naam.value,
+        nummer: form.nummer.value,
+        vervaldatum: form.vervaldatum.value,
+        email: form.email.value,
+        uid: auth.currentUser.uid
+      };
+
+      try {
+        await addDoc(collection(db, "vergunningen"), vergunning);
+        form.reset();
+        alert("Vergunning succesvol toegevoegd!");
+      } catch (error) {
+        alert("Fout bij toevoegen: " + error.message);
+      }
+    });
+
+    // ✅ Vergunningen laden
+    function laadVergunningen(userId) {
+      const q = query(collection(db, "vergunningen"), where("uid", "==", userId));
+      onSnapshot(q, snapshot => {
+        tbody.innerHTML = "";
+        snapshot.forEach(doc => {
+          const v = doc.data();
+          voegRijToe(v.naam, v.nummer, v.vervaldatum, v.email, doc.id);
+        });
+      });
+    }
+
+    // ✅ Rij toevoegen aan de tabel
+    function voegRijToe(naam, nummer, vervaldatum, email, id) {
+      const nieuweRij = tbody.insertRow();
+      nieuweRij.innerHTML = `
+        <td>${naam}</td>
+        <td>${nummer}</td>
+        <td>${vervaldatum}</td>
+        <td>${email}</td>
+        <td><button class="verwijder-knop" onclick="verwijderVergunning('${id}')">Verwijder</button></td>
+      `;
+    }
+
+    // ✅ Vergunning verwijderen
+    window.verwijderVergunning = async function(id) {
+      if (confirm("Weet je zeker dat je deze vergunning wilt verwijderen?")) {
+        try {
+          await deleteDoc(doc(db, "vergunningen", id));
+          alert("Vergunning succesvol verwijderd!");
+        } catch (error) {
+          alert("Fout bij verwijderen: " + error.message);
+        }
+      }
+    };
+
+    // ✅ Uitloggen
+    document.getElementById("logout").addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <h1>Transportvergunningen Dashboard</h1>
+
+  <button id="logout">Uitloggen</button>
+
+  <form id="vergunningForm">
+    <input type="text" name="naam" placeholder="Naam transporteur" required>
+    <input type="text" name="nummer" placeholder="Vergunningnummer" required>
+    <input type="date" name="vervaldatum" required>
+    <input type="email" name="email" placeholder="E-mailadres klant" required>
+    <button type="submit">Vergunning toevoegen</button>
+  </form>
+
+  <h2>Overzicht Vergunningen</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Naam</th>
+        <th>Vergunningnummer</th>
+        <th>Vervaldatum</th>
+        <th>E-mail</th>
+        <th>Acties</th>
+      </tr>
+    </thead>
+    <tbody id="vergunningen-tbody"></tbody>
+  </table>
+</body>
+</html>
