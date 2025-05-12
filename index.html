@@ -1,49 +1,57 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <title>Speciaal Transport Zwolle B.V. - MENU</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Speciaal Transport Zwolle B.V. - MENU</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header>
+    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
+    <h1>Speciaal Transport Zwolle B.V. - MENU</h1>
+  </header>
 
-<header>
-    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-    <h1>SPECIAAL TRANSPORT ZWOLLE B.V.</h1>
-</header>
+  <nav class="top-menu">
+    <button onclick="window.location.href='index.html'">🏠 HOME</button>
+    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+    <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+  </nav>
 
-<nav class="top-menu">
-  <button onclick="window.location.href='index.html'">🏠 HOME</button>
-  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-  <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-</nav>
+  <main class="card">
+    <h2>Welkom bij het systeem voor Speciaal Transport Zwolle B.V.</h2>
+    <p>Gebruik het menu hierboven om vergunningen in te boeken, rapporten aan te maken of transportbegeleiding aan te vragen.</p>
+  </main>
 
-
-<main class="card">
-    <h2>VERGUNNINGEN MANAGEMENT SYSTEEM</h2>
-    <p>
-        Welkom bij het Vergunningen Management Systeem van Speciaal Transport Zwolle B.V.
-        Via deze applicatie beheert u eenvoudig uw vergunningen en transportbegeleidingen.
-        Gebruik het menu bovenaan om snel te navigeren naar de gewenste modules, zoals het inboeken van nieuwe vergunningen, 
-        bekijken van rapportages of aanvragen van transportbegeleiding.
-    </p>
-    <p>
-        Heeft u vragen of ondersteuning nodig? Neem gerust contact op met ons team.
-    </p>
-</main>
-
-<footer>
+  <footer>
     Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
-</footer>
+  </footer>
 
-<script>
-function begeleidingenRapport() { alert('BEGELEIDINGEN RAPPORT: Deze functie wordt later toegevoegd.'); }
-function voorbladOntheffing() { alert('VOORBLAD ONTHEFFING: Deze functie wordt later toegevoegd.'); }
-function aanvraagTransportbegeleiding() { alert('AANVRAAG TRANSPORTBEGELEIDING: Deze functie wordt later toegevoegd.'); }
-</script>
+  <!-- ✅ Firebase Config & SDK (ES Modules) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+    import { getStorage } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-storage.js";
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+      authDomain: "vergunningenapp-8455e.firebaseapp.com",
+      projectId: "vergunningenapp-8455e",
+      storageBucket: "vergunningenapp-8455e.appspot.com", // correct domein
+      messagingSenderId: "882694266288",
+      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    window.db = db;
+    window.storage = storage;
+  </script>
+
+  <!-- Jouw scripts -->
+  <script src="script.js"></script>
 </body>
 </html>
-
