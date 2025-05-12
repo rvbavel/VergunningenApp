@@ -4,6 +4,40 @@
   <meta charset="UTF-8" />
   <title>VMS Dashboard | Speciaal Transport Zwolle B.V.</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    main.card {
+      position: relative;
+    }
+
+    #logoutBtn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background-color: #007199;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #logoutBtn:hover {
+      background-color: #005f7a;
+    }
+
+    nav.top-menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+      background-color: #004466;
+    }
+
+    nav.top-menu button {
+      margin: 5px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -17,12 +51,12 @@
     <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
     <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
     <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-    <button id="logoutBtn" style="margin-left:auto;">Uitloggen</button>
   </nav>
 
   <main class="card">
     <h2 id="welcomeText">Welkom bij het Vergunningen Management Systeem</h2>
-    <p>Kies boven een optie uit het menu om verder te gaan.</p>
+    <p>Kies een optie uit het menu om verder te gaan.</p>
+    <button id="logoutBtn">Uitloggen</button>
   </main>
 
   <footer>
@@ -61,9 +95,9 @@
 
       if (userSnap.exists()) {
         const voornaam = userSnap.data().voornaam || "gebruiker";
-        welcomeText.textContent = `Welkom ${voornaam} in het Vergunningen Management Systeem van Speciaal Transport Zwolle B.V.`;
+        welcomeText.textContent = `Welkom ${voornaam} bij het Vergunningen Management Systeem van Speciaal Transport Zwolle B.V.`;
       } else {
-        welcomeText.textContent = "Welkom in het systeem";
+        welcomeText.textContent = "Welkom bij het Vergunningen Management Systeem";
       }
     });
 
@@ -75,4 +109,3 @@
   </script>
 </body>
 </html>
-
