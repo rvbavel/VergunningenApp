@@ -8,7 +8,7 @@
         // ✅ Firebase configuratie
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
         import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, query, where, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
@@ -23,32 +23,34 @@
         const auth = getAuth();
         const db = getFirestore();
 
-        // ✅ Realtime vergunningen ophalen
+        // ✅ Realtime vergunningen ophalen die gaan vervallen
         const tbody = document.getElementById('vergunningen-tbody');
 
-        function laadVergunningen() {
+        function laadVervallendeVergunningen() {
+            const vandaag = new Date();
+            vandaag.setHours(0, 0, 0, 0);
+
             const q = query(collection(db, 'vergunningen'), where('uid', '==', auth.currentUser.uid));
             onSnapshot(q, snapshot => {
                 tbody.innerHTML = '';
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    const row = `<tr>
-                        <td>${data.naam}</td>
-                        <td>${data.nummer}</td>
-                        <td>${data.vervaldatum}</td>
-                        <td>${data.email}</td>
-                        <td><button onclick="verwijderVergunning('${doc.id}')" class="verwijder-knop">Verwijder</button></td>
-                    </tr>`;
-                    tbody.insertAdjacentHTML('beforeend', row);
+                    const vervaldatum = new Date(data.vervaldatum);
+                    vervaldatum.setHours(0, 0, 0, 0);
+
+                    // ✅ Check of de datum binnen 30 dagen verloopt
+                    const verschil = Math.ceil((vervaldatum - vandaag) / (1000 * 60 * 60 * 24));
+                    if (verschil <= 30 && verschil >= 0) {
+                        const row = `<tr>
+                            <td>${data.naam}</td>
+                            <td>${data.nummer}</td>
+                            <td>${data.vervaldatum}</td>
+                            <td>${data.email}</td>
+                        </tr>`;
+                        tbody.insertAdjacentHTML('beforeend', row);
+                    }
                 });
             });
-        }
-
-        // ✅ Vergunning verwijderen
-        window.verwijderVergunning = async function (id) {
-            if (confirm("Weet je zeker dat je deze vergunning wilt verwijderen?")) {
-                await deleteDoc(doc(db, 'vergunningen', id));
-            }
         }
 
         // ✅ Uitloggen
@@ -59,24 +61,25 @@
         });
 
         // ✅ Laad data bij pagina-open
-        window.onload = laadVergunningen;
+        window.onload = laadVervallendeVergunningen;
     </script>
 </head>
 <body>
     <header>
         <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-        <h1>VMS Dashboard</h1>
+        <h1>VMS Dashboard - Vervallende Vergunningen</h1>
     </header>
 
     <nav class="top-menu">
-        <button onclick="window.location.href='vergunningen.html'">Inboeken Vergunningen</button>
-        <button onclick="window.location.href='ontheffingenrapport.html'">Ontheffingen Rapport</button>
-        <button onclick="window.location.href='begeleidingenrapport.html'">Begeleidingen Rapport</button>
-        <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">Transportbegeleiding Aanvragen</button>
+        <button onclick="window.location.href='vergunningen.html'">Inboeken Vergunning</button>
     </nav>
 
     <main class="card">
-        <h2>Overzicht Vergunningen</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Vergunningen die binnenkort verlopen</h2>
+            <button id="logout" class="primary-btn">Uitloggen</button>
+        </div>
+
         <table>
             <thead>
                 <tr>
@@ -84,7 +87,6 @@
                     <th>Vergunningnummer</th>
                     <th>Vervaldatum</th>
                     <th>E-mail</th>
-                    <th>Acties</th>
                 </tr>
             </thead>
             <tbody id="vergunningen-tbody"></tbody>
@@ -93,7 +95,6 @@
 
     <footer>
         Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
-        <button id="logout" class="primary-btn">Uitloggen</button>
     </footer>
 </body>
 </html>
