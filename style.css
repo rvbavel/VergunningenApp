@@ -77,46 +77,7 @@ h2, h3 {
   margin-top: 20px;
 }
 
-/* Grid layouts */
-.form-grid,
-.form-grid-three,
-.form-grid-single,
-.form-grid-five,
-.form-grid-seven {
-  display: grid;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.form-grid {
-  grid-template-columns: 1fr 1fr;
-}
-
-.form-grid-three {
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.form-grid-single {
-  grid-template-columns: 1fr;
-}
-
-.form-grid-five {
-  grid-template-columns: repeat(5, 1fr);
-}
-
-.form-grid-seven {
-  grid-template-columns: repeat(7, 1fr);
-}
-
-/* Kolomvelden */
-.form-grid-five > div,
-.form-grid-seven > div {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* Invoervelden */
+/* Formulierelementen */
 input, select, textarea {
   padding: 8px;
   border: 1px solid #ccc;
@@ -128,17 +89,6 @@ input, select, textarea {
 textarea {
   resize: vertical;
   min-height: 80px;
-}
-
-/* Split veld met prefix */
-.split-input {
-  display: flex;
-  align-items: center;
-}
-
-.split-input .prefix {
-  margin-right: 6px;
-  font-weight: bold;
 }
 
 /* Primaire knop */
@@ -173,20 +123,6 @@ textarea {
   nav.top-menu button {
     width: 90%;
     margin: 5px 0;
-    font-size: 16px;
-  }
-
-  .form-grid,
-  .form-grid-three,
-  .form-grid-five,
-  .form-grid-seven {
-    grid-template-columns: 1fr !important;
-  }
-
-  .form-grid label,
-  .form-grid-three label,
-  .form-grid-five label,
-  .form-grid-seven label {
     font-size: 16px;
   }
 
