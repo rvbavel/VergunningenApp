@@ -3,113 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <title>Inloggen - Transportvergunningen</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f4f4f4;
-      margin: 0;
-    }
-    .login-container {
-      background-color: #fff;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      width: 300px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #004080;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #003366;
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-  </style>
-  <script type="module">
-    // ✅ Firebase configuratie en initialisatie
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
-      authDomain: "vergunningenapp-8455e.firebaseapp.com",
-      projectId: "vergunningenapp-8455e",
-      storageBucket: "vergunningenapp-8455e.firebasestorage.app",
-      messagingSenderId: "882694266288",
-      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
-    };
-
-    // ✅ Initialisatie
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-
-    // ✅ Inloggen
-    document.getElementById("loginForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("Inloggen succesvol!");
-          window.location.href = "dashboard.html"; // Verwijzing naar je dashboard
-        })
-        .catch((error) => {
-          alert("Fout bij inloggen: " + error.message);
-        });
-    });
-
-    // ✅ Registreren (optioneel)
-    document.getElementById("registerForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("registerEmail").value;
-      const password = document.getElementById("registerPassword").value;
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert("Account succesvol aangemaakt!");
-        })
-        .catch((error) => {
-          alert("Fout bij registreren: " + error.message);
-        });
-    });
-  </script>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="login-container">
-    <h2>Inloggen</h2>
-    <form id="loginForm">
-      <input type="email" id="email" placeholder="E-mail" required>
-      <input type="password" id="password" placeholder="Wachtwoord" required>
-      <button type="submit">Inloggen</button>
-    </form>
 
-    <h2>Registreren (optioneel)</h2>
+<header>
+  <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
+  <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - INLOGPAGINA</h1>
+</header>
+
+<nav class="top-menu">
+  <button onclick="window.location.href='index.html'">🏠 HOME</button>
+  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+  <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+</nav>
+
+<main class="card">
+  <h2>Inloggen</h2>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="E-mail" required>
+    <input type="password" id="password" placeholder="Wachtwoord" required>
+    <button type="submit" class="primary-btn">Inloggen</button>
+  </form>
+
+  <section id="registratieSectie">
+    <h2>Registreren</h2>
     <form id="registerForm">
+      <input type="text" id="voornaam" placeholder="Voornaam" required>
       <input type="email" id="registerEmail" placeholder="E-mail" required>
       <input type="password" id="registerPassword" placeholder="Wachtwoord" required>
-      <button type="submit">Account aanmaken</button>
+      <button type="submit" class="primary-btn">Account aanmaken</button>
     </form>
-  </div>
+  </section>
+</main>
+
+<footer>
+  Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+    authDomain: "vergunningenapp-8455e.firebaseapp.com",
+    projectId: "vergunningenapp-8455e",
+    storageBucket: "vergunningenapp-8455e.firebasestorage.app",
+    messagingSenderId: "882694266288",
+    appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
+
+  const registratieSectie = document.getElementById("registratieSectie");
+
+  // ✅ Verberg registratieformulier als gebruiker al ingelogd is
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      registratieSectie.style.display = "none";
+    } else {
+      registratieSectie.style.display = "block";
+    }
+  });
+
+  // Inloggen
+  document.getElementById("loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        alert("Inloggen succesvol!");
+        window.location.href = "dashboard.html";
+      })
+      .catch((error) => {
+        alert("Fout bij inloggen: " + error.message);
+      });
+  });
+
+  // Registreren
+  document.getElementById("registerForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const voornaam = document.getElementById("voornaam").value;
+    const email = document.getElementById("registerEmail").value;
+    const password = document.getElementById("registerPassword").value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        return updateProfile(userCredential.user, {
+          displayName: voornaam
+        });
+      })
+      .then(() => {
+        alert("Account succesvol aangemaakt!");
+      })
+      .catch((error) => {
+        alert("Fout bij registreren: " + error.message);
+      });
+  });
+</script>
+
 </body>
 </html>
