@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <title>VMS Dashboard | Speciaal Transport Zwolle B.V.</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
+    <h1>Vergunningen Management Systeem</h1>
+  </header>
+
+  <nav class="top-menu">
+    <button onclick="window.location.href='index.html'">🏠 HOME</button>
+    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+    <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+    <button id="logoutBtn" style="margin-left:auto;">Uitloggen</button>
+  </nav>
+
+  <main class="card">
+    <h2 id="welcomeText">Welkom bij het systeem</h2>
+    <p>Kies een optie uit het menu om verder te gaan.</p>
+  </main>
+
+  <footer>
+    Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
+  </footer>
+
+  <!-- Firebase: authenticatie + voornaam ophalen -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+      authDomain: "vergunningenapp-8455e.firebaseapp.com",
+      projectId: "vergunningenapp-8455e",
+      storageBucket: "vergunningenapp-8455e.appspot.com",
+      messagingSenderId: "882694266288",
+      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const welcomeText = document.getElementById("welcomeText");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const voornaam = userSnap.data().voornaam || "gebruiker";
+        welcomeText.textContent = `Welkom ${voornaam} in het Vergunningen Management Systeem van Speciaal Transport Zwolle B.V.`;
+      } else {
+        welcomeText.textContent = "Welkom in het systeem";
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+</body>
+</html>
 
