@@ -1,83 +1,102 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <title>Speciaal Transport Zwolle B.V. - Vergunningen</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Inboeken Vergunningen</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    .form-row label {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .form-row input[type="text"],
+    .form-row input[type="email"],
+    .form-row input[type="date"],
+    .form-row input[type="number"],
+    .form-row input[type="file"] {
+      margin-top: 5px;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
+    <h1>Inboeken Vergunningen</h1>
+  </header>
 
-<header>
-    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-    <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - VERGUNNINGEN</h1>
-</header>
+  <nav class="top-menu">
+    <button onclick="window.location.href='index.html'">🏠 HOME</button>
+    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+    <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+  </nav>
 
-<nav class="top-menu">
-  <button onclick="window.location.href='index.html'">🏠 HOME</button>
-  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-  <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-</nav>
+  <main class="card">
+    <h2>Nieuwe Vergunning Invoeren</h2>
 
-
-<main class="card">
-    <h2>INBOEKEN ONTHEFFING</h2>
-
-    <div class="form-grid">
-        <label>Klantnaam:
-            <input type="text" id="klantnaam" placeholder="Naam van de klant">
+    <form id="vergunningForm">
+      <div class="form-row">
+        <label>
+          Klantnaam:
+          <input type="text" id="klantnaam" required />
         </label>
-        <label>E-mail klant:
-            <input type="email" id="email_klant" placeholder="email@voorbeeld.nl">
+        <label>
+          E-mail klant:
+          <input type="email" id="emailklant" required />
         </label>
-    </div>
+      </div>
 
-    <div class="form-grid">
-        <label>Vergunningsnummer:
-            <input type="text" id="vergunningsnummer" placeholder="Bijvoorbeeld: V-12345">
+      <div class="form-row">
+        <label>
+          Vergunningsnummer:
+          <input type="text" id="vergunningnr" required />
         </label>
-        <label>Vervaldatum:
-            <input type="date" id="vervaldatum">
+        <label>
+          Vervaldatum:
+          <input type="date" id="vervaldatum" required />
         </label>
-    </div>
+      </div>
 
-    <div class="form-grid">
-        <label>Waarschuwingsdrempel (dagen voor verval):
-            <input type="number" id="waarschuwingsdrempel" placeholder="Bijvoorbeeld: 7">
+      <div class="form-row">
+        <label>
+          Waarschuwingsdrempel (dagen):
+          <input type="number" id="drempel" required />
         </label>
-        <label>Vergunning (PDF) toevoegen:
-            <input type="file" id="pdf_vergunning" accept="application/pdf">
+        <label>
+          Vergunning (PDF):
+          <input type="file" id="pdfUpload" accept=".pdf" />
         </label>
-    </div>
+      </div>
 
-    <button onclick="opslaanVergunning()" class="primary-btn">OPSLAAN VERGUNNING</button>
+      <button type="submit" class="primary-btn">Opslaan</button>
+    </form>
+  </main>
 
-    <section class="saved-permits">
-        <h3>Opgeslagen Vergunningen</h3>
-        <table id="vergunningenTable">
-            <thead>
-                <tr>
-                    <th>Klantnaam</th>
-                    <th>E-mail</th>
-                    <th>Vergunningsnummer</th>
-                    <th>Vervaldatum</th>
-                    <th>Waarschuwingsdrempel</th>
-                    <th>PDF Bestand</th>
-                    <th>Actie</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Hier komen de opgeslagen regels -->
-            </tbody>
-        </table>
-    </section>
-</main>
-
-<footer>
+  <footer>
     Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
-</footer>
+  </footer>
 
-<script src="script.js"></script>
+  <script>
+    // Je kunt hier later de submit-functionaliteit koppelen aan Firebase
+    document.getElementById("vergunningForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Vergunning opgeslagen (functionaliteit volgt)!");
+    });
+  </script>
 </body>
 </html>
