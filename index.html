@@ -2,35 +2,26 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <title>Speciaal Transport Zwolle B.V. - MENU</title>
+  <title>Login | Vergunningen Management Systeem</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
-    <h1>Speciaal Transport Zwolle B.V. - MENU</h1>
+    <h1>Login | Vergunningen Management Systeem</h1>
   </header>
 
-  <nav class="top-menu">
-    <button onclick="window.location.href='index.html'">🏠 HOME</button>
-    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-    <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-  </nav>
-
   <main class="card">
-    <h2>Welkom bij het systeem voor Speciaal Transport Zwolle B.V.</h2>
-    <p id="auth-status">U bent nog niet ingelogd.</p>
+    <h2>Inloggen of registreren</h2>
+    <p id="auth-status">Voer je gegevens in om toegang te krijgen.</p>
 
     <div id="auth-forms">
-      <h3>Inloggen of registreren</h3>
-      <input type="email" id="email" placeholder="E-mailadres" />
-      <input type="password" id="password" placeholder="Wachtwoord" />
+      <input type="text" id="voornaam" placeholder="Voornaam (alleen bij registratie)" />
+      <input type="email" id="email" placeholder="E-mailadres" required />
+      <input type="password" id="password" placeholder="Wachtwoord" required />
       <div style="margin-top: 10px;">
         <button id="loginBtn">Inloggen</button>
         <button id="registerBtn">Registreren</button>
-        <button id="logoutBtn" style="display:none;">Uitloggen</button>
       </div>
     </div>
   </main>
@@ -39,12 +30,11 @@
     Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
   </footer>
 
-  <!-- Firebase SDK + Authentication -->
+  <!-- Firebase login met voornaam opslaan -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
-    import { getStorage } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-storage.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
@@ -57,49 +47,49 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    const emailField = document.getElementById('email');
-    const passwordField = document.getElementById('password');
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const authStatus = document.getElementById('auth-status');
+    const emailField = document.getElementById("email");
+    const passwordField = document.getElementById("password");
+    const voornaamField = document.getElementById("voornaam");
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
 
-    loginBtn.addEventListener('click', () => {
+    // Login
+    loginBtn.addEventListener("click", () => {
       signInWithEmailAndPassword(auth, emailField.value, passwordField.value)
-        .then(userCredential => {
-          console.log("Ingelogd als:", userCredential.user.email);
+        .then(() => {
+          window.location.href = "vms.html";
         })
-        .catch(error => {
-          alert("Inloggen mislukt: " + error.message);
+        .catch(err => alert("Fout bij inloggen: " + err.message));
+    });
+
+    // Register
+    registerBtn.addEventListener("click", async () => {
+      const voornaam = voornaamField.value.trim();
+      if (!voornaam) {
+        alert("Voornaam is verplicht bij registratie.");
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, emailField.value, passwordField.value);
+        const user = userCredential.user;
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          voornaam: voornaam,
+          role: "medewerker" // standaardrol
         });
+        window.location.href = "vms.html";
+      } catch (err) {
+        alert("Fout bij registratie: " + err.message);
+      }
     });
 
-    registerBtn.addEventListener('click', () => {
-      createUserWithEmailAndPassword(auth, emailField.value, passwordField.value)
-        .then(userCredential => {
-          console.log("Geregistreerd als:", userCredential.user.email);
-        })
-        .catch(error => {
-          alert("Registreren mislukt: " + error.message);
-        });
-    });
-
-    logoutBtn.addEventListener('click', () => {
-      signOut(auth);
-    });
-
-    onAuthStateChanged(auth, user => {
+    // Automatisch door naar vms.html als al ingelogd
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        authStatus.textContent = `U bent ingelogd als: ${user.email}`;
-        logoutBtn.style.display = 'inline-block';
-        loginBtn.style.display = 'none';
-        registerBtn.style.display = 'none';
-      } else {
-        authStatus.textContent = "U bent nog niet ingelogd.";
-        logoutBtn.style.display = 'none';
-        loginBtn.style.display = 'inline-block';
-        registerBtn.style.display = 'inline-block';
+        window.location.href = "vms.html";
       }
     });
   </script>
