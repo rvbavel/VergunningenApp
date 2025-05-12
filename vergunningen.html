@@ -133,49 +133,61 @@
     Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
   </footer>
 
-  <script>
-    const form = document.getElementById("vergunningForm");
-    const lijst = document.getElementById("vergunningenLijst");
+<script>
+  const form = document.getElementById("vergunningForm");
+  const lijst = document.getElementById("vergunningenLijst");
 
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
 
-      const klant = document.getElementById("klantnaam").value;
-      const email = document.getElementById("emailklant").value;
-      const verval = document.getElementById("vervaldatum").value;
-      const drempel = parseInt(document.getElementById("drempel").value);
+    const klant = document.getElementById("klantnaam").value;
+    const email = document.getElementById("emailklant").value;
+    const verval = document.getElementById("vervaldatum").value;
+    const drempel = parseInt(document.getElementById("drempel").value);
 
-      const vervalDatum = new Date(verval);
-      const vandaag = new Date();
-      const verschil = Math.ceil((vervalDatum - vandaag) / (1000 * 60 * 60 * 24));
+    const vervalDatum = new Date(verval);
+    const vandaag = new Date();
+    const verschil = Math.ceil((vervalDatum - vandaag) / (1000 * 60 * 60 * 24));
 
-      let status = "geldig";
-      let kleur = "green";
-      if (verschil <= 0) {
-        status = "vervallen";
-        kleur = "red";
-      } else if (verschil <= drempel) {
-        status = "gaat vervallen";
-        kleur = "orange";
-      }
+    let status = "geldig";
+    let kleur = "green";
+    if (verschil <= 0) {
+      status = "vervallen";
+      kleur = "red";
+    } else if (verschil <= drempel) {
+      status = "gaat vervallen";
+      kleur = "orange";
+    }
 
-      const rij = document.createElement("div");
-      rij.classList.add("result-row");
+    const rij = document.createElement("div");
+    rij.classList.add("result-row");
 
-      rij.innerHTML = `
-        <div class="result-col">${klant}</div>
-        <div class="result-col">${vervalDatum.toLocaleDateString("nl-NL")}</div>
-        <div class="result-col"><span class="status ${kleur}">${status}</span></div>
-        <div class="result-col actions">
-          <button class="email-btn">Email klant</button>
-          <button class="edit-btn">Bewerk</button>
-          <button class="delete-btn">Verwijder</button>
-        </div>
-      `;
+    const datumNL = vervalDatum.toLocaleDateString("nl-NL");
 
-      lijst.appendChild(rij);
-      form.reset();
+    rij.innerHTML = `
+      <div class="result-col">${klant}</div>
+      <div class="result-col">${datumNL}</div>
+      <div class="result-col"><span class="status ${kleur}">${status}</span></div>
+      <div class="result-col actions">
+        <button class="email-btn">Email klant</button>
+        <button class="edit-btn">Bewerk</button>
+        <button class="delete-btn">Verwijder</button>
+      </div>
+    `;
+
+    // Voeg toe aan de lijst
+    lijst.appendChild(rij);
+
+    // Voeg e-mailfunctionaliteit toe
+    rij.querySelector(".email-btn").addEventListener("click", () => {
+      const onderwerp = `Betreft: Uw vergunning`;
+      const tekst = `Geachte ${klant},%0D%0A%0D%0AWij willen u informeren dat uw vergunning geldig is tot ${datumNL}.%0D%0AGraag houden wij u hiervan op de hoogte.%0D%0A%0D%0AMet vriendelijke groet,%0D%0ASpeciaal Transport Zwolle B.V.`;
+      const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(onderwerp)}&body=${tekst}`;
+      window.location.href = mailtoLink;
     });
-  </script>
+
+    form.reset();
+  });
+</script>
 </body>
 </html>
