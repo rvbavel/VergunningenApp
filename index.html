@@ -1,102 +1,49 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <title>Login | Vergunningen Management Systeem (Debug)</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Speciaal Transport Zwolle B.V. - MENU</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
+
+<header>
     <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-    <h1>Login | Vergunningen Management Systeem (Debug Mode)</h1>
-  </header>
+    <h1>SPECIAAL TRANSPORT ZWOLLE B.V.</h1>
+</header>
 
-  <main class="card">
-    <h2>Inloggen of registreren</h2>
-    <p id="auth-status">Voer je gegevens in om toegang te krijgen.</p>
+<nav class="top-menu">
+  <button onclick="window.location.href='index.html'">🏠 HOME</button>
+  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+  <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+</nav>
 
-    <div id="auth-forms">
-      <input type="text" id="voornaam" placeholder="Voornaam (alleen bij registratie)">
-      <input type="email" id="email" placeholder="E-mailadres" required>
-      <input type="password" id="password" placeholder="Wachtwoord" required>
-      <div style="margin-top: 10px;">
-        <button id="loginBtn">Inloggen</button>
-        <button id="registerBtn">Registreren</button>
-      </div>
-    </div>
 
-    <div id="debug-console" style="margin-top: 20px; background-color: #f9f9f9; border: 1px solid #ccc; padding: 10px;">
-      <h3>Debug Console</h3>
-      <pre id="debug-output">Geen foutmeldingen gevonden.</pre>
-    </div>
-  </main>
+<main class="card">
+    <h2>VERGUNNINGEN MANAGEMENT SYSTEEM</h2>
+    <p>
+        Welkom bij het Vergunningen Management Systeem van Speciaal Transport Zwolle B.V.
+        Via deze applicatie beheert u eenvoudig uw vergunningen en transportbegeleidingen.
+        Gebruik het menu bovenaan om snel te navigeren naar de gewenste modules, zoals het inboeken van nieuwe vergunningen, 
+        bekijken van rapportages of aanvragen van transportbegeleiding.
+    </p>
+    <p>
+        Heeft u vragen of ondersteuning nodig? Neem gerust contact op met ons team.
+    </p>
+</main>
 
-  <footer>
+<footer>
     Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
-  </footer>
+</footer>
 
-  <!-- Firebase login met debug -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+<script>
+function begeleidingenRapport() { alert('BEGELEIDINGEN RAPPORT: Deze functie wordt later toegevoegd.'); }
+function voorbladOntheffing() { alert('VOORBLAD ONTHEFFING: Deze functie wordt later toegevoegd.'); }
+function aanvraagTransportbegeleiding() { alert('AANVRAAG TRANSPORTBEGELEIDING: Deze functie wordt later toegevoegd.'); }
+</script>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
-      authDomain: "vergunningenapp-8455e.firebaseapp.com",
-      projectId: "vergunningenapp-8455e",
-      storageBucket: "vergunningenapp-8455e.appspot.com",
-      messagingSenderId: "882694266288",
-      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // ✅ Debug Output
-    const debugConsole = document.getElementById("debug-output");
-
-    function logDebug(message) {
-      console.log(message);
-      debugConsole.textContent = message;
-    }
-
-    // ✅ Login
-    document.getElementById("loginBtn").addEventListener("click", () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      logDebug(`Probeer in te loggen met: ${email}`);
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          logDebug("✅ Inloggen succesvol: " + JSON.stringify(userCredential.user));
-          window.location.href = "vms.html";
-        })
-        .catch((error) => {
-          logDebug(`❌ Fout bij inloggen: ${error.message}`);
-        });
-    });
-
-    // ✅ Registreren
-    document.getElementById("registerBtn").addEventListener("click", () => {
-      const voornaam = document.getElementById("voornaam").value.trim();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      logDebug(`Probeer te registreren met: ${email} (Voornaam: ${voornaam})`);
-
-      if (!voornaam) {
-        logDebug("⚠️ Voornaam is verplicht bij registratie.");
-        return;
-      }
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          logDebug("✅ Registratie succesvol: " + JSON.stringify(userCredential.user));
-          window.location.href = "vms.html";
-        })
-        .catch((error) => {
-          logDebug(`❌ Fout bij registratie: ${error.message}`);
-        });
-    });
-  </script>
 </body>
 </html>
+
