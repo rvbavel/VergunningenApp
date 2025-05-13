@@ -1,4 +1,3 @@
-
 body {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
@@ -92,9 +91,11 @@ form textarea {
   flex: 1;
 }
 
+/* Gebruik grid voor correcte kolomuitlijning */
 .result-head,
 .result-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
   padding: 10px;
   border-radius: 6px;
@@ -111,10 +112,6 @@ form textarea {
   background: #f1f1f1;
   border: 1px solid #ccc;
   margin-top: 10px;
-}
-
-.result-col {
-  flex: 1;
 }
 
 .status {
