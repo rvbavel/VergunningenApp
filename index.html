@@ -4,6 +4,28 @@
   <meta charset="UTF-8" />
   <title>VMS - Registratie & Inloggen</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .auth-form label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .auth-form input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .auth-form button {
+      width: 100%;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 
@@ -15,26 +37,22 @@
   <main class="card">
     <h2>Inloggen of Registreren</h2>
 
-    <form id="authForm">
-      <div class="form-grid-three">
-        <label>
-          Voornaam:
-          <input type="text" id="voornaam" name="voornaam" required />
-        </label>
-        <label>
-          E-mailadres:
-          <input type="email" id="email" name="email" required />
-        </label>
-        <label>
-          Wachtwoord:
-          <input type="password" id="password" name="password" required minlength="6" />
-        </label>
-      </div>
+    <form id="authForm" class="auth-form">
+      <label>
+        Voornaam:
+        <input type="text" id="voornaam" name="voornaam" required />
+      </label>
+      <label>
+        E-mailadres:
+        <input type="email" id="email" name="email" required />
+      </label>
+      <label>
+        Wachtwoord:
+        <input type="password" id="password" name="password" required minlength="6" />
+      </label>
 
-      <div style="margin-top: 10px;">
-        <button type="button" class="primary-btn" id="registerBtn">Registreren</button>
-        <button type="button" class="primary-btn" id="loginBtn">Inloggen</button>
-      </div>
+      <button type="button" class="primary-btn" id="registerBtn">Registreren</button>
+      <button type="button" class="primary-btn" id="loginBtn">Inloggen</button>
     </form>
   </main>
 
@@ -46,15 +64,15 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
-     
+
     const firebaseConfig = {
-  apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
-  authDomain: "vergunningenapp-8455e.firebaseapp.com",
-  projectId: "vergunningenapp-8455e",
-  storageBucket: "vergunningenapp-8455e.firebasestorage.app",
-  messagingSenderId: "882694266288",
-  appId: "1:882694266288:web:4b1cb14817e6ba2290ca75"
-};
+      apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+      authDomain: "vergunningenapp-8455e.firebaseapp.com",
+      projectId: "vergunningenapp-8455e",
+      storageBucket: "vergunningenapp-8455e.appspot.com",
+      messagingSenderId: "882694266288",
+      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+    };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
