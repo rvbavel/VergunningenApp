@@ -57,17 +57,3 @@ function begeleidingenRapport() {
 function aanvraagTransportbegeleiding() {
     window.location.href = 'aanvraagtransportbegeleiding.html';
 }
-
-function validateInput(email, password) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert("Voer een geldig e-mailadres in.");
-    return false;
-  }
-  if (password.length < 8) {
-    alert("Wachtwoord moet minstens 8 tekens bevatten.");
-    return false;
-  }
-  return true;
-}
-
