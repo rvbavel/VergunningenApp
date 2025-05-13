@@ -18,8 +18,8 @@
 
     <div id="auth-forms">
       <input type="text" id="voornaam" placeholder="Voornaam (alleen bij registratie)" />
-<input type="email" id="email" placeholder="E-mailadres" required />
-<input type="password" id="password" placeholder="Wachtwoord" required />
+      <input type="email" id="email" placeholder="E-mailadres" required />
+      <input type="password" id="password" placeholder="Wachtwoord" required />
       <div style="margin-top: 10px;">
         <button id="loginBtn">Inloggen</button>
         <button id="registerBtn">Registreren</button>
@@ -33,18 +33,18 @@
 
   <!-- Firebase login met voornaam opslaan -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+    import {{ initializeApp }} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+    import {{ getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword }} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+    import {{ getFirestore, doc, setDoc }} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {
+    const firebaseConfig = {{
       apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
       authDomain: "vergunningenapp-8455e.firebaseapp.com",
       projectId: "vergunningenapp-8455e",
       storageBucket: "vergunningenapp-8455e.appspot.com",
       messagingSenderId: "882694266288",
       appId: "1:882694266288:web:832a85a80dea1b6190ca75"
-    };
+    }};
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -56,43 +56,40 @@
     const loginBtn = document.getElementById("loginBtn");
     const registerBtn = document.getElementById("registerBtn");
 
-    // Login
-    loginBtn.addEventListener("click", () => {
+    loginBtn.addEventListener("click", () => {{
       signInWithEmailAndPassword(auth, emailField.value, passwordField.value)
-        .then(() => {
+        .then(() => {{
           window.location.href = "vms.html";
-        })
+        }})
         .catch(err => alert("Fout bij inloggen: " + err.message));
-    });
+    }});
 
-    // Register
-    registerBtn.addEventListener("click", async () => {
+    registerBtn.addEventListener("click", async () => {{
       const voornaam = voornaamField.value.trim();
-      if (!voornaam) {
+      if (!voornaam) {{
         alert("Voornaam is verplicht bij registratie.");
         return;
-      }
+      }}
 
-      try {
+      try {{
         const userCredential = await createUserWithEmailAndPassword(auth, emailField.value, passwordField.value);
         const user = userCredential.user;
-        await setDoc(doc(db, "users", user.uid), {
+        await setDoc(doc(db, "users", user.uid), {{
           email: user.email,
           voornaam: voornaam,
-          role: "medewerker" // standaardrol
-        });
+          role: "medewerker"
+        }});
         window.location.href = "vms.html";
-      } catch (err) {
+      }} catch (err) {{
         alert("Fout bij registratie: " + err.message);
-      }
-    });
+      }}
+    }});
 
-    // Automatisch door naar vms.html als al ingelogd
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
+    onAuthStateChanged(auth, (user) => {{
+      if (user) {{
         window.location.href = "vms.html";
-      }
-    });
+      }}
+    }});
   </script>
 </body>
 </html>
