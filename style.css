@@ -1,3 +1,4 @@
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
@@ -81,17 +82,25 @@ form textarea {
   background-color: #003060;
 }
 
-.form-row {
+.form-row,
+.form-grid,
+.form-grid-three,
+.form-grid-single {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   margin-bottom: 15px;
 }
 
-.form-row label {
+.form-row label,
+.form-grid label,
+.form-grid-three label,
+.form-grid-single label {
   flex: 1;
+  min-width: 200px;
 }
 
-/* Gebruik grid voor correcte kolomuitlijning */
+/* Kolommen via CSS Grid */
 .result-head,
 .result-row {
   display: grid;
