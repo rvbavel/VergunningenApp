@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Inboeken Vergunningen</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style_vergunningen_grid.css">
 </head>
 <body>
   <header>
@@ -59,16 +59,17 @@
       <button type="submit" class="primary-btn">Opslaan</button>
     </form>
 
-    <!-- Kolomtitels -->
-    <div class="result-head">
-      <div class="result-col"><strong>Klantnaam</strong></div>
-      <div class="result-col"><strong>Ontheffingsnummer</strong></div>
-      <div class="result-col"><strong>Vervaldatum</strong></div>
-      <div class="result-col"><strong>Status</strong></div>
-      <div class="result-col"><strong>Acties</strong></div>
-    </div>
-
-    <div id="vergunningenLijst"></div>
+    <!-- ✅ Resultaatoverzicht met kolomnamen en rijen -->
+    <section id="vergunningenResultaten">
+      <div class="result-head">
+        <div><strong>Klantnaam</strong></div>
+        <div><strong>Ontheffingsnummer</strong></div>
+        <div><strong>Vervaldatum</strong></div>
+        <div><strong>Status</strong></div>
+        <div><strong>Acties</strong></div>
+      </div>
+      <div id="vergunningenLijst"></div>
+    </section>
   </main>
 
   <footer>
@@ -108,11 +109,11 @@
     const datumNL = vervalDatum.toLocaleDateString("nl-NL");
 
     rij.innerHTML = `
-      <div class="result-col">${klant}</div>
-      <div class="result-col">${vergunning}</div>
-      <div class="result-col">${datumNL}</div>
-      <div class="result-col"><span class="status ${kleur}">${status}</span></div>
-      <div class="result-col actions">
+      <div>${klant}</div>
+      <div>${vergunning}</div>
+      <div>${datumNL}</div>
+      <div><span class="status ${kleur}">${status}</span></div>
+      <div class="actions">
         <button class="email-btn">Email klant</button>
         <button class="edit-btn">Bewerk</button>
         <button class="delete-btn">Verwijder</button>
