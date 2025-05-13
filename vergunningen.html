@@ -4,73 +4,6 @@
   <meta charset="UTF-8" />
   <title>Inboeken Vergunningen</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .form-row {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 15px;
-    }
-
-    .form-row label {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .form-row input {
-      margin-top: 5px;
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
-    .result-row {
-      display: flex;
-      gap: 20px;
-      margin-top: 25px;
-      padding: 10px;
-      background: #f9f9f9;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      align-items: center;
-    }
-
-    .result-col {
-      flex: 1;
-    }
-
-    .status {
-      font-weight: bold;
-      padding: 6px 10px;
-      border-radius: 4px;
-      color: white;
-      display: inline-block;
-    }
-
-    .status.green { background-color: green; }
-    .status.orange { background-color: orange; }
-    .status.red { background-color: red; }
-
-    .actions button {
-      margin-right: 8px;
-      padding: 6px 10px;
-      font-size: 14px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .actions button:hover {
-      opacity: 0.85;
-    }
-
-    .email-btn { background-color: #007199; color: white; }
-    .edit-btn { background-color: #ffa500; color: white; }
-    .delete-btn { background-color: #cc0000; color: white; }
-  </style>
 </head>
 <body>
   <header>
@@ -126,6 +59,15 @@
       <button type="submit" class="primary-btn">Opslaan</button>
     </form>
 
+    <!-- Kolomtitels -->
+    <div class="result-head">
+      <div class="result-col"><strong>Klantnaam</strong></div>
+      <div class="result-col"><strong>Ontheffingsnummer</strong></div>
+      <div class="result-col"><strong>Vervaldatum</strong></div>
+      <div class="result-col"><strong>Status</strong></div>
+      <div class="result-col"><strong>Acties</strong></div>
+    </div>
+
     <div id="vergunningenLijst"></div>
   </main>
 
@@ -142,6 +84,7 @@
 
     const klant = document.getElementById("klantnaam").value;
     const email = document.getElementById("emailklant").value;
+    const vergunning = document.getElementById("vergunningnr").value;
     const verval = document.getElementById("vervaldatum").value;
     const drempel = parseInt(document.getElementById("drempel").value);
 
@@ -166,6 +109,7 @@
 
     rij.innerHTML = `
       <div class="result-col">${klant}</div>
+      <div class="result-col">${vergunning}</div>
       <div class="result-col">${datumNL}</div>
       <div class="result-col"><span class="status ${kleur}">${status}</span></div>
       <div class="result-col actions">
@@ -175,10 +119,8 @@
       </div>
     `;
 
-    // Voeg toe aan de lijst
     lijst.appendChild(rij);
 
-    // Voeg e-mailfunctionaliteit toe
     rij.querySelector(".email-btn").addEventListener("click", () => {
       const onderwerp = `Betreft: Uw vergunning`;
       const tekst = `Geachte ${klant},%0D%0A%0D%0AWij willen u informeren dat uw vergunning geldig is tot ${datumNL}.%0D%0AGraag houden wij u hiervan op de hoogte.%0D%0A%0D%0AMet vriendelijke groet,%0D%0ASpeciaal Transport Zwolle B.V.`;
