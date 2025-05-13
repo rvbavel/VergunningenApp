@@ -7,7 +7,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, collection, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
@@ -22,37 +22,9 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const tbody = document.getElementById('vergunningen-tbody');
         const welkomElement = document.getElementById('welkom');
+        const begeleidTekst = document.getElementById('begeleid-tekst');
 
-        // Laad vervallende vergunningen
-        function laadVervallendeVergunningen(uid) {
-            const vandaag = new Date();
-            vandaag.setHours(0, 0, 0, 0);
-
-            const q = query(collection(db, 'vergunningen'), where('uid', '==', uid));
-            onSnapshot(q, snapshot => {
-                tbody.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const vervaldatum = new Date(data.vervaldatum);
-                    vervaldatum.setHours(0, 0, 0, 0);
-
-                    const verschil = Math.ceil((vervaldatum - vandaag) / (1000 * 60 * 60 * 24));
-                    if (verschil <= 30 && verschil >= 0) {
-                        const row = `<tr>
-                            <td>${data.naam}</td>
-                            <td>${data.nummer}</td>
-                            <td>${data.vervaldatum}</td>
-                            <td>${data.email}</td>
-                        </tr>`;
-                        tbody.insertAdjacentHTML('beforeend', row);
-                    }
-                });
-            });
-        }
-
-        // Haal gebruiker op en toon voornaam
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "index.html";
@@ -65,17 +37,18 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     welkomElement.textContent = `Welkom, ${data.voornaam}!`;
+                    begeleidTekst.textContent = `Gebruik het menu hierboven om te navigeren, ${data.voornaam}.`;
                 } else {
                     welkomElement.textContent = "Welkom!";
+                    begeleidTekst.textContent = "Gebruik het menu hierboven om te navigeren.";
                 }
-                laadVervallendeVergunningen(user.uid);
             } catch (error) {
                 console.error("Fout bij ophalen gebruikersdata:", error);
                 welkomElement.textContent = "Welkom!";
+                begeleidTekst.textContent = "Gebruik het menu hierboven om te navigeren.";
             }
         });
 
-        // Uitloggen
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('logout').addEventListener('click', () => {
                 signOut(auth).then(() => {
@@ -88,10 +61,9 @@
 <body>
     <header>
         <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-        <h1>VMS Dashboard - Vervallende Vergunningen</h1>
+        <h1>VMS Dashboard</h1>
     </header>
 
-    <!-- Volledige navigatie zoals op andere pagina's -->
     <nav class="top-menu">
         <button onclick="window.location.href='index.html'">🏠 HOME</button>
         <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
@@ -106,17 +78,9 @@
             <button id="logout" class="primary-btn">Uitloggen</button>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Naam</th>
-                    <th>Vergunningnummer</th>
-                    <th>Vervaldatum</th>
-                    <th>E-mail</th>
-                </tr>
-            </thead>
-            <tbody id="vergunningen-tbody"></tbody>
-        </table>
+        <p id="begeleid-tekst" style="margin-top: 20px; font-size: 16px;">
+            Gebruik het menu hierboven om te navigeren.
+        </p>
     </main>
 
     <footer>
