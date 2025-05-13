@@ -5,32 +5,32 @@
     <title>VMS Dashboard - Speciaal Transport Zwolle B.V.</title>
     <link rel="stylesheet" href="style.css">
     <script type="module">
-        // ✅ Firebase configuratie
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
             authDomain: "vergunningenapp-8455e.firebaseapp.com",
             projectId: "vergunningenapp-8455e",
-            storageBucket: "vergunningenapp-8455e.firebasestorage.app",
+            storageBucket: "vergunningenapp-8455e.appspot.com",
             messagingSenderId: "882694266288",
             appId: "1:882694266288:web:832a85a80dea1b6190ca75"
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
-        const db = getFirestore();
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        // ✅ Realtime vergunningen ophalen die gaan vervallen
         const tbody = document.getElementById('vergunningen-tbody');
+        const welkomElement = document.getElementById('welkom');
 
-        function laadVervallendeVergunningen() {
+        // Laad vervallende vergunningen
+        function laadVervallendeVergunningen(uid) {
             const vandaag = new Date();
             vandaag.setHours(0, 0, 0, 0);
 
-            const q = query(collection(db, 'vergunningen'), where('uid', '==', auth.currentUser.uid));
+            const q = query(collection(db, 'vergunningen'), where('uid', '==', uid));
             onSnapshot(q, snapshot => {
                 tbody.innerHTML = '';
                 snapshot.forEach(doc => {
@@ -38,7 +38,6 @@
                     const vervaldatum = new Date(data.vervaldatum);
                     vervaldatum.setHours(0, 0, 0, 0);
 
-                    // ✅ Check of de datum binnen 30 dagen verloopt
                     const verschil = Math.ceil((vervaldatum - vandaag) / (1000 * 60 * 60 * 24));
                     if (verschil <= 30 && verschil >= 0) {
                         const row = `<tr>
@@ -53,15 +52,37 @@
             });
         }
 
-        // ✅ Uitloggen
-        document.getElementById('logout').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                window.location.href = 'index.html';
-            });
+        // Haal gebruiker op en toon voornaam
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "index.html";
+                return;
+            }
+
+            try {
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    welkomElement.textContent = `Welkom, ${data.voornaam}!`;
+                } else {
+                    welkomElement.textContent = "Welkom!";
+                }
+                laadVervallendeVergunningen(user.uid);
+            } catch (error) {
+                console.error("Fout bij ophalen gebruikersdata:", error);
+                welkomElement.textContent = "Welkom!";
+            }
         });
 
-        // ✅ Laad data bij pagina-open
-        window.onload = laadVervallendeVergunningen;
+        // Uitloggen
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('logout').addEventListener('click', () => {
+                signOut(auth).then(() => {
+                    window.location.href = 'index.html';
+                });
+            });
+        });
     </script>
 </head>
 <body>
@@ -70,13 +91,18 @@
         <h1>VMS Dashboard - Vervallende Vergunningen</h1>
     </header>
 
+    <!-- Volledige navigatie zoals op andere pagina's -->
     <nav class="top-menu">
-        <button onclick="window.location.href='vergunningen.html'">Inboeken Vergunning</button>
+        <button onclick="window.location.href='index.html'">🏠 HOME</button>
+        <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+        <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+        <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+        <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
     </nav>
 
     <main class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2>Vergunningen die binnenkort verlopen</h2>
+            <h2 id="welkom">Welkom!</h2>
             <button id="logout" class="primary-btn">Uitloggen</button>
         </div>
 
