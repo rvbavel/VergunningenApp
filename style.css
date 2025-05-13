@@ -147,3 +147,26 @@ textarea {
     text-align: center;
   }
 }
+
+.details-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #fff;
+}
+
+.details-tabel th,
+.details-tabel td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.details-tabel th {
+  background-color: #f0f0f0;
+}
+.details-tabel input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
