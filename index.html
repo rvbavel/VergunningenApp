@@ -37,14 +37,17 @@
     import {{ getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword }} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
     import {{ getFirestore, doc, setDoc }} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {{
-      apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
-      authDomain: "vergunningenapp-8455e.firebaseapp.com",
-      projectId: "vergunningenapp-8455e",
-      storageBucket: "vergunningenapp-8455e.appspot.com",
-      messagingSenderId: "882694266288",
-      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
-    }};
+    const firebaseConfig = {
+  apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+  authDomain: "vergunningenapp-8455e.firebaseapp.com",
+  projectId: "vergunningenapp-8455e",
+  storageBucket: "vergunningenapp-8455e.firebasestorage.app",
+  messagingSenderId: "882694266288",
+  appId: "1:882694266288:web:4b1cb14817e6ba2290ca75"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
