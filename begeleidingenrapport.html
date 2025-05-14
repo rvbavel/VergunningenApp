@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Speciaal Transport Zwolle B.V. - Begeleidingenrapport</title>
+    <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="print.css" media="print">
 </head>
@@ -10,19 +10,19 @@
 
 <header>
     <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-    <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - BEGELEIDINGENRAPPORT</h1>
+    <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - ONTHEFFINGENRAPPORT</h1>
 </header>
 
 <nav class="top-menu">
   <button onclick="window.location.href='index.html'">🏠 HOME</button>
   <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-  <button onclick="window.location.href='ontheffingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
   <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
   <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
 </nav>
 
 <main class="card">
-    <h2>BEGELEIDINGEN RAPPORT</h2>
+    <h2>ONTHEFFINGEN RAPPORT</h2>
 
     <div class="form-grid">
         <label>Referentienummer:
@@ -56,7 +56,7 @@
 
     <div class="form-grid-single">
         <label>Omschrijving:
-            <textarea id="omschrijving" placeholder="Transport, voertuig, route, etc."></textarea>
+            <textarea id="omschrijving" placeholder="Ontheffing, Afmetingen, Kentekens, Ontheffingsnummer, Geldigheid"></textarea>
         </label>
     </div>
 
@@ -67,31 +67,21 @@
     </div>
 
     <h3>Details per regel</h3>
-    <div class="form-grid-seven">
+    <div class="form-grid-five">
         <div>
-            <label>Begeleidingsfirma:</label>
-            <input type="text" value="Bemiddeling STZ"><input type="text"><input type="text"><input type="text">
+            <label>Aangevraagd bij:</label>
+            <input type="text"><input type="text"><input type="text"><input type="text">
             <input type="text"><input type="text"><input type="text"><input type="text">
         </div>
         <div>
-            <label>Transportdatum:</label>
+            <label>Aanvraagdatum:</label>
             <input type="date"><input type="date"><input type="date"><input type="date">
             <input type="date"><input type="date"><input type="date"><input type="date">
         </div>
         <div>
-            <label>Van:</label>
-            <input type="text"><input type="text"><input type="text"><input type="text">
-            <input type="text"><input type="text"><input type="text"><input type="text">
-        </div>
-        <div>
-            <label>Naar:</label>
-            <input type="text"><input type="text"><input type="text"><input type="text">
-            <input type="text"><input type="text"><input type="text"><input type="text">
-        </div>
-        <div>
-            <label>Uren:</label>
-            <input type="number"><input type="number"><input type="number"><input type="number">
-            <input type="number"><input type="number"><input type="number"><input type="number">
+            <label>Afgiftedatum:</label>
+            <input type="date"><input type="date"><input type="date"><input type="date">
+            <input type="date"><input type="date"><input type="date"><input type="date">
         </div>
         <div>
             <label>Inkoopprijs (€):</label>
@@ -100,7 +90,7 @@
         </div>
         <div>
             <label>Verkoopprijs (€):</label>
-            <input type="number" step="0.01" value="75.00"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
             <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
         </div>
     </div>
@@ -129,7 +119,7 @@
   <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
 
 <section id="pdf-view" style="display: none; font-family: Arial, sans-serif; font-size: 11pt; margin-top: 20px;">
-  <h2 style="text-align: center; margin-bottom: 10px;">BEGELEIDINGEN RAPPORT</h2>
+  <h2 style="text-align: center; margin-bottom: 10px;">ONTHEFFINGEN RAPPORT</h2>
   <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
     <tr>
       <td><strong>Referentienummer:</strong></td>
@@ -188,8 +178,8 @@
 
 <script>
 document.addEventListener('input', () => {
-  const inkoopInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(6) input[type="number"]');
-  const verkoopInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(7) input[type="number"]');
+  const inkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(4) input[type="number"]');
+  const verkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(5) input[type="number"]');
 
   let inkoopTotaal = 0;
   let verkoopTotaal = 0;
@@ -209,28 +199,19 @@ document.addEventListener('input', () => {
   });
 
   const marge = verkoopTotaal - inkoopTotaal;
+
   const format = waarde => `€ ${waarde.toFixed(2)}`;
 
   document.getElementById('inkoop_totaal').value = format(inkoopTotaal);
   document.getElementById('verkoop_totaal').value = format(verkoopTotaal);
   document.getElementById('marge').value = format(marge);
 });
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Force trigger input event to calculate totals on page load
-  const firstVerkoopInput = document.querySelector('.form-grid-seven > div:nth-child(7) input[type="number"]');
-  if (firstVerkoopInput) {
-    const event = new Event('input', { bubbles: true });
-    firstVerkoopInput.dispatchEvent(event);
-  }
-});
 </script>
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-function genereerPDF() {
+// oude functie verwijderd {
   vulPdfVelden();
   const element = document.getElementById("pdf-view");
   element.style.display = "block";
@@ -257,9 +238,9 @@ function genereerPDF() {
 }
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
-function genereerPDF() {
+// oude functie verwijderd {
   vulPdfVelden();
   const element = document.getElementById("pdf-view");
   element.style.display = "block";
@@ -341,6 +322,78 @@ function vulPdfVelden() {
 </script>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+function genereerPDF() {
+  vulPdfVelden();
+  const element = document.getElementById("pdf-view");
+  element.style.display = "block";
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const refnummer = document.getElementById("referentienummer")?.value || "rapport";
+      html2pdf().from(element).save(refnummer + ".pdf");
+    }, 300);
+  });
+}
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function genereerPDF() {
+  vulPdfVelden();
+  const element = document.getElementById("pdf-view");
+  element.style.display = "block";
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const refnummer = document.getElementById("referentienummer")?.value || "rapport";
+      html2pdf().from(element).save(refnummer + ".pdf");
+    }, 300);
+  });
+}
+
+function vulPdfVelden() {
+  console.log("PDF-blok vullen gestart");
+
+  const val = (id) => document.getElementById(id)?.value || "";
+
+  
+  const prefix = document.querySelector(".split-input .prefix")?.textContent || "";
+  const nummer = document.querySelector(".split-input input")?.value || "";
+  document.getElementById("refnummer_pdf").innerText = prefix + nummer;
+
+  document.getElementById("behandelaar_pdf").innerText = val("behandelaar");
+  document.getElementById("opdrachtgever_pdf").innerText = val("opdrachtgever");
+  document.getElementById("vervoerder_pdf").innerText = val("vervoerder");
+  document.getElementById("referentie_pdf").innerText = val("referentie_klant");
+  document.getElementById("omschrijving_pdf").innerText = val("omschrijving");
+  document.getElementById("facturatie_pdf").innerText = val("opmerkingen_facturatie");
+
+  document.getElementById("inkoop_pdf").innerText = val("inkoop_totaal");
+  document.getElementById("verkoop_pdf").innerText = val("verkoop_totaal");
+  document.getElementById("marge_pdf").innerText = val("marge");
+
+  const tbody = document.getElementById("detail-body-pdf");
+  tbody.innerHTML = "";
+
+  for (let i = 0; i < 8; i++) {
+    const rij = document.createElement("tr");
+    rij.innerHTML = `
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(1) input")[i]?.value || ""}</td>
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(2) input")[i]?.value || ""}</td>
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(3) input")[i]?.value || ""}</td>
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(4) input")[i]?.value || ""}</td>
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(5) input")[i]?.value || ""}</td>
+    `;
+    tbody.appendChild(rij);
+  }
+}
+</script>
+
+
 <!-- jsPDF & autoTable CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
@@ -368,7 +421,7 @@ async function genereerPDF() {
 
   // Kop
   doc.setFontSize(14);
-  doc.text("BEGELEIDINGEN RAPPORT", 105, 15, { align: "center" });
+  doc.text("ONTHEFFINGEN RAPPORT", 105, 15, { align: "center" });
   doc.setFontSize(11);
   doc.text(`Referentienummer: ${refnummer}`, 14, 25);
   doc.text(`Behandelaar: ${behandelaar}`, 110, 25);
@@ -382,15 +435,14 @@ async function genereerPDF() {
 
   // Tabelgegevens verzamelen
   const body = [];
+  const kolommen = document.querySelectorAll(".form-grid-five > div");
   for (let i = 0; i < 8; i++) {
-    const aangevraagd = document.querySelectorAll(".form-grid-five > div:nth-child(1) input")[i]?.value || "";
-    const aanvraagdatum = document.querySelectorAll(".form-grid-five > div:nth-child(2) input")[i]?.value || "";
-    const afgiftedatum = document.querySelectorAll(".form-grid-five > div:nth-child(3) input")[i]?.value || "";
-    const inkoopprijs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input")[i]?.value || "";
-    const verkoopprijs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input")[i]?.value || "";
-
-    if (aangevraagd || aanvraagdatum || afgiftedatum || inkoopprijs || verkoopprijs) {
-      body.push([aangevraagd, aanvraagdatum, afgiftedatum, inkoopprijs, verkoopprijs]);
+    const rij = [];
+    for (let j = 0; j < 5; j++) {
+      rij.push(kolommen[j]?.querySelectorAll("input")[i]?.value || "");
+    }
+    if (rij.some(val => val !== "")) {
+      body.push(rij);
     }
   }
 
