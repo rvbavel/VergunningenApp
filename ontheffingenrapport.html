@@ -209,9 +209,9 @@ document.addEventListener('input', () => {
 </script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
-function genereerPDF() {
+// oude functie verwijderd {
   vulPdfVelden();
   const element = document.getElementById("pdf-view");
   element.style.display = "block";
@@ -238,9 +238,9 @@ function genereerPDF() {
 }
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
-function genereerPDF() {
+// oude functie verwijderd {
   vulPdfVelden();
   const element = document.getElementById("pdf-view");
   element.style.display = "block";
@@ -318,6 +318,24 @@ function vulPdfVelden() {
     `;
     tabelBody.appendChild(rij);
   }
+}
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+function genereerPDF() {
+  vulPdfVelden();
+  const element = document.getElementById("pdf-view");
+  element.style.display = "block";
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const refnummer = document.getElementById("referentienummer")?.value || "rapport";
+      html2pdf().from(element).save(refnummer + ".pdf");
+    }, 300);
+  });
 }
 </script>
 
