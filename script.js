@@ -1,4 +1,3 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import {
   getFirestore, collection, addDoc, getDocs, Timestamp
@@ -47,6 +46,14 @@ window.opslaanVergunning = async function () {
   }
 };
 
+function formatDatum(datumString) {
+  const d = new Date(datumString);
+  const dag = String(d.getDate()).padStart(2, '0');
+  const maand = String(d.getMonth() + 1).padStart(2, '0');
+  const jaar = d.getFullYear();
+  return `${dag}-${maand}-${jaar}`;
+}
+
 function berekenStatus(vervaldatum, drempel) {
   const nu = new Date();
   const verval = new Date(vervaldatum);
@@ -72,7 +79,7 @@ async function laadVergunningen() {
       row.innerHTML = `
         <td>${data.klantnaam}</td>
         <td>${data.vergunningsnummer}</td>
-        <td>${data.vervaldatum}</td>
+        <td>${formatDatum(data.vervaldatum)}</td>
         <td class="${status.klasse}">${status.tekst}</td>
         <td><button class="primary-btn small" onclick="verwijderNogNiet()">Verwijderen</button></td>
       `;
