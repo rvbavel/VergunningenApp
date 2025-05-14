@@ -23,6 +23,7 @@ window.opslaanVergunning = async function () {
   const vergunningsnummer = document.getElementById("vergunningsnummer").value.trim();
   const vervaldatum = document.getElementById("vervaldatum").value;
   const drempel = parseInt(document.getElementById("waarschuwingsdrempel").value.trim(), 10);
+  const taal = document.getElementById("taal").value;
 
   if (!klantnaam || !email || !vergunningsnummer || !vervaldatum || isNaN(drempel)) {
     alert("Vul alle velden in om een vergunning op te slaan.");
@@ -36,6 +37,7 @@ window.opslaanVergunning = async function () {
       vergunningsnummer,
       vervaldatum,
       drempel,
+      taal,
       timestamp: Timestamp.now()
     });
     alert("Vergunning opgeslagen.");
@@ -59,10 +61,22 @@ function berekenStatus(vervaldatum, drempel) {
   const verval = new Date(vervaldatum + "T00:00:00");
   const msVerschil = verval - nu;
   const dagenVerschil = Math.ceil(msVerschil / (1000 * 60 * 60 * 24));
-
   if (dagenVerschil < 0) return { tekst: "Vervallen", klasse: "status-vervallen" };
   if (dagenVerschil <= drempel) return { tekst: "Gaat verlopen", klasse: "status-waarschuwing" };
   return { tekst: "Geldig", klasse: "status-geldig" };
+}
+
+function genereerEmailBody(taal, vergunningsnummer) {
+  switch (taal) {
+    case "nl":
+      return `Geachte klant,%0D%0A%0D%0AUw vergunning met nummer ${vergunningsnummer} vervalt binnenkort.%0D%0AZullen wij voor u een verlenging aanvragen?%0D%0A%0D%0AMet vriendelijke groet,%0D%0ATeam Speciaal Transport Zwolle B.V.`;
+    case "en":
+      return `Dear customer,%0D%0A%0D%0AYour permit with number ${vergunningsnummer} is about to expire.%0D%0AWould you like us to arrange a renewal for you?%0D%0A%0D%0AKind regards,%0D%0ATeam Speciaal Transport Zwolle B.V.`;
+    case "de":
+      return `Sehr geehrter Kunde,%0D%0A%0D%0AIhre Genehmigung mit der Nummer ${vergunningsnummer} läuft bald ab.%0D%0AMöchten Sie, dass wir eine Verlängerung für Sie beantragen?%0D%0A%0D%0AMit freundlichen Grüßen%0D%0ATeam Speciaal Transport Zwolle B.V.`;
+    default:
+      return "";
+  }
 }
 
 async function verwijderVergunning(docId) {
@@ -87,6 +101,7 @@ async function laadVergunningen() {
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
       const status = berekenStatus(data.vervaldatum, data.drempel);
+      const body = encodeURIComponent(genereerEmailBody(data.taal, data.vergunningsnummer));
       const row = document.createElement("tr");
 
       row.innerHTML = `
@@ -96,7 +111,7 @@ async function laadVergunningen() {
         <td class="${status.klasse}">${status.tekst}</td>
         <td>
           <button class="primary-btn small" onclick="verwijderVergunning('${docSnap.id}')">Verwijderen</button>
-          <a class="primary-btn small" href="mailto:${data.email}?subject=Vergunning%20${data.vergunningsnummer}" title="E-mail klant">✉️ E-mail</a>
+          <a class="primary-btn small" href="mailto:${data.email}?subject=Vergunning%20${data.vergunningsnummer}&body=${body}" title="E-mail klant">✉️ E-mail</a>
         </td>
       `;
 
