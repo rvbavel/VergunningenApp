@@ -1,36 +1,55 @@
-/* Printstijl voor voorblad.html */
-
 @media print {
-    header,
-    nav.top-menu,
-    footer,
-    button,
-    section.saved-reports,
-    .primary-btn {
-        display: none !important;
-    }
+  @page {
+    margin: 20mm;
+  }
 
-    body {
-        background: #fff !important;
-        color: #000 !important;
-    }
+  header,
+  nav.top-menu,
+  footer,
+  button,
+  section.saved-reports,
+  .primary-btn {
+    display: none !important;
+  }
 
-    main.card {
-        box-shadow: none !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
 
-    input, textarea, select {
-        border: none !important;
-        outline: none !important;
-        width: 100% !important;
-        font-size: 12pt !important;
-    }
+  main.card {
+    box-shadow: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
-    label {
-        font-size: 12pt !important;
-        font-weight: bold !important;
-    }
+  input,
+  textarea,
+  select {
+    border: none !important;
+    outline: none !important;
+    width: 100% !important;
+    font-size: 12pt !important;
+  }
+
+  label {
+    font-size: 12pt !important;
+    font-weight: bold !important;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 11pt;
+  }
+
+  textarea {
+    white-space: pre-wrap;
+  }
 }
