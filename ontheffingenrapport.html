@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="print.css" media="print">
 </head>
@@ -11,7 +10,7 @@
 
 <header>
     <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-    <h1>ONTHEFFINGEN RAPPORT</h1>
+    <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - ONTHEFFINGENRAPPORT</h1>
 </header>
 
 <nav class="top-menu">
@@ -21,7 +20,6 @@
   <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
   <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
 </nav>
-
 
 <main class="card">
     <h2>ONTHEFFINGEN RAPPORT</h2>
@@ -72,58 +70,28 @@
     <div class="form-grid-five">
         <div>
             <label>Aangevraagd bij:</label>
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <input type="text">
+            <input type="text"><input type="text"><input type="text"><input type="text">
+            <input type="text"><input type="text"><input type="text"><input type="text">
         </div>
         <div>
             <label>Aanvraagdatum:</label>
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
+            <input type="date"><input type="date"><input type="date"><input type="date">
+            <input type="date"><input type="date"><input type="date"><input type="date">
         </div>
         <div>
             <label>Afgiftedatum:</label>
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
-            <input type="date">
+            <input type="date"><input type="date"><input type="date"><input type="date">
+            <input type="date"><input type="date"><input type="date"><input type="date">
         </div>
         <div>
             <label>Inkoopprijs (€):</label>
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
+            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
         </div>
         <div>
             <label>Verkoopprijs (€):</label>
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
-            <input type="number" step="0.01">
+            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
         </div>
     </div>
 
@@ -146,6 +114,37 @@
     Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
 </footer>
 
-<script src="script.js"></script>
+<script>
+document.addEventListener('input', () => {
+  const inkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(4) input[type="number"]');
+  const verkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(5) input[type="number"]');
+
+  let inkoopTotaal = 0;
+  let verkoopTotaal = 0;
+
+  inkoopInputs.forEach(input => {
+    const waarde = parseFloat(input.value);
+    if (!isNaN(waarde)) {
+      inkoopTotaal += waarde;
+    }
+  });
+
+  verkoopInputs.forEach(input => {
+    const waarde = parseFloat(input.value);
+    if (!isNaN(waarde)) {
+      verkoopTotaal += waarde;
+    }
+  });
+
+  const marge = verkoopTotaal - inkoopTotaal;
+
+  const format = waarde => `€ ${waarde.toFixed(2)}`;
+
+  document.getElementById('inkoop_totaal').value = format(inkoopTotaal);
+  document.getElementById('verkoop_totaal').value = format(verkoopTotaal);
+  document.getElementById('marge').value = format(marge);
+});
+</script>
+
 </body>
 </html>
