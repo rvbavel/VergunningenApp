@@ -232,6 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 function genereerPDF() {
   vulPdfVelden();
+  const element = document.getElementById("pdf-view");
+  element.style.display = "block";
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const refnummer = document.getElementById("referentienummer")?.value || "rapport";
+      html2pdf().from(element).save(refnummer + ".pdf");
+    }, 300);
+  });
+
   const element = document.getElementById("pdf-view"); element.style.display = "block";
   const opt = {
     margin:       0.5,
@@ -251,6 +261,16 @@ function genereerPDF() {
 <script>
 function genereerPDF() {
   vulPdfVelden();
+  const element = document.getElementById("pdf-view");
+  element.style.display = "block";
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const refnummer = document.getElementById("referentienummer")?.value || "rapport";
+      html2pdf().from(element).save(refnummer + ".pdf");
+    }, 300);
+  });
+
   const element = document.getElementById("pdf-view"); element.style.display = "block";
   const opt = {
     margin: [0.2, 0.2, 0.2, 0.2],
@@ -277,6 +297,8 @@ function genereerPDF() {
 
 <script>
 function vulPdfVelden() {
+  console.log("PDF-blok vullen gestart");
+
   document.getElementById("refnummer_pdf").innerText = document.getElementById("referentienummer")?.value || "";
   document.getElementById("behandelaar_pdf").innerText = document.getElementById("behandelaar")?.value || "";
   document.getElementById("opdrachtgever_pdf").innerText = document.getElementById("opdrachtgever")?.value || "";
