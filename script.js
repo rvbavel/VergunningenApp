@@ -1,6 +1,7 @@
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, getDocs, Timestamp
+  getFirestore, collection, addDoc, getDocs, deleteDoc, doc, Timestamp
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 
@@ -47,7 +48,7 @@ window.opslaanVergunning = async function () {
 };
 
 function formatDatum(datumString) {
-  const d = new Date(datumString);
+  const d = new Date(datumString + "T00:00:00");
   const dag = String(d.getDate()).padStart(2, '0');
   const maand = String(d.getMonth() + 1).padStart(2, '0');
   const jaar = d.getFullYear();
@@ -56,7 +57,7 @@ function formatDatum(datumString) {
 
 function berekenStatus(vervaldatum, drempel) {
   const nu = new Date();
-  const verval = new Date(vervaldatum);
+  const verval = new Date(vervaldatum + "T00:00:00");
   const msVerschil = verval - nu;
   const dagenVerschil = Math.ceil(msVerschil / (1000 * 60 * 60 * 24));
 
@@ -65,14 +66,26 @@ function berekenStatus(vervaldatum, drempel) {
   return { tekst: "Geldig", klasse: "status-geldig" };
 }
 
+async function verwijderVergunning(docId) {
+  if (confirm("Weet je zeker dat je deze vergunning wilt verwijderen?")) {
+    try {
+      await deleteDoc(doc(db, "vergunningen", docId));
+      alert("Vergunning verwijderd.");
+      laadVergunningen();
+    } catch (err) {
+      console.error("Fout bij verwijderen:", err);
+    }
+  }
+}
+
 async function laadVergunningen() {
   const tbody = document.querySelector("#vergunningenTable tbody");
   tbody.innerHTML = "";
 
   try {
     const snapshot = await getDocs(collection(db, "vergunningen"));
-    snapshot.forEach((doc) => {
-      const data = doc.data();
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
       const status = berekenStatus(data.vervaldatum, data.drempel);
       const row = document.createElement("tr");
 
@@ -81,7 +94,10 @@ async function laadVergunningen() {
         <td>${data.vergunningsnummer}</td>
         <td>${formatDatum(data.vervaldatum)}</td>
         <td class="${status.klasse}">${status.tekst}</td>
-        <td><button class="primary-btn small" onclick="verwijderNogNiet()">Verwijderen</button></td>
+        <td>
+          <button class="primary-btn small" onclick="verwijderVergunning('${docSnap.id}')">Verwijderen</button>
+          <a class="primary-btn small" href="mailto:${data.email}?subject=Vergunning%20${data.vergunningsnummer}" title="E-mail klant">✉️ E-mail</a>
+        </td>
       `;
 
       tbody.appendChild(row);
@@ -89,10 +105,6 @@ async function laadVergunningen() {
   } catch (err) {
     console.error("Fout bij laden vergunningen:", err);
   }
-}
-
-function verwijderNogNiet() {
-  alert("Verwijderen is nog niet geïmplementeerd.");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
