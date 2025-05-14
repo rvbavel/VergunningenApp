@@ -1,3 +1,4 @@
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import {
   getFirestore, collection, addDoc, getDocs, deleteDoc, doc, Timestamp
@@ -66,34 +67,44 @@ function berekenStatus(vervaldatum, drempel) {
   return { tekst: "Geldig", klasse: "status-geldig" };
 }
 
-function genereerEmailBody(taal, vergunningsnummer) {
+function genereerEmailBody(taal, nummer) {
+  const handtekening = `
+Team Speciaal Transport Zwolle B.V.
+Koelmansstraat 81a
+NL- 7722 LW Dalfsen
+Tel: +31 38 250 0020
+info@speciaaltransportzwolle.nl
+www.speciaaltransportzwolle.nl
+
+KVK: 90164652
+BTW nummer: NL865228413B01
+IBAN: NL98RABO0355344017
+BIC: RABONL2U`;
+
   switch (taal) {
     case "nl":
       return `Geachte klant,
 
-Uw vergunning met nummer ${vergunningsnummer} vervalt binnenkort.
+Uw vergunning met nummer ${nummer} vervalt binnenkort.
 Zullen wij voor u een verlenging aanvragen?
 
-Met vriendelijke groet,
-Team Speciaal Transport Zwolle B.V.`;
+${handtekening}`;
     case "en":
       return `Dear customer,
 
-Your permit with number ${vergunningsnummer} is about to expire.
+Your permit with number ${nummer} is about to expire.
 Would you like us to arrange a renewal for you?
 
-Kind regards,
-Team Speciaal Transport Zwolle B.V.`;
+${handtekening.replace("BTW nummer", "VAT number")}`;
     case "de":
       return `Sehr geehrter Kunde,
 
-Ihre Genehmigung mit der Nummer ${vergunningsnummer} läuft bald ab.
+Ihre Genehmigung mit der Nummer ${nummer} läuft bald ab.
 Möchten Sie, dass wir eine Verlängerung für Sie beantragen?
 
-Mit freundlichen Grüßen
-Team Speciaal Transport Zwolle B.V.`;
+${handtekening.replace("BTW nummer", "USt-IdNr.").replace("KVK", "Handelsregisternummer")}`;
     default:
-      return "";
+      return handtekening;
   }
 }
 
@@ -120,7 +131,8 @@ async function laadVergunningen() {
       const data = docSnap.data();
       const status = berekenStatus(data.vervaldatum, data.drempel);
       const subject = encodeURIComponent(`Vergunning ${data.vergunningsnummer}`);
-      const body = encodeURIComponent(genereerEmailBody(data.taal, data.vergunningsnummer));
+      const bodyText = genereerEmailBody(data.taal, data.vergunningsnummer);
+      const body = encodeURIComponent(bodyText);
       const row = document.createElement("tr");
 
       row.innerHTML = `
