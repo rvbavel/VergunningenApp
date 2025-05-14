@@ -117,7 +117,10 @@
         </label>
     </div>
 
-    <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
+    
+<button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
+<button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
+
 </main>
 
 <footer>
@@ -165,5 +168,20 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function genereerPDF() {
+  const element = document.querySelector("main");
+  const opt = {
+    margin:       0.5,
+    filename:     'rapport.pdf',
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
+}
+</script>
 </body>
 </html>
