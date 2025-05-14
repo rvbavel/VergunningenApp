@@ -435,15 +435,14 @@ async function genereerPDF() {
 
   // Tabelgegevens verzamelen
   const body = [];
+  const kolommen = document.querySelectorAll(".form-grid-five > div");
   for (let i = 0; i < 8; i++) {
-    const aangevraagd = document.querySelectorAll(".form-grid-five > div:nth-child(1) input")[i]?.value || "";
-    const aanvraagdatum = document.querySelectorAll(".form-grid-five > div:nth-child(2) input")[i]?.value || "";
-    const afgiftedatum = document.querySelectorAll(".form-grid-five > div:nth-child(3) input")[i]?.value || "";
-    const inkoopprijs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input")[i]?.value || "";
-    const verkoopprijs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input")[i]?.value || "";
-
-    if (aangevraagd || aanvraagdatum || afgiftedatum || inkoopprijs || verkoopprijs) {
-      body.push([aangevraagd, aanvraagdatum, afgiftedatum, inkoopprijs, verkoopprijs]);
+    const rij = [];
+    for (let j = 0; j < 5; j++) {
+      rij.push(kolommen[j]?.querySelectorAll("input")[i]?.value || "");
+    }
+    if (rij.some(val => val !== "")) {
+      body.push(rij);
     }
   }
 
