@@ -113,6 +113,8 @@
 
 
 
+  
+  
   <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
   <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
 </main>
@@ -165,7 +167,10 @@ function genereerPDF() {
     html2canvas:  { scale: 2 },
     jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
-  html2pdf().set(opt).from(element).save();
+  html2pdf().set(opt).from(element).then(() => {
+    const refnummer = document.getElementById('referentienummer')?.value || 'rapport';
+    html2pdf().from(element).save(refnummer + '.pdf');
+  });
 }
 </script>
 
@@ -181,7 +186,7 @@ function genereerPDF() {
     
     const refnummer = document.getElementById('referentienummer')?.value;
     const filename = refnummer ? `${refnummer}.pdf` : 'rapport.pdf';
-    filename: filename,
+    
         
         
     image: { type: 'jpeg', quality: 0.98 },
@@ -189,7 +194,10 @@ function genereerPDF() {
     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
     pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
   };
-  html2pdf().set(opt).from(element).save();
+  html2pdf().set(opt).from(element).then(() => {
+    const refnummer = document.getElementById('referentienummer')?.value || 'rapport';
+    html2pdf().from(element).save(refnummer + '.pdf');
+  });
 }
 </script>
 </body>
