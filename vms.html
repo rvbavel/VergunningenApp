@@ -5,44 +5,55 @@
   <title>Speciaal Transport Zwolle B.V. - MENU</title>
   <link rel="stylesheet" href="style.css">
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
-      authDomain: "vergunningenapp-8455e.firebaseapp.com",
-      projectId: "vergunningenapp-8455e",
-      storageBucket: "vergunningenapp-8455e.appspot.com",
-      messagingSenderId: "882694266288",
-      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+    authDomain: "vergunningenapp-8455e.firebaseapp.com",
+    projectId: "vergunningenapp-8455e",
+    storageBucket: "vergunningenapp-8455e.appspot.com",
+    messagingSenderId: "882694266288",
+    appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-    const welkomElement = document.getElementById("welkom-paragraaf");
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "index.html";
+      return;
+    }
 
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = "index.html";
+    try {
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+      const welkomElement = document.getElementById("welkom-paragraaf");
+
+      if (!welkomElement) {
+        console.error("welkom-paragraaf element niet gevonden");
         return;
       }
-      try {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          welkomElement.innerHTML = `Welkom ${data.voornaam}, bij het Vergunningen Management Systeem van Speciaal Transport Zwolle B.V.
-            <br><br>Via deze applicatie beheert u eenvoudig uw vergunningen en transportbegeleidingen.
-            Gebruik het menu bovenaan om snel te navigeren naar de gewenste modules, zoals het inboeken van nieuwe vergunningen, bekijken van rapportages of aanvragen van transportbegeleiding.`;
-        }
-      } catch (err) {
-        console.error("Fout bij ophalen gebruikersdata:", err);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        console.log("Gebruikersgegevens:", data);
+        welkomElement.innerHTML = `Welkom ${data.voornaam}, bij het Vergunningen Management Systeem van Speciaal Transport Zwolle B.V.
+          <br><br>Via deze applicatie beheert u eenvoudig uw vergunningen en transportbegeleidingen.
+          Gebruik het menu bovenaan om snel te navigeren naar de gewenste modules, zoals het inboeken van nieuwe vergunningen, bekijken van rapportages of aanvragen van transportbegeleiding.`;
+      } else {
+        console.warn("Geen gebruikersdocument gevonden in Firestore.");
+        welkomElement.textContent = "Welkom, gebruiker.";
       }
-    });
-  </script>
+    } catch (err) {
+      console.error("Fout bij ophalen gebruikersdata:", err);
+    }
+  });
+</script>
+
 </head>
 <body>
 
