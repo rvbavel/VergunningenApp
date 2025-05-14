@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <title>Speciaal Transport Zwolle B.V. - Vergunningen</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Speciaal Transport Zwolle B.V. - Vergunningen</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .status-geldig { color: green; font-weight: bold; }
+    .status-waarschuwing { color: orange; font-weight: bold; }
+    .status-vervallen { color: red; font-weight: bold; }
+    table#vergunningenTable th, table#vergunningenTable td {
+      padding: 6px 10px;
+      text-align: left;
+    }
+    table#vergunningenTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    table#vergunningenTable th {
+      background-color: #004466;
+      color: #fff;
+    }
+    table#vergunningenTable td, th {
+      border: 1px solid #ccc;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+    }
+  </style>
 </head>
 <body>
 
 <header>
-    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-    <h1>INBOEKEN VERGUNNINGEN</h1>
+  <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
+  <h1>INBOEKEN VERGUNNINGEN</h1>
 </header>
 
 <nav class="top-menu">
@@ -21,64 +45,60 @@
   <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
 </nav>
 
-
 <main class="card">
-    <h2>Nieuwe Vergunning Invoeren</h2>
+  <h2>Nieuwe Vergunning Invoeren</h2>
 
-    <div class="form-grid">
-        <label>Klantnaam:
-            <input type="text" id="klantnaam" placeholder="Naam van de klant">
-        </label>
-        <label>E-mail klant:
-            <input type="email" id="email_klant" placeholder="email@voorbeeld.nl">
-        </label>
+  <div class="form-grid">
+    <label>Klantnaam:
+      <input type="text" id="klantnaam" placeholder="Naam van de klant">
+    </label>
+    <label>E-mail klant:
+      <input type="email" id="email_klant" placeholder="email@voorbeeld.nl">
+    </label>
+  </div>
+
+  <div class="form-grid">
+    <label>Vergunningsnummer:
+      <input type="text" id="vergunningsnummer" placeholder="Bijvoorbeeld: V-12345">
+    </label>
+    <label>Vervaldatum:
+      <input type="date" id="vervaldatum">
+    </label>
+  </div>
+
+  <div class="form-grid">
+    <label>Waarschuwingsdrempel (dagen voor verval):
+      <input type="number" id="waarschuwingsdrempel" placeholder="Bijvoorbeeld: 7">
+    </label>
+  </div>
+
+  <button onclick="opslaanVergunning()" class="primary-btn">OPSLAAN VERGUNNING</button>
+
+  <section class="saved-permits">
+    <h3>Opgeslagen Vergunningen</h3>
+    <div class="table-wrapper">
+      <table id="vergunningenTable">
+        <thead>
+          <tr>
+            <th>Klantnaam</th>
+            <th>Vergunningsnummer</th>
+            <th>Vervaldatum</th>
+            <th>Status</th>
+            <th>Acties</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Inhoud wordt dynamisch geladen -->
+        </tbody>
+      </table>
     </div>
-
-    <div class="form-grid">
-        <label>Vergunningsnummer:
-            <input type="text" id="vergunningsnummer" placeholder="Bijvoorbeeld: V-12345">
-        </label>
-        <label>Vervaldatum:
-            <input type="date" id="vervaldatum">
-        </label>
-    </div>
-
-    <div class="form-grid">
-        <label>Waarschuwingsdrempel (dagen voor verval):
-            <input type="number" id="waarschuwingsdrempel" placeholder="Bijvoorbeeld: 7">
-        </label>
-        <label>Vergunning (PDF) toevoegen:
-            <input type="file" id="pdf_vergunning" accept="application/pdf">
-        </label>
-    </div>
-
-    <button onclick="opslaanVergunning()" class="primary-btn">OPSLAAN VERGUNNING</button>
-
-    <section class="saved-permits">
-        <h3>Opgeslagen Vergunningen</h3>
-        <table id="vergunningenTable">
-            <thead>
-                <tr>
-                    <th>Klantnaam</th>
-                    <th>E-mail</th>
-                    <th>Vergunningsnummer</th>
-                    <th>Vervaldatum</th>
-                    <th>Waarschuwingsdrempel</th>
-                    <th>PDF Bestand</th>
-                    <th>Actie</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Hier komen de opgeslagen regels -->
-            </tbody>
-        </table>
-    </section>
+  </section>
 </main>
 
 <footer>
-    Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
+  Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
 </footer>
 
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
