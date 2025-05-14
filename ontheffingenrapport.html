@@ -393,5 +393,79 @@ function vulPdfVelden() {
 }
 </script>
 
+
+<!-- jsPDF & autoTable CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+async function genereerPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Basisdata ophalen
+  const prefix = document.querySelector(".split-input .prefix")?.textContent || "";
+  const nummer = document.querySelector(".split-input input")?.value || "";
+  const refnummer = prefix + nummer;
+
+  const behandelaar = document.getElementById("behandelaar")?.value || "";
+  const opdrachtgever = document.getElementById("opdrachtgever")?.value || "";
+  const vervoerder = document.getElementById("vervoerder")?.value || "";
+  const referentie = document.getElementById("referentie_klant")?.value || "";
+  const omschrijving = document.getElementById("omschrijving")?.value || "";
+  const opmerkingen = document.getElementById("opmerkingen_facturatie")?.value || "";
+
+  const inkoop = document.getElementById("inkoop_totaal")?.value || "";
+  const verkoop = document.getElementById("verkoop_totaal")?.value || "";
+  const marge = document.getElementById("marge")?.value || "";
+
+  // Kop
+  doc.setFontSize(14);
+  doc.text("ONTHEFFINGEN RAPPORT", 105, 15, { align: "center" });
+  doc.setFontSize(11);
+  doc.text(`Referentienummer: ${refnummer}`, 14, 25);
+  doc.text(`Behandelaar: ${behandelaar}`, 110, 25);
+  doc.text(`Opdrachtgever: ${opdrachtgever}`, 14, 32);
+  doc.text(`Vervoerder: ${vervoerder}`, 110, 32);
+  doc.text(`Referentie klant: ${referentie}`, 14, 39);
+  doc.text("Omschrijving:", 14, 46);
+  doc.text(doc.splitTextToSize(omschrijving, 180), 14, 52);
+  doc.text("Opmerkingen t.a.v. facturatie:", 14, 72);
+  doc.text(doc.splitTextToSize(opmerkingen, 180), 14, 78);
+
+  // Tabelgegevens verzamelen
+  const body = [];
+  for (let i = 0; i < 8; i++) {
+    const aangevraagd = document.querySelectorAll(".form-grid-five > div:nth-child(1) input")[i]?.value || "";
+    const aanvraagdatum = document.querySelectorAll(".form-grid-five > div:nth-child(2) input")[i]?.value || "";
+    const afgiftedatum = document.querySelectorAll(".form-grid-five > div:nth-child(3) input")[i]?.value || "";
+    const inkoopprijs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input")[i]?.value || "";
+    const verkoopprijs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input")[i]?.value || "";
+
+    if (aangevraagd || aanvraagdatum || afgiftedatum || inkoopprijs || verkoopprijs) {
+      body.push([aangevraagd, aanvraagdatum, afgiftedatum, inkoopprijs, verkoopprijs]);
+    }
+  }
+
+  // Voeg tabel toe
+  doc.autoTable({
+    startY: 95,
+    head: [["Aangevraagd bij", "Aanvraagdatum", "Afgiftedatum", "Inkoopprijs (€)", "Verkoopprijs (€)"]],
+    body: body,
+    styles: { fontSize: 10, cellPadding: 2 },
+    theme: 'grid'
+  });
+
+  // Totale bedragen
+  let eindY = doc.lastAutoTable.finalY + 10;
+  doc.text(`Inkoopprijs totaal: ${inkoop}`, 14, eindY);
+  doc.text(`Verkoopprijs totaal: ${verkoop}`, 14, eindY + 6);
+  doc.text(`Marge: ${marge}`, 14, eindY + 12);
+
+  // Opslaan
+  doc.save(`${refnummer || "rapport"}.pdf`);
+}
+</script>
+
 </body>
 </html>
