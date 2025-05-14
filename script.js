@@ -69,11 +69,29 @@ function berekenStatus(vervaldatum, drempel) {
 function genereerEmailBody(taal, vergunningsnummer) {
   switch (taal) {
     case "nl":
-      return `Geachte klant,%0D%0A%0D%0AUw vergunning met nummer ${vergunningsnummer} vervalt binnenkort.%0D%0AZullen wij voor u een verlenging aanvragen?%0D%0A%0D%0AMet vriendelijke groet,%0D%0ATeam Speciaal Transport Zwolle B.V.`;
+      return `Geachte klant,
+
+Uw vergunning met nummer ${vergunningsnummer} vervalt binnenkort.
+Zullen wij voor u een verlenging aanvragen?
+
+Met vriendelijke groet,
+Team Speciaal Transport Zwolle B.V.`;
     case "en":
-      return `Dear customer,%0D%0A%0D%0AYour permit with number ${vergunningsnummer} is about to expire.%0D%0AWould you like us to arrange a renewal for you?%0D%0A%0D%0AKind regards,%0D%0ATeam Speciaal Transport Zwolle B.V.`;
+      return `Dear customer,
+
+Your permit with number ${vergunningsnummer} is about to expire.
+Would you like us to arrange a renewal for you?
+
+Kind regards,
+Team Speciaal Transport Zwolle B.V.`;
     case "de":
-      return `Sehr geehrter Kunde,%0D%0A%0D%0AIhre Genehmigung mit der Nummer ${vergunningsnummer} läuft bald ab.%0D%0AMöchten Sie, dass wir eine Verlängerung für Sie beantragen?%0D%0A%0D%0AMit freundlichen Grüßen%0D%0ATeam Speciaal Transport Zwolle B.V.`;
+      return `Sehr geehrter Kunde,
+
+Ihre Genehmigung mit der Nummer ${vergunningsnummer} läuft bald ab.
+Möchten Sie, dass wir eine Verlängerung für Sie beantragen?
+
+Mit freundlichen Grüßen
+Team Speciaal Transport Zwolle B.V.`;
     default:
       return "";
   }
@@ -101,6 +119,7 @@ async function laadVergunningen() {
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
       const status = berekenStatus(data.vervaldatum, data.drempel);
+      const subject = encodeURIComponent(`Vergunning ${data.vergunningsnummer}`);
       const body = encodeURIComponent(genereerEmailBody(data.taal, data.vergunningsnummer));
       const row = document.createElement("tr");
 
@@ -111,7 +130,7 @@ async function laadVergunningen() {
         <td class="${status.klasse}">${status.tekst}</td>
         <td>
           <button class="primary-btn small" onclick="verwijderVergunning('${docSnap.id}')">Verwijderen</button>
-          <a class="primary-btn small" href="mailto:${data.email}?subject=Vergunning%20${data.vergunningsnummer}&body=${body}" title="E-mail klant">✉️ E-mail</a>
+          <a class="primary-btn small" href="mailto:${data.email}?subject=${subject}&body=${body}" title="E-mail klant">✉️ E-mail</a>
         </td>
       `;
 
