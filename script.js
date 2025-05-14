@@ -1,59 +1,99 @@
-// Functie om totaalbedragen te berekenen per pagina
-function updateTotals(section) {
-    // Selecteer alle inkoopprijsvelden uit zowel 5- als 7-kolomsblokken
-    const inkoopInputs = section.querySelectorAll(
-        '.form-grid-five > div:nth-child(4) input[type="number"], .form-grid-seven > div:nth-child(6) input[type="number"]'
-    );
 
-    // Selecteer alle verkoopprijsvelden uit zowel 5- als 7-kolomsblokken
-    const verkoopInputs = section.querySelectorAll(
-        '.form-grid-five > div:nth-child(5) input[type="number"], .form-grid-seven > div:nth-child(7) input[type="number"]'
-    );
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, getDocs, Timestamp
+} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 
-    let inkoopTotaal = 0;
-    let verkoopTotaal = 0;
+const firebaseConfig = {
+  apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+  authDomain: "vergunningenapp-8455e.firebaseapp.com",
+  projectId: "vergunningenapp-8455e",
+  storageBucket: "vergunningenapp-8455e.appspot.com",
+  messagingSenderId: "882694266288",
+  appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+};
 
-    // Bereken som inkoopprijzen
-    inkoopInputs.forEach(input => {
-        const value = parseFloat(input.value);
-        if (!isNaN(value)) {
-            inkoopTotaal += value;
-        }
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+window.opslaanVergunning = async function () {
+  const klantnaam = document.getElementById("klantnaam").value.trim();
+  const email = document.getElementById("email_klant").value.trim();
+  const vergunningsnummer = document.getElementById("vergunningsnummer").value.trim();
+  const vervaldatum = document.getElementById("vervaldatum").value;
+  const drempel = parseInt(document.getElementById("waarschuwingsdrempel").value.trim(), 10);
+
+  if (!klantnaam || !email || !vergunningsnummer || !vervaldatum || isNaN(drempel)) {
+    alert("Vul alle velden in om een vergunning op te slaan.");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "vergunningen"), {
+      klantnaam,
+      email,
+      vergunningsnummer,
+      vervaldatum,
+      drempel,
+      timestamp: Timestamp.now()
     });
+    alert("Vergunning opgeslagen.");
+    laadVergunningen();
+  } catch (err) {
+    console.error("Fout bij opslaan:", err);
+    alert("Er ging iets mis bij het opslaan van de vergunning.");
+  }
+};
 
-    // Bereken som verkoopprijzen
-    verkoopInputs.forEach(input => {
-        const value = parseFloat(input.value);
-        if (!isNaN(value)) {
-            verkoopTotaal += value;
-        }
-    });
+function berekenStatus(vervaldatum, drempel) {
+  const nu = new Date();
+  const verval = new Date(vervaldatum);
+  const msVerschil = verval - nu;
+  const dagenVerschil = Math.ceil(msVerschil / (1000 * 60 * 60 * 24));
 
-    const marge = verkoopTotaal - inkoopTotaal;
-
-    // Vul totaalvelden in met €-teken en 2 decimalen
-    const inkoopField = section.querySelector('#inkoop_totaal');
-    const verkoopField = section.querySelector('#verkoop_totaal');
-    const margeField = section.querySelector('#marge');
-
-    if (inkoopField) inkoopField.value = `€ ${inkoopTotaal.toFixed(2)}`;
-    if (verkoopField) verkoopField.value = `€ ${verkoopTotaal.toFixed(2)}`;
-    if (margeField) margeField.value = `€ ${marge.toFixed(2)}`;
+  if (dagenVerschil < 0) return { tekst: "Vervallen", klasse: "status-vervallen" };
+  if (dagenVerschil <= drempel) return { tekst: "Gaat verlopen", klasse: "status-waarschuwing" };
+  return { tekst: "Geldig", klasse: "status-geldig" };
 }
 
-// Luister op het hele document naar input-wijzigingen
-document.addEventListener('input', function (e) {
-    const section = e.target.closest('main.card');
-    if (section && e.target.type === 'number') {
-        updateTotals(section);
+async function laadVergunningen() {
+  const tbody = document.querySelector("#vergunningenTable tbody");
+  tbody.innerHTML = "";
+
+  try {
+    const snapshot = await getDocs(collection(db, "vergunningen"));
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      const status = berekenStatus(data.vervaldatum, data.drempel);
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${data.klantnaam}</td>
+        <td>${data.vergunningsnummer}</td>
+        <td>${data.vervaldatum}</td>
+        <td class="${status.klasse}">${status.tekst}</td>
+        <td><button class="primary-btn small" onclick="verwijderNogNiet()">Verwijderen</button></td>
+      `;
+
+      tbody.appendChild(row);
+    });
+  } catch (err) {
+    console.error("Fout bij laden vergunningen:", err);
+  }
+}
+
+function verwijderNogNiet() {
+  alert("Verwijderen is nog niet geïmplementeerd.");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      laadVergunningen();
+    } else {
+      window.location.href = "index.html";
     }
+  });
 });
-
-// Navigatieknoppen
-function begeleidingenRapport() {
-    window.location.href = 'begeleidingenrapport.html';
-}
-
-function aanvraagTransportbegeleiding() {
-    window.location.href = 'aanvraagtransportbegeleiding.html';
-}
