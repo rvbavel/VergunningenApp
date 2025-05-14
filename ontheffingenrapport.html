@@ -117,6 +117,59 @@
   
   <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
   <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
+
+<section id="pdf-view" style="display: none; font-family: Arial, sans-serif; font-size: 11pt; margin-top: 20px;">
+  <h2 style="text-align: center; margin-bottom: 10px;">ONTHEFFINGEN RAPPORT</h2>
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+    <tr>
+      <td><strong>Referentienummer:</strong></td>
+      <td id="refnummer_pdf"></td>
+      <td><strong>Behandelaar:</strong></td>
+      <td id="behandelaar_pdf"></td>
+    </tr>
+    <tr>
+      <td><strong>Opdrachtgever:</strong></td>
+      <td id="opdrachtgever_pdf"></td>
+      <td><strong>Vervoerder:</strong></td>
+      <td id="vervoerder_pdf"></td>
+    </tr>
+    <tr>
+      <td><strong>Referentie klant:</strong></td>
+      <td id="referentie_pdf" colspan="3"></td>
+    </tr>
+    <tr>
+      <td><strong>Omschrijving:</strong></td>
+      <td id="omschrijving_pdf" colspan="3"></td>
+    </tr>
+    <tr>
+      <td><strong>Opmerkingen t.a.v. facturatie:</strong></td>
+      <td id="facturatie_pdf" colspan="3"></td>
+    </tr>
+  </table>
+
+  <h3 style="margin-top: 10px;">Details per regel</h3>
+  <table id="detail-tabel-pdf" style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #000; padding: 5px;">Aangevraagd bij</th>
+        <th style="border: 1px solid #000; padding: 5px;">Aanvraagdatum</th>
+        <th style="border: 1px solid #000; padding: 5px;">Afgiftedatum</th>
+        <th style="border: 1px solid #000; padding: 5px;">Inkoopprijs (€)</th>
+        <th style="border: 1px solid #000; padding: 5px;">Verkoopprijs (€)</th>
+      </tr>
+    </thead>
+    <tbody id="detail-body-pdf">
+      <!-- Rijen worden dynamisch gevuld -->
+    </tbody>
+  </table>
+
+  <div style="margin-top: 15px;">
+    <strong>Inkoopprijs totaal:</strong> <span id="inkoop_pdf"></span><br>
+    <strong>Verkoopprijs totaal:</strong> <span id="verkoop_pdf"></span><br>
+    <strong>Marge:</strong> <span id="marge_pdf"></span>
+  </div>
+</section>
+
 </main>
 
 <footer>
@@ -159,7 +212,8 @@ document.addEventListener('input', () => {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 function genereerPDF() {
-  const element = document.querySelector("main");
+  vulPdfVelden();
+  const element = document.getElementById("pdf-view"); element.style.display = "block";
   const opt = {
     margin:       0.5,
     filename:     'rapport.pdf',
@@ -177,7 +231,8 @@ function genereerPDF() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 function genereerPDF() {
-  const element = document.querySelector("main");
+  vulPdfVelden();
+  const element = document.getElementById("pdf-view"); element.style.display = "block";
   const opt = {
     margin: [0.2, 0.2, 0.2, 0.2],
     
@@ -200,5 +255,49 @@ function genereerPDF() {
   });
 }
 </script>
+
+<script>
+function vulPdfVelden() {
+  document.getElementById("refnummer_pdf").innerText = document.getElementById("referentienummer")?.value || "";
+  document.getElementById("behandelaar_pdf").innerText = document.getElementById("behandelaar")?.value || "";
+  document.getElementById("opdrachtgever_pdf").innerText = document.getElementById("opdrachtgever")?.value || "";
+  document.getElementById("vervoerder_pdf").innerText = document.getElementById("vervoerder")?.value || "";
+  document.getElementById("referentie_pdf").innerText = document.getElementById("referentie_klant")?.value || "";
+  document.getElementById("omschrijving_pdf").innerText = document.getElementById("omschrijving")?.value || "";
+  document.getElementById("facturatie_pdf").innerText = document.getElementById("opmerkingen_facturatie")?.value || "";
+
+  const inkoop = document.getElementById("inkoop_totaal")?.value || "";
+  const verkoop = document.getElementById("verkoop_totaal")?.value || "";
+  const marge = document.getElementById("marge")?.value || "";
+
+  document.getElementById("inkoop_pdf").innerText = inkoop;
+  document.getElementById("verkoop_pdf").innerText = verkoop;
+  document.getElementById("marge_pdf").innerText = marge;
+
+  // Rijen ophalen
+  const tabelBody = document.getElementById("detail-body-pdf");
+  tabelBody.innerHTML = "";
+
+  const rijen = 8;
+  for (let i = 0; i < rijen; i++) {
+    const aangevraagd = document.querySelectorAll(".form-grid-five > div:nth-child(1) input")[i]?.value || "";
+    const aanvraagdatum = document.querySelectorAll(".form-grid-five > div:nth-child(2) input")[i]?.value || "";
+    const afgiftedatum = document.querySelectorAll(".form-grid-five > div:nth-child(3) input")[i]?.value || "";
+    const inkoop = document.querySelectorAll(".form-grid-five > div:nth-child(4) input")[i]?.value || "";
+    const verkoop = document.querySelectorAll(".form-grid-five > div:nth-child(5) input")[i]?.value || "";
+
+    const rij = document.createElement("tr");
+    rij.innerHTML = `
+      <td style='border:1px solid #000; padding:5px;'>${aangevraagd}</td>
+      <td style='border:1px solid #000; padding:5px;'>${aanvraagdatum}</td>
+      <td style='border:1px solid #000; padding:5px;'>${afgiftedatum}</td>
+      <td style='border:1px solid #000; padding:5px;'>${inkoop}</td>
+      <td style='border:1px solid #000; padding:5px;'>${verkoop}</td>
+    `;
+    tabelBody.appendChild(rij);
+  }
+}
+</script>
+
 </body>
 </html>
