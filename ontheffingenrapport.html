@@ -360,7 +360,11 @@ function vulPdfVelden() {
 
   const val = (id) => document.getElementById(id)?.value || "";
 
-  document.getElementById("refnummer_pdf").innerText = val("referentienummer");
+  
+  const prefix = document.querySelector(".split-input .prefix")?.textContent || "";
+  const nummer = document.querySelector(".split-input input")?.value || "";
+  document.getElementById("refnummer_pdf").innerText = prefix + nummer;
+
   document.getElementById("behandelaar_pdf").innerText = val("behandelaar");
   document.getElementById("opdrachtgever_pdf").innerText = val("opdrachtgever");
   document.getElementById("vervoerder_pdf").innerText = val("vervoerder");
