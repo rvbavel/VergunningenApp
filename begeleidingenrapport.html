@@ -386,7 +386,13 @@ async function genereerPDF() {
   for (let i = 0; i < 8; i++) {
     const rij = [];
     for (let j = 0; j < 7; j++) {
-      rij.push(j === 0 && i === 0 ? "Bemiddeling STZ" : (kolommen[j]?.querySelectorAll("input")[i]?.value || ""));
+      if (j === 0 && i === 0) {
+          rij.push("Bemiddeling STZ");
+        } else if (j === 6 && i === 0) {
+          rij.push("75,00");
+        } else {
+          rij.push(kolommen[j]?.querySelectorAll("input")[i]?.value || "");
+        }
     }
     if (rij.some(val => val !== "")) {
       body.push(rij);
@@ -415,3 +421,4 @@ async function genereerPDF() {
 
 </body>
 </html>
+
