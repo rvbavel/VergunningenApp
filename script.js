@@ -1,4 +1,3 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import {
   getFirestore, collection, addDoc, getDocs, deleteDoc, doc, Timestamp
@@ -77,6 +76,7 @@ async function verwijderVergunning(docId) {
     }
   }
 }
+window.verwijderVergunning = verwijderVergunning;
 
 async function laadVergunningen() {
   const tbody = document.querySelector("#vergunningenTable tbody");
