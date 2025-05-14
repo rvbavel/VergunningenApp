@@ -16,7 +16,7 @@
 <nav class="top-menu">
   <button onclick="window.location.href='index.html'">🏠 HOME</button>
   <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+  <button onclick="window.location.href='ontheffingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
   <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
   <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
 </nav>
@@ -129,7 +129,7 @@
   <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
 
 <section id="pdf-view" style="display: none; font-family: Arial, sans-serif; font-size: 11pt; margin-top: 20px;">
-  <h2 style="text-align: center; margin-bottom: 10px;">ONTHEFFINGEN RAPPORT</h2>
+  <h2 style="text-align: center; margin-bottom: 10px;">BEGELEIDINGEN RAPPORT</h2>
   <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
     <tr>
       <td><strong>Referentienummer:</strong></td>
@@ -368,7 +368,7 @@ async function genereerPDF() {
 
   // Kop
   doc.setFontSize(14);
-  doc.text("ONTHEFFINGEN RAPPORT", 105, 15, { align: "center" });
+  doc.text("BEGELEIDINGEN RAPPORT", 105, 15, { align: "center" });
   doc.setFontSize(11);
   doc.text(`Referentienummer: ${refnummer}`, 14, 25);
   doc.text(`Behandelaar: ${behandelaar}`, 110, 25);
