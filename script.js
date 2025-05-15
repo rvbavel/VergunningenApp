@@ -1,9 +1,9 @@
+// script.js voor begeleidingenrapport.html
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, getDocs, deleteDoc, doc, Timestamp
+  getFirestore, collection, addDoc, getDocs, getDoc, doc, updateDoc
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
@@ -16,149 +16,144 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth(app);
 
-window.opslaanVergunning = async function () {
-  const klantnaam = document.getElementById("klantnaam").value.trim();
-  const email = document.getElementById("email_klant").value.trim();
-  const vergunningsnummer = document.getElementById("vergunningsnummer").value.trim();
-  const vervaldatum = document.getElementById("vervaldatum").value;
-  const drempel = parseInt(document.getElementById("waarschuwingsdrempel").value.trim(), 10);
-  const taal = document.getElementById("taal").value;
+let bewerkId = null;
 
-  if (!klantnaam || !email || !vergunningsnummer || !vervaldatum || isNaN(drempel)) {
-    alert("Vul alle velden in om een vergunning op te slaan.");
-    return;
-  }
+// Bereken totaalbedragen
+function updateTotals() {
+  const inkoopInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(6) input');
+  const verkoopInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(7) input');
 
-  try {
-    await addDoc(collection(db, "vergunningen"), {
-      klantnaam,
-      email,
-      vergunningsnummer,
-      vervaldatum,
-      drempel,
-      taal,
-      timestamp: Timestamp.now()
-    });
-    alert("Vergunning opgeslagen.");
-    laadVergunningen();
-  } catch (err) {
-    console.error("Fout bij opslaan:", err);
-    alert("Er ging iets mis bij het opslaan van de vergunning.");
-  }
-};
+  let inkoopTotaal = 0;
+  let verkoopTotaal = 0;
 
-function formatDatum(datumString) {
-  const d = new Date(datumString + "T00:00:00");
-  const dag = String(d.getDate()).padStart(2, '0');
-  const maand = String(d.getMonth() + 1).padStart(2, '0');
-  const jaar = d.getFullYear();
-  return `${dag}-${maand}-${jaar}`;
-}
-
-function berekenStatus(vervaldatum, drempel) {
-  const nu = new Date();
-  const verval = new Date(vervaldatum + "T00:00:00");
-  const msVerschil = verval - nu;
-  const dagenVerschil = Math.ceil(msVerschil / (1000 * 60 * 60 * 24));
-  if (dagenVerschil < 0) return { tekst: "Vervallen", klasse: "status-vervallen" };
-  if (dagenVerschil <= drempel) return { tekst: "Gaat verlopen", klasse: "status-waarschuwing" };
-  return { tekst: "Geldig", klasse: "status-geldig" };
-}
-
-function genereerEmailBody(taal, nummer) {
-  const handtekening = `
-Team Speciaal Transport Zwolle B.V.
-Koelmansstraat 81a
-NL- 7722 LW Dalfsen
-Tel: +31 38 250 0020
-info@speciaaltransportzwolle.nl
-www.speciaaltransportzwolle.nl
-
-KVK: 90164652
-BTW nummer: NL865228413B01
-IBAN: NL98RABO0355344017
-BIC: RABONL2U`;
-
-  switch (taal) {
-    case "nl":
-      return `Geachte klant,
-
-Uw vergunning met nummer ${nummer} vervalt binnenkort.
-Zullen wij voor u een verlenging aanvragen?
-
-${handtekening}`;
-    case "en":
-      return `Dear customer,
-
-Your permit with number ${nummer} is about to expire.
-Would you like us to arrange a renewal for you?
-
-${handtekening.replace("BTW nummer", "VAT number")}`;
-    case "de":
-      return `Sehr geehrter Kunde,
-
-Ihre Genehmigung mit der Nummer ${nummer} läuft bald ab.
-Möchten Sie, dass wir eine Verlängerung für Sie beantragen?
-
-${handtekening.replace("BTW nummer", "USt-IdNr.").replace("KVK", "Handelsregisternummer")}`;
-    default:
-      return handtekening;
-  }
-}
-
-async function verwijderVergunning(docId) {
-  if (confirm("Weet je zeker dat je deze vergunning wilt verwijderen?")) {
-    try {
-      await deleteDoc(doc(db, "vergunningen", docId));
-      alert("Vergunning verwijderd.");
-      laadVergunningen();
-    } catch (err) {
-      console.error("Fout bij verwijderen:", err);
-    }
-  }
-}
-window.verwijderVergunning = verwijderVergunning;
-
-async function laadVergunningen() {
-  const tbody = document.querySelector("#vergunningenTable tbody");
-  tbody.innerHTML = "";
-
-  try {
-    const snapshot = await getDocs(collection(db, "vergunningen"));
-    snapshot.forEach((docSnap) => {
-      const data = docSnap.data();
-      const status = berekenStatus(data.vervaldatum, data.drempel);
-      const subject = encodeURIComponent(`Vergunning ${data.vergunningsnummer}`);
-      const bodyText = genereerEmailBody(data.taal, data.vergunningsnummer);
-      const body = encodeURIComponent(bodyText);
-      const row = document.createElement("tr");
-
-      row.innerHTML = `
-        <td>${data.klantnaam}</td>
-        <td>${data.vergunningsnummer}</td>
-        <td>${formatDatum(data.vervaldatum)}</td>
-        <td class="${status.klasse}">${status.tekst}</td>
-        <td>
-          <button class="primary-btn small" onclick="verwijderVergunning('${docSnap.id}')">Verwijderen</button>
-          <a class="primary-btn small" href="mailto:${data.email}?subject=${subject}&body=${body}" title="E-mail klant">✉️ E-mail</a>
-        </td>
-      `;
-
-      tbody.appendChild(row);
-    });
-  } catch (err) {
-    console.error("Fout bij laden vergunningen:", err);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      laadVergunningen();
-    } else {
-      window.location.href = "index.html";
-    }
+  inkoopInputs.forEach(input => {
+    const val = parseFloat(input.value);
+    if (!isNaN(val)) inkoopTotaal += val;
   });
+
+  verkoopInputs.forEach(input => {
+    const val = parseFloat(input.value);
+    if (!isNaN(val)) verkoopTotaal += val;
+  });
+
+  const marge = verkoopTotaal - inkoopTotaal;
+  document.getElementById('inkoop_totaal').value = `€ ${inkoopTotaal.toFixed(2)}`;
+  document.getElementById('verkoop_totaal').value = `€ ${verkoopTotaal.toFixed(2)}`;
+  document.getElementById('marge').value = `€ ${marge.toFixed(2)}`;
+}
+
+// Luister naar invoerwijzigingen en bereken automatisch verkoopprijs
+document.addEventListener('input', e => {
+  if (e.target.closest('.form-grid-seven')) {
+    const grid = e.target.closest('.form-grid-seven');
+    const urenInputs = grid.children[4].querySelectorAll('input');
+    const verkoopInputs = grid.children[6].querySelectorAll('input');
+    urenInputs.forEach((input, index) => {
+      const uren = parseFloat(input.value);
+      if (!isNaN(uren)) {
+        verkoopInputs[index].value = (uren * 62.5).toFixed(2);
+      }
+    });
+    updateTotals();
+  }
+});
+
+// Opslaan van rapport
+async function opslaanBegeleiding() {
+  const ref = document.querySelector('.split-input .prefix').textContent + document.getElementById('referentienummer').value;
+  const data = {
+    refnr: ref,
+    behandelaar: document.getElementById('behandelaar').value,
+    opdrachtgever: document.getElementById('opdrachtgever').value,
+    vervoerder: document.getElementById('vervoerder').value,
+    referentie: document.getElementById('referentie_klant').value,
+    omschrijving: document.getElementById('omschrijving').value,
+    opmerkingen: document.getElementById('opmerkingen_facturatie').value,
+    regels: []
+  };
+
+  const kolommen = document.querySelectorAll('.form-grid-seven > div');
+  for (let i = 0; i < 8; i++) {
+    const regel = {
+      firma: kolommen[0].querySelectorAll('input')[i]?.value || "",
+      datum: kolommen[1].querySelectorAll('input')[i]?.value || "",
+      van: kolommen[2].querySelectorAll('input')[i]?.value || "",
+      naar: kolommen[3].querySelectorAll('input')[i]?.value || "",
+      uren: kolommen[4].querySelectorAll('input')[i]?.value || "",
+      inkoop: kolommen[5].querySelectorAll('input')[i]?.value || "",
+      verkoop: kolommen[6].querySelectorAll('input')[i]?.value || ""
+    };
+    data.regels.push(regel);
+  }
+
+  try {
+    if (bewerkId) {
+      await updateDoc(doc(db, 'begeleidingen', bewerkId), data);
+      bewerkId = null;
+    } else {
+      await addDoc(collection(db, 'begeleidingen'), data);
+    }
+    alert("Opgeslagen.");
+    laadOpdrachten();
+  } catch (err) {
+    console.error("Fout bij opslaan begeleiding:", err);
+    alert("Fout bij opslaan begeleiding: " + err.message);
+  }
+}
+
+// Koppel opslaan knop
+document.getElementById("btnOpslaan").addEventListener("click", opslaanBegeleiding);
+
+// Laad opdrachten in overzichtstabel
+async function laadOpdrachten() {
+  const tbody = document.querySelector('#opdrachtenTabel tbody');
+  if (!tbody) return;
+  tbody.innerHTML = "";
+  const snapshot = await getDocs(collection(db, 'begeleidingen'));
+  snapshot.forEach(docSnap => {
+    const d = docSnap.data();
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${d.refnr}</td>
+      <td>${d.opdrachtgever}</td>
+      <td><button onclick="bewerkOpdracht('${docSnap.id}')">Bewerk opdracht</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Bewerken van bestaande opdracht
+window.bewerkOpdracht = async function (id) {
+  const docSnap = await getDoc(doc(db, 'begeleidingen', id));
+  if (docSnap.exists()) {
+    const d = docSnap.data();
+    bewerkId = id;
+    document.getElementById('referentienummer').value = d.refnr.split('.')[1] || "";
+    document.getElementById('behandelaar').value = d.behandelaar || "";
+    document.getElementById('opdrachtgever').value = d.opdrachtgever || "";
+    document.getElementById('vervoerder').value = d.vervoerder || "";
+    document.getElementById('referentie_klant').value = d.referentie || "";
+    document.getElementById('omschrijving').value = d.omschrijving || "";
+    document.getElementById('opmerkingen_facturatie').value = d.opmerkingen || "";
+
+    const kolommen = document.querySelectorAll('.form-grid-seven > div');
+    for (let i = 0; i < 8; i++) {
+      kolommen[0].querySelectorAll('input')[i].value = d.regels[i]?.firma || "";
+      kolommen[1].querySelectorAll('input')[i].value = d.regels[i]?.datum || "";
+      kolommen[2].querySelectorAll('input')[i].value = d.regels[i]?.van || "";
+      kolommen[3].querySelectorAll('input')[i].value = d.regels[i]?.naar || "";
+      kolommen[4].querySelectorAll('input')[i].value = d.regels[i]?.uren || "";
+      kolommen[5].querySelectorAll('input')[i].value = d.regels[i]?.inkoop || "";
+      kolommen[6].querySelectorAll('input')[i].value = d.regels[i]?.verkoop || "";
+    }
+
+    updateTotals();
+  }
+}
+
+// Bij laden van de pagina
+window.addEventListener('DOMContentLoaded', () => {
+  updateTotals();
+  laadOpdrachten();
 });
