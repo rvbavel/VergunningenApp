@@ -66,6 +66,7 @@
         </label>
     </div>
 
+    <h3>Details per regel</h3>
     <div class="form-grid-seven">
         <div>
             <label>Begeleidingsfirma:</label>
@@ -99,7 +100,7 @@
         </div>
         <div>
             <label>Verkoopprijs (€):</label>
-            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+            <input type="number" step="0.01" value="75.00"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
             <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
         </div>
     </div>
@@ -116,20 +117,27 @@
         </label>
     </div>
 
-    <button id="btnOpslaan" class="primary-btn">OPSLAAN BEGELEIDINGENRAPPORT</button>
-    <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
+    <div class="button-row">
+        <button class="primary-btn" id="btnOpslaan">💾 OPSLAAN BEGELEIDINGENRAPPORT</button>
+        <button class="primary-btn" onclick="genereerPDF()">📥 DOWNLOAD ALS PDF</button>
+    </div>
 
-    <h3>Opgeslagen opdrachten</h3>
-    <table id="opdrachtenTabel">
-        <thead>
-            <tr>
-                <th>Referentienummer</th>
-                <th>Opdrachtgever</th>
-                <th>Actie</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <section>
+        <h3>Opgeslagen begeleidingen</h3>
+        <table id="opdrachtenTabel">
+            <thead>
+                <tr>
+                    <th>Referentienummer</th>
+                    <th>Opdrachtgever</th>
+                    <th>Actie</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- dynamisch gevuld -->
+            </tbody>
+        </table>
+    </section>
+
 </main>
 
 <footer>
@@ -137,5 +145,6 @@
 </footer>
 
 <script type="module" src="script.js"></script>
+
 </body>
 </html>
