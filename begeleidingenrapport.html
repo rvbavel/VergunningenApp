@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="nl">
 <head>
 <meta charset="utf-8"/>
@@ -402,7 +401,6 @@ async function genereerPDF() {
   doc.save(`${refnummer || "rapport"}.pdf`);
 }
 </script>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
@@ -480,6 +478,126 @@ window.bewerkBegeleiding = async function (ref) {
   document.getElementById("referentie_klant").value = data.referentie || "";
   document.getElementById("omschrijving").value = data.omschrijving || "";
   document.getElementById("opmerkingen_facturatie").value = data.opmerkingen || "";
+}
+document.addEventListener("DOMContentLoaded", laadBegeleidingen);
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+import {
+  getFirestore, doc, setDoc, getDoc, getDocs, collection
+} from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+  authDomain: "vergunningenapp-8455e.firebaseapp.com",
+  projectId: "vergunningenapp-8455e",
+  storageBucket: "vergunningenapp-8455e.appspot.com",
+  messagingSenderId: "882694266288",
+  appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+function verzamelRegelData() {
+  const kolommen = document.querySelectorAll(".form-grid-seven > div");
+  const regels = [];
+
+  for (let i = 0; i < 8; i++) {
+    regels.push({
+      firma: kolommen[0].querySelectorAll("input")[i]?.value || "",
+      datum: kolommen[1].querySelectorAll("input")[i]?.value || "",
+      van: kolommen[2].querySelectorAll("input")[i]?.value || "",
+      naar: kolommen[3].querySelectorAll("input")[i]?.value || "",
+      uren: kolommen[4].querySelectorAll("input")[i]?.value || "",
+      inkoop: kolommen[5].querySelectorAll("input")[i]?.value || "",
+      verkoop: kolommen[6].querySelectorAll("input")[i]?.value || ""
+    });
+  }
+
+  return regels;
+}
+
+function vulRegelData(regels) {
+  const kolommen = document.querySelectorAll(".form-grid-seven > div");
+
+  for (let i = 0; i < regels.length && i < 8; i++) {
+    kolommen[0].querySelectorAll("input")[i].value = regels[i].firma || "";
+    kolommen[1].querySelectorAll("input")[i].value = regels[i].datum || "";
+    kolommen[2].querySelectorAll("input")[i].value = regels[i].van || "";
+    kolommen[3].querySelectorAll("input")[i].value = regels[i].naar || "";
+    kolommen[4].querySelectorAll("input")[i].value = regels[i].uren || "";
+    kolommen[5].querySelectorAll("input")[i].value = regels[i].inkoop || "";
+    kolommen[6].querySelectorAll("input")[i].value = regels[i].verkoop || "";
+  }
+}
+
+window.opslaanBegeleiding = async function () {
+  const refnummer = document.querySelector(".split-input input")?.value;
+  const opdrachtgever = document.getElementById("opdrachtgever")?.value;
+
+  if (!refnummer || !opdrachtgever) {
+    alert("Vul minimaal het referentienummer en de opdrachtgever in.");
+    return;
+  }
+
+  const data = {
+    behandelaar: document.getElementById("behandelaar")?.value || "",
+    opdrachtgever,
+    vervoerder: document.getElementById("vervoerder")?.value || "",
+    referentie: document.getElementById("referentie_klant")?.value || "",
+    omschrijving: document.getElementById("omschrijving")?.value || "",
+    opmerkingen: document.getElementById("opmerkingen_facturatie")?.value || "",
+    regels: verzamelRegelData(),
+    timestamp: new Date()
+  };
+
+  try {
+    await setDoc(doc(db, "begeleidingen", `2025.${refnummer}`), data);
+    alert("Begeleidingsrapport opgeslagen.");
+    laadBegeleidingen();
+  } catch (e) {
+    console.error("Fout bij opslaan:", e);
+  }
+}
+
+window.bewerkBegeleiding = async function (ref) {
+  const snap = await getDoc(doc(db, "begeleidingen", ref));
+  if (!snap.exists()) return alert("Gegevens niet gevonden.");
+
+  const data = snap.data();
+  const nummer = ref.split(".")[1];
+
+  document.querySelector(".split-input input").value = nummer;
+  document.getElementById("behandelaar").value = data.behandelaar || "";
+  document.getElementById("opdrachtgever").value = data.opdrachtgever || "";
+  document.getElementById("vervoerder").value = data.vervoerder || "";
+  document.getElementById("referentie_klant").value = data.referentie || "";
+  document.getElementById("omschrijving").value = data.omschrijving || "";
+  document.getElementById("opmerkingen_facturatie").value = data.opmerkingen || "";
+  if (data.regels) {
+    vulRegelData(data.regels);
+  }
+}
+
+window.laadBegeleidingen = async function () {
+  const tbody = document.querySelector("#begeleidingenTabel tbody");
+  tbody.innerHTML = "";
+
+  const snap = await getDocs(collection(db, "begeleidingen"));
+  snap.forEach(docSnap => {
+    const data = docSnap.data();
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td style="padding: 8px;">${docSnap.id}</td>
+      <td style="padding: 8px;">${data.opdrachtgever}</td>
+      <td style="padding: 8px;">
+        <button onclick="bewerkBegeleiding('${docSnap.id}')" class="primary-btn small">Bewerk opdracht</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
 }
 document.addEventListener("DOMContentLoaded", laadBegeleidingen);
 </script>
