@@ -413,6 +413,29 @@ async function genereerPDF() {
 }
 </script>
 
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const urenInputs = document.querySelectorAll(".form-grid-seven > div:nth-child(5) input[type='number']");
+  const verkoopInputs = document.querySelectorAll(".form-grid-seven > div:nth-child(7) input[type='number']");
+
+  urenInputs.forEach((input, index) => {
+    input.addEventListener("input", () => {
+      const uren = parseFloat(input.value);
+      if (!isNaN(uren)) {
+        const verkoopprijs = uren * 62.5;
+        verkoopInputs[index].value = verkoopprijs.toFixed(2);
+      } else {
+        verkoopInputs[index].value = "";
+      }
+
+      // Optioneel: trigger herberekening totaal
+      verkoopInputs[index].dispatchEvent(new Event("input"));
+    });
+  });
+});
+</script>
+
+
 
 </body>
 </html>
