@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="nl">
 <head>
 <meta charset="utf-8"/>
@@ -481,7 +482,6 @@ window.bewerkBegeleiding = async function (ref) {
 }
 document.addEventListener("DOMContentLoaded", laadBegeleidingen);
 </script>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import {
@@ -600,6 +600,70 @@ window.laadBegeleidingen = async function () {
   });
 }
 document.addEventListener("DOMContentLoaded", laadBegeleidingen);
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script>
+async function genereerPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const prefix = document.querySelector(".split-input .prefix")?.textContent || "";
+  const nummer = document.querySelector(".split-input input")?.value || "";
+  const refnummer = prefix + nummer;
+
+  const behandelaar = document.getElementById("behandelaar")?.value || "";
+  const opdrachtgever = document.getElementById("opdrachtgever")?.value || "";
+  const vervoerder = document.getElementById("vervoerder")?.value || "";
+  const referentie = document.getElementById("referentie_klant")?.value || "";
+  const omschrijving = document.getElementById("omschrijving")?.value || "";
+  const opmerkingen = document.getElementById("opmerkingen_facturatie")?.value || "";
+
+  const inkoop = document.getElementById("inkoop_totaal")?.value || "";
+  const verkoop = document.getElementById("verkoop_totaal")?.value || "";
+  const marge = document.getElementById("marge")?.value || "";
+
+  doc.setFontSize(14);
+  doc.text("BEGELEIDINGEN RAPPORT", 105, 15, { align: "center" });
+  doc.setFontSize(11);
+  doc.text(`Referentienummer: ${refnummer}`, 14, 25);
+  doc.text(`Behandelaar: ${behandelaar}`, 110, 25);
+  doc.text(`Opdrachtgever: ${opdrachtgever}`, 14, 32);
+  doc.text(`Vervoerder: ${vervoerder}`, 110, 32);
+  doc.text(`Referentie klant: ${referentie}`, 14, 39);
+  doc.text("Omschrijving:", 14, 46);
+  doc.text(doc.splitTextToSize(omschrijving, 180), 14, 52);
+  doc.text("Opmerkingen t.a.v. facturatie:", 14, 72);
+  doc.text(doc.splitTextToSize(opmerkingen, 180), 14, 78);
+
+  // Tabelgegevens
+  const body = [];
+  const kolommen = document.querySelectorAll(".form-grid-seven > div");
+  for (let i = 0; i < 8; i++) {
+    const rij = [];
+    for (let j = 0; j < 7; j++) {
+      rij.push(kolommen[j]?.querySelectorAll("input")[i]?.value || "");
+    }
+    if (rij.some(val => val !== "")) {
+      body.push(rij);
+    }
+  }
+
+  doc.autoTable({
+    startY: 95,
+    head: [["Begeleidingsfirma", "Transportdatum", "Van", "Naar", "Uren", "Inkoopprijs (€)", "Verkoopprijs (€)"]],
+    body: body,
+    styles: { fontSize: 10, cellPadding: 2 },
+    theme: 'grid'
+  });
+
+  const eindY = doc.lastAutoTable.finalY + 10;
+  doc.text(`Inkoopprijs totaal: ${inkoop}`, 14, eindY);
+  doc.text(`Verkoopprijs totaal: ${verkoop}`, 14, eindY + 6);
+  doc.text(`Marge: ${marge}`, 14, eindY + 12);
+
+  doc.save(`${refnummer || "rapport"}.pdf`);
+}
 </script>
 </body>
 </html>
