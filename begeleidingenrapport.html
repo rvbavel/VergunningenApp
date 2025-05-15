@@ -665,5 +665,23 @@ async function genereerPDF() {
   doc.save(`${refnummer || "rapport"}.pdf`);
 }
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const urenInputs = document.querySelectorAll(".form-grid-seven > div:nth-child(5) input");
+  const verkoopInputs = document.querySelectorAll(".form-grid-seven > div:nth-child(7) input");
+
+  urenInputs.forEach((urenInput, index) => {
+    urenInput.addEventListener("input", () => {
+      const uren = parseFloat(urenInput.value);
+      const bedrag = isNaN(uren) ? "" : (uren * 62.5).toFixed(2);
+      verkoopInputs[index].value = bedrag;
+      // Trigger update voor totaalberekening
+      const event = new Event("input", { bubbles: true });
+      verkoopInputs[index].dispatchEvent(event);
+    });
+  });
+});
+</script>
 </body>
 </html>
