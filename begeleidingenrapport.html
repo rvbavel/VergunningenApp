@@ -117,14 +117,6 @@
         </label>
     </div>
 
-    
-
-
-
-
-
-  
-  
   <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
   <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
 
@@ -350,7 +342,7 @@ async function genereerPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  // Basisdata ophalen
+  // Basisdata
   const prefix = document.querySelector(".split-input .prefix")?.textContent || "";
   const nummer = document.querySelector(".split-input input")?.value || "";
   const refnummer = prefix + nummer;
@@ -366,7 +358,7 @@ async function genereerPDF() {
   const verkoop = document.getElementById("verkoop_totaal")?.value || "";
   const marge = document.getElementById("marge")?.value || "";
 
-  // Kop
+  // Koptekst
   doc.setFontSize(14);
   doc.text("BEGELEIDINGEN RAPPORT", 105, 15, { align: "center" });
   doc.setFontSize(11);
@@ -380,44 +372,47 @@ async function genereerPDF() {
   doc.text("Opmerkingen t.a.v. facturatie:", 14, 72);
   doc.text(doc.splitTextToSize(opmerkingen, 180), 14, 78);
 
-  // Tabelgegevens verzamelen
+  // Tabellen uitlezen
   const body = [];
   const kolommen = document.querySelectorAll(".form-grid-seven > div");
+
   for (let i = 0; i < 8; i++) {
     const rij = [];
-    for (let j = 0; j < 7; j++) {
-      if (j === 0 && i === 0) {
-          rij.push("Bemiddeling STZ");
-        } else if (j === 6 && i === 0) {
-          rij.push("75,00");
-        } else {
-          rij.push(kolommen[j]?.querySelectorAll("input")[i]?.value || "");
-        }
-    }
-    if (rij.some(val => val !== "")) {
+
+    const firma = i === 0 ? "Bemiddeling STZ" : (kolommen[0]?.querySelectorAll("input")[i]?.value || "");
+    const datum = kolommen[1]?.querySelectorAll("input")[i]?.value || "";
+    const van = kolommen[2]?.querySelectorAll("input")[i]?.value || "";
+    const naar = kolommen[3]?.querySelectorAll("input")[i]?.value || "";
+    const uren = kolommen[4]?.querySelectorAll("input")[i]?.value || "";
+    const inkoop = kolommen[5]?.querySelectorAll("input")[i]?.value || "";
+    const verkoop = i === 0 ? "75,00" : (kolommen[6]?.querySelectorAll("input")[i]?.value || "");
+
+    if (firma || datum || van || naar || uren || inkoop || verkoop) {
+      rij.push(firma, datum, van, naar, uren, inkoop, verkoop);
       body.push(rij);
     }
   }
 
-  // Voeg tabel toe
+  // Tabel toevoegen
   doc.autoTable({
     startY: 95,
-    head: [["Begeleidingsfirma", "Datum", "Tijd", "Verzameladres", "Losadres", "Inkoopprijs (€)", "Verkoopprijs (€)"]],
+    head: [["Begeleidingsfirma", "Transportdatum", "Van", "Naar", "Uren", "Inkoopprijs (€)", "Verkoopprijs (€)"]],
     body: body,
     styles: { fontSize: 10, cellPadding: 2 },
     theme: 'grid'
   });
 
-  // Totale bedragen
+  // Totalen
   let eindY = doc.lastAutoTable.finalY + 10;
   doc.text(`Inkoopprijs totaal: ${inkoop}`, 14, eindY);
   doc.text(`Verkoopprijs totaal: ${verkoop}`, 14, eindY + 6);
   doc.text(`Marge: ${marge}`, 14, eindY + 12);
 
-  // Opslaan
+  // Download
   doc.save(`${refnummer || "rapport"}.pdf`);
 }
 </script>
+
 
 </body>
 </html>
