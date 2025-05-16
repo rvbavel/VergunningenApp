@@ -154,13 +154,14 @@
 
       [...inkoopInputs, ...verkoopInputs].forEach(input => {
         input.addEventListener('input', updateTotals);
-        input.addEventListener('blur', () => {
-          const waarde = parseEuroString(input.value);
-          input.value = formatEuro(waarde);
-          updateTotals();
-        });
-      });
-
+        input.addEventListener("blur", () => {
+  const raw = input.value.trim();
+  if (raw !== "") {
+    const val = parse(raw);
+    input.value = format(val);
+  }
+  updateTotals();
+});
       updateTotals();
     });
   </script>
