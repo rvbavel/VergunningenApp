@@ -5,6 +5,37 @@
   <title>Speciaal Transport Zwolle B.V. - Vergunningen</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .status-geldig { color: green; font-weight: bold; }
+    .status-waarschuwing { color: orange; font-weight: bold; }
+    .status-vervallen { color: red; font-weight: bold; }
+    table#vergunningenTable th, table#vergunningenTable td {
+      padding: 6px 10px;
+      text-align: left;
+    }
+    table#vergunningenTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    table#vergunningenTable th {
+      background-color: #004466;
+      color: #fff;
+    }
+    table#vergunningenTable td, th {
+      border: 1px solid #ccc;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    .primary-btn.small {
+      font-size: 0.9rem;
+      padding: 4px 8px;
+      margin-right: 5px;
+      margin-top: 3px;
+      display: inline-block;
+    }
+  </style>
 </head>
 <body>
 
@@ -46,7 +77,7 @@
     <label>Waarschuwingsdrempel (dagen voor verval):
       <input type="number" id="waarschuwingsdrempel" placeholder="Bijvoorbeeld: 7">
     </label>
-    <label>Taal:
+    <label>Taalkeuze e-mail:
       <select id="taal">
         <option value="nl">Nederlands</option>
         <option value="en">Engels</option>
@@ -58,22 +89,41 @@
   <button onclick="opslaanVergunning()" class="primary-btn">OPSLAAN VERGUNNING</button>
 
   <section class="saved-permits">
-    <h2>Opgeslagen Vergunningen</h2>
+    <h3>Opgeslagen Vergunningen</h3>
+    <div class="table-wrapper">
+      
+<h2>Opgeslagen Vergunningen</h2>
 <table id="vergunningenTable" class="styled-table">
   <thead>
     <tr>
-      <th>Klantnaam</th>
-      <th>Vergunningsnummer</th>
-      <th>Vervaldatum</th>
-      <th>Status</th>
+      <th onclick="sortTable(0)">Klantnaam</th>
+      <th onclick="sortTable(1)">Vergunningsnummer</th>
+      <th onclick="sortTable(2)">Vervaldatum</th>
+      <th onclick="sortTable(3)">Status</th>
       <th>Acties</th>
     </tr>
   </thead>
   <tbody>
-    <!-- wordt dynamisch gevuld via script.js -->
+    <!-- Dynamisch gevuld -->
   </tbody>
 </table>
 
+<script>
+function sortTable(colIndex) {
+  const table = document.getElementById("vergunningenTable");
+  const rows = Array.from(table.rows).slice(1);
+  const sorted = rows.sort((a, b) => {
+    const aText = a.cells[colIndex].innerText.toLowerCase();
+    const bText = b.cells[colIndex].innerText.toLowerCase();
+    return aText.localeCompare(bText);
+  });
+  const tbody = table.tBodies[0];
+  tbody.innerHTML = "";
+  sorted.forEach(row => tbody.appendChild(row));
+}
+</script>
+
+    </div>
   </section>
 </main>
 
