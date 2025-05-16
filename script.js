@@ -1,3 +1,4 @@
+// script.js voor vergunningen.html
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
 import {
@@ -18,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+// Functie om vergunning op te slaan
 window.opslaanVergunning = async function () {
   const klantnaam = document.getElementById("klantnaam").value.trim();
   const email = document.getElementById("email_klant").value.trim();
@@ -49,6 +51,7 @@ window.opslaanVergunning = async function () {
   }
 };
 
+// Format datum van yyyy-mm-dd naar dd-mm-yyyy
 function formatDatum(datumString) {
   const d = new Date(datumString + "T00:00:00");
   const dag = String(d.getDate()).padStart(2, '0');
@@ -57,58 +60,20 @@ function formatDatum(datumString) {
   return `${dag}-${maand}-${jaar}`;
 }
 
+// Bereken status op basis van drempel
 function berekenStatus(vervaldatum, drempel) {
   const nu = new Date();
   const verval = new Date(vervaldatum + "T00:00:00");
   const msVerschil = verval - nu;
   const dagenVerschil = Math.ceil(msVerschil / (1000 * 60 * 60 * 24));
+
   if (dagenVerschil < 0) return { tekst: "Vervallen", klasse: "status-vervallen" };
   if (dagenVerschil <= drempel) return { tekst: "Gaat verlopen", klasse: "status-waarschuwing" };
   return { tekst: "Geldig", klasse: "status-geldig" };
 }
 
-function genereerEmailBody(taal, nummer) {
-  const handtekening = `
-Team Speciaal Transport Zwolle B.V.
-Koelmansstraat 81a
-NL- 7722 LW Dalfsen
-Tel: +31 38 250 0020
-info@speciaaltransportzwolle.nl
-www.speciaaltransportzwolle.nl
-
-KVK: 90164652
-BTW nummer: NL865228413B01
-IBAN: NL98RABO0355344017
-BIC: RABONL2U`;
-
-  switch (taal) {
-    case "nl":
-      return `Geachte klant,
-
-Uw vergunning met nummer ${nummer} vervalt binnenkort.
-Zullen wij voor u een verlenging aanvragen?
-
-${handtekening}`;
-    case "en":
-      return `Dear customer,
-
-Your permit with number ${nummer} is about to expire.
-Would you like us to arrange a renewal for you?
-
-${handtekening.replace("BTW nummer", "VAT number")}`;
-    case "de":
-      return `Sehr geehrter Kunde,
-
-Ihre Genehmigung mit der Nummer ${nummer} läuft bald ab.
-Möchten Sie, dass wir eine Verlängerung für Sie beantragen?
-
-${handtekening.replace("BTW nummer", "USt-IdNr.").replace("KVK", "Handelsregisternummer")}`;
-    default:
-      return handtekening;
-  }
-}
-
-async function verwijderVergunning(docId) {
+// Verwijder vergunning
+window.verwijderVergunning = async function (docId) {
   if (confirm("Weet je zeker dat je deze vergunning wilt verwijderen?")) {
     try {
       await deleteDoc(doc(db, "vergunningen", docId));
@@ -118,9 +83,22 @@ async function verwijderVergunning(docId) {
       console.error("Fout bij verwijderen:", err);
     }
   }
-}
-window.verwijderVergunning = verwijderVergunning;
+};
 
+// Maak e-mailtekst op basis van taal
+function genereerEmailBody(data) {
+  const bodyNl = `Geachte klant,\n\nUw vergunning met nummer ${data.vergunningsnummer} vervalt binnenkort.\n\nZullen wij voor u een verlenging aanvragen?\n\nMet vriendelijke groet,\n\nTeam Speciaal Transport Zwolle B.V.\nKoelmansstraat 81a\nNL- 7722 LW Dalfsen\nTel: +31 38 250 0020\ninfo@speciaaltransportzwolle.nl\nwww.speciaaltransportzwolle.nl\n\nKVK: 90164652\nBTW nummer: NL865228413B01\nIBAN: NL98RABO0355344017\nBIC: RABONL2U`;
+  const bodyEn = `Dear customer,\n\nYour permit number ${data.vergunningsnummer} is about to expire.\n\nWould you like us to apply for an extension on your behalf?\n\nBest regards,\n\nTeam Speciaal Transport Zwolle B.V.\nKoelmansstraat 81a\nNL- 7722 LW Dalfsen\nTel: +31 38 250 0020\ninfo@speciaaltransportzwolle.nl\nwww.speciaaltransportzwolle.nl\n\nKVK: 90164652\nVAT: NL865228413B01\nIBAN: NL98RABO0355344017\nBIC: RABONL2U`;
+  const bodyDe = `Sehr geehrter Kunde,\n\nIhre Genehmigung mit der Nummer ${data.vergunningsnummer} läuft bald ab.\n\nMöchten Sie, dass wir eine Verlängerung für Sie beantragen?\n\nMit freundlichen Grüßen,\n\nTeam Speciaal Transport Zwolle B.V.\nKoelmansstraat 81a\nNL- 7722 LW Dalfsen\nTel: +31 38 250 0020\ninfo@speciaaltransportzwolle.nl\nwww.speciaaltransportzwolle.nl\n\nKVK: 90164652\nUSt-ID: NL865228413B01\nIBAN: NL98RABO0355344017\nBIC: RABONL2U`;
+
+  switch (data.taal) {
+    case "en": return bodyEn;
+    case "de": return bodyDe;
+    default: return bodyNl;
+  }
+}
+
+// Laad alle vergunningen
 async function laadVergunningen() {
   const tbody = document.querySelector("#vergunningenTable tbody");
   tbody.innerHTML = "";
@@ -130,22 +108,20 @@ async function laadVergunningen() {
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
       const status = berekenStatus(data.vervaldatum, data.drempel);
-      const subject = encodeURIComponent(`Vergunning ${data.vergunningsnummer}`);
-      const bodyText = genereerEmailBody(data.taal, data.vergunningsnummer);
-      const body = encodeURIComponent(bodyText);
-      const row = document.createElement("tr");
+      const body = encodeURIComponent(genereerEmailBody(data));
+      const datumFormatted = formatDatum(data.vervaldatum);
 
+      const row = document.createElement("tr");
       row.innerHTML = `
         <td>${data.klantnaam}</td>
         <td>${data.vergunningsnummer}</td>
-        <td>${formatDatum(data.vervaldatum)}</td>
+        <td>${datumFormatted}</td>
         <td class="${status.klasse}">${status.tekst}</td>
         <td>
           <button class="primary-btn small" onclick="verwijderVergunning('${docSnap.id}')">Verwijderen</button>
-          <a class="primary-btn small" href="mailto:${data.email}?subject=${subject}&body=${body}" title="E-mail klant">✉️ E-mail</a>
+          <a class="primary-btn small" href="mailto:${data.email}?subject=Vergunning%20${data.vergunningsnummer}&body=${body}">✉️ E-mail</a>
         </td>
       `;
-
       tbody.appendChild(row);
     });
   } catch (err) {
@@ -153,6 +129,7 @@ async function laadVergunningen() {
   }
 }
 
+// Starten bij laden
 document.addEventListener("DOMContentLoaded", () => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
