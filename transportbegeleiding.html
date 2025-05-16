@@ -2,22 +2,124 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Speciaal Transport Zwolle B.V. - Bestelbon transportbegeleiding</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="print.css" media="print">
+  <title>Transportbegeleiding Werkbon</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5faff;
+      margin: 20px;
+    }
+    label {
+      font-weight: bold;
+    }
+    .form-section {
+      background: #e6edff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .form-grid-transport {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 5px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      resize: vertical;
+    }
+    input, select {
+      width: 100%;
+      padding: 4px;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-  <h1>AANVRAAG TRANSPORTBEGELEIDING</h1>
-</header>
-  
-   <nav class="top-menu">
-    <button onclick="window.location.href='index.html'">🏠 HOME</button>
-    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-    <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-  </nav>
+  <h1>Werkbon Transportbegeleiding</h1>
+
+  <div class="form-section">
+    <div class="form-grid">
+      <label for="attn">Ter attentie van:</label>
+      <input type="text" id="attn">
+      
+      <label for="firma">Transport firma:</label>
+      <input type="text" id="firma">
+
+      <label for="refnr">Ons referentienummer:</label>
+      <div style="display: flex; align-items: center;">
+        <span>2025.</span>
+        <input type="text" id="refnr" placeholder="4 cijfers" style="margin-left: 5px;">
+      </div>
+
+      <label for="aanvrager">Aanvrager:</label>
+      <select id="aanvrager">
+        <option value="">--- Maak keuze ---</option>
+        <option value="René">René</option>
+        <option value="Anke">Anke</option>
+        <option value="Sia">Sia</option>
+        <option value="Martijn">Martijn</option>
+      </select>
+
+      <label for="rekening">Rekening aan:</label>
+      <input type="email" id="rekening" value="facturen@speciaaltransportzwolle.nl">
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Transport afmetingen:</h3>
+    <div class="form-grid-transport">
+      <label>Lengte (m):</label><input type="number">
+      <label>Breedte (m):</label><input type="number">
+      <label>Hoogte (m):</label><input type="number">
+      <label>Minimaal (m):</label><input type="number">
+      <label>Gewicht (t):</label><input type="number">
+    </div>
+
+    <div class="form-grid">
+      <label for="datum">Transport Datum:</label>
+      <input type="date" id="datum">
+
+      <label for="vertrektijd">Vertrektijd:</label>
+      <div style="display: flex; gap: 5px;">
+        <input type="number" min="0" max="23" placeholder="uu" style="width: 50px;">
+        <span>:</span>
+        <input type="number" min="0" max="59" placeholder="mm" style="width: 50px;">
+      </div>
+
+      <label for="van">Van:</label>
+      <input type="text" id="van">
+
+      <label for="naar">Naar:</label>
+      <input type="text" id="naar">
+
+      <label for="ontheffingnr">Ontheffingsnummer:</label>
+      <input type="text" id="ontheffingnr" placeholder="(in bijlage)">
+
+      <label for="chauffeur">Chauffeur & telefoonnummer:</label>
+      <input type="text" id="chauffeur">
+
+      <label for="kentekens">Kentekens:</label>
+      <input type="text" id="kentekens">
+    </div>
+  </div>
+
+  <div class="form-section">
+    <label for="extra">Extra informatie:</label><br>
+    <textarea id="extra" placeholder="Opmerkingen, bijzonderheden, instructies..."></textarea>
+  </div>
+
+</body>
+</html>
+
 
