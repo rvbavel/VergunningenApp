@@ -164,5 +164,52 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 // Voeg eventlistener toe voor de knop (werkt alleen met type="module")
 document.getElementById("btnOpslaan").addEventListener("click", opslaanVergunning);
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+  authDomain: "vergunningenapp-8455e.firebaseapp.com",
+  projectId: "vergunningenapp-8455e",
+  storageBucket: "vergunningenapp-8455e.appspot.com",
+  messagingSenderId: "882694266288",
+  appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+onAuthStateChanged(auth, async (user) => {
+  const welkomTekst = document.getElementById("welkomTekst");
+  if (user) {
+    try {
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const data = userSnap.data();
+        welkomTekst.innerText = `Welkom ${data.voornaam}!`;
+        if (data.isAdmin) {
+          document.getElementById("adminPanel").style.display = "block";
+        }
+      } else {
+        welkomTekst.innerText = "Welkom gebruiker.";
+      }
+    } catch (err) {
+      console.error("Fout bij ophalen gebruikersgegevens:", err);
+      welkomTekst.innerText = "Welkom gebruiker.";
+    }
+  } else {
+    window.location.href = "index.html";
+  }
+});
+
+window.uitloggen = function () {
+  signOut(auth).then(() => {
+    window.location.href = "index.html";
+  });
+};
+
 
 
