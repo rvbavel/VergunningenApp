@@ -162,5 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+// Voeg eventlistener toe voor de knop (werkt alleen met type="module")
 document.getElementById("btnOpslaan").addEventListener("click", opslaanVergunning);
+
 
