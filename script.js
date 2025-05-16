@@ -162,3 +162,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+document.getElementById("btnOpslaan").addEventListener("click", opslaanVergunning);
+
