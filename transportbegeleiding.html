@@ -2,42 +2,72 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Speciaal Transport Zwolle B.V. - Begeleidingenrapport</title>
+  <title>Transportbegeleiding Werkbon</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
+  <style>
+    .form-section {
+      background: #e6edff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    .form-grid,
+    .form-grid-transport {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .form-grid {
+      grid-template-columns: auto 1fr;
+      align-items: center;
+    }
+    .form-grid-transport {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      align-items: center;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      resize: vertical;
+    }
+    input, select {
+      padding: 6px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
 
 <header>
   <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-  <h1>BEGELEIDINGENRAPPORT</h1>
+  <h1>WERKBON TRANSPORTBEGELEIDING</h1>
 </header>
-  
-   <nav class="top-menu">
-    <button onclick="window.location.href='index.html'">🏠 HOME</button>
-    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-    <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-  </nav>  
-  
-</head>
-<body>
 
-  <h1>Werkbon Transportbegeleiding</h1>
+<nav class="top-menu">
+  <button onclick="window.location.href='index.html'">🏠 HOME</button>
+  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+  <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+</nav>
+
+<main class="card">
+  <h2>Bestel-/Werkbon Transportbegeleiding</h2>
 
   <div class="form-section">
     <div class="form-grid">
       <label for="attn">Ter attentie van:</label>
       <input type="text" id="attn">
-      
+
       <label for="firma">Transport firma:</label>
       <input type="text" id="firma">
 
       <label for="refnr">Ons referentienummer:</label>
-      <div style="display: flex; align-items: center;">
-        <span>2025.</span>
-        <input type="text" id="refnr" placeholder="4 cijfers" style="margin-left: 5px;">
+      <div class="split-input">
+        <span class="prefix">2025.</span>
+        <input type="text" id="refnr" maxlength="4" placeholder="4 cijfers">
       </div>
 
       <label for="aanvrager">Aanvrager:</label>
@@ -55,7 +85,7 @@
   </div>
 
   <div class="form-section">
-    <h3>Transport afmetingen:</h3>
+    <h3>Transportafmetingen</h3>
     <div class="form-grid-transport">
       <label>Lengte (m):</label><input type="number">
       <label>Breedte (m):</label><input type="number">
@@ -65,14 +95,14 @@
     </div>
 
     <div class="form-grid">
-      <label for="datum">Transport Datum:</label>
+      <label for="datum">Transportdatum:</label>
       <input type="date" id="datum">
 
       <label for="vertrektijd">Vertrektijd:</label>
       <div style="display: flex; gap: 5px;">
-        <input type="number" min="0" max="23" placeholder="uu" style="width: 50px;">
+        <input type="number" min="0" max="23" placeholder="uu" style="width: 60px;">
         <span>:</span>
-        <input type="number" min="0" max="59" placeholder="mm" style="width: 50px;">
+        <input type="number" min="0" max="59" placeholder="mm" style="width: 60px;">
       </div>
 
       <label for="van">Van:</label>
@@ -93,11 +123,14 @@
   </div>
 
   <div class="form-section">
-    <label for="extra">Extra informatie:</label><br>
+    <label for="extra">Extra informatie:</label>
     <textarea id="extra" placeholder="Opmerkingen, bijzonderheden, instructies..."></textarea>
   </div>
+</main>
+
+<footer>
+  Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
+</footer>
 
 </body>
 </html>
-
-
