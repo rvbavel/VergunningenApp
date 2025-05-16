@@ -1,470 +1,169 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="print.css" media="print">
+  <meta charset="UTF-8" />
+  <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
 </head>
 <body>
-
-<header>
-    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
+  <header>
+    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
     <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - ONTHEFFINGENRAPPORT</h1>
-</header>
+  </header>
 
-<nav class="top-menu">
-  <button onclick="window.location.href='index.html'">🏠 HOME</button>
-  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-  <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-</nav>
+  <nav class="top-menu">
+    <button onclick="window.location.href='index.html'">🏠 HOME</button>
+    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+    <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+  </nav>
 
-<main class="card">
+  <main class="card">
     <h2>ONTHEFFINGEN RAPPORT</h2>
 
     <div class="form-grid">
-        <label>Referentienummer:
-            <div class="split-input">
-                <span class="prefix">2025.</span>
-                <input type="text" id="referentienummer" maxlength="4" placeholder="4 cijfers">
-            </div>
-        </label>
-        <label>Behandelaar:
-            <select id="behandelaar">
-                <option value="">--- Maak keuze ---</option>
-                <option value="René">René</option>
-                <option value="Anke">Anke</option>
-                <option value="Sia">Sia</option>
-                <option value="Martijn">Martijn</option>
-            </select>
-        </label>
+      <label>Referentienummer:
+        <div class="split-input">
+          <span class="prefix">2025.</span>
+          <input type="text" id="referentienummer" maxlength="4" placeholder="4 cijfers" />
+        </div>
+      </label>
+      <label>Behandelaar:
+        <select id="behandelaar">
+          <option value="">--- Maak keuze ---</option>
+          <option value="René">René</option>
+          <option value="Anke">Anke</option>
+          <option value="Sia">Sia</option>
+          <option value="Martijn">Martijn</option>
+        </select>
+      </label>
     </div>
 
     <div class="form-grid-three">
-        <label>Opdrachtgever:
-            <input type="text" id="opdrachtgever" placeholder="Naam opdrachtgever">
-        </label>
-        <label>Vervoerder:
-            <input type="text" id="vervoerder" placeholder="Naam vervoerder">
-        </label>
-        <label>Referentie klant:
-            <input type="text" id="referentie_klant" placeholder="Referentie klant">
-        </label>
+      <label>Opdrachtgever:
+        <input type="text" id="opdrachtgever" placeholder="Naam opdrachtgever" />
+      </label>
+      <label>Vervoerder:
+        <input type="text" id="vervoerder" placeholder="Naam vervoerder" />
+      </label>
+      <label>Referentie klant:
+        <input type="text" id="referentie_klant" placeholder="Referentie klant" />
+      </label>
     </div>
 
     <div class="form-grid-single">
-        <label>Omschrijving:
-            <textarea id="omschrijving" placeholder="Ontheffing, Afmetingen, Kentekens, Ontheffingsnummer, Geldigheid"></textarea>
-        </label>
+      <label>Omschrijving:
+        <textarea id="omschrijving" placeholder="Ontheffing, Afmetingen, Kentekens, Ontheffingsnummer, Geldigheid"></textarea>
+      </label>
     </div>
 
     <div class="form-grid-single">
-        <label>Opmerkingen t.a.v. facturatie:
-            <textarea id="opmerkingen_facturatie" placeholder="Bijvoorbeeld factuurreferenties of betaalafspraken"></textarea>
-        </label>
+      <label>Opmerkingen t.a.v. facturatie:
+        <textarea id="opmerkingen_facturatie" placeholder="Bijvoorbeeld factuurreferenties of betaalafspraken"></textarea>
+      </label>
     </div>
 
     <h3>Details per regel</h3>
     <div class="form-grid-five">
-        <div>
-            <label>Aangevraagd bij:</label>
-            <input type="text"><input type="text"><input type="text"><input type="text">
-            <input type="text"><input type="text"><input type="text"><input type="text">
-        </div>
-        <div>
-            <label>Aanvraagdatum:</label>
-            <input type="date"><input type="date"><input type="date"><input type="date">
-            <input type="date"><input type="date"><input type="date"><input type="date">
-        </div>
-        <div>
-            <label>Afgiftedatum:</label>
-            <input type="date"><input type="date"><input type="date"><input type="date">
-            <input type="date"><input type="date"><input type="date"><input type="date">
-        </div>
-        <div>
-            <label>Inkoopprijs (€):</label>
-            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
-            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
-        </div>
-        <div>
-            <label>Verkoopprijs (€):</label>
-            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
-            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
-        </div>
+      <div>
+        <label>Aangevraagd bij:</label>
+        <input type="text"><input type="text"><input type="text"><input type="text">
+        <input type="text"><input type="text"><input type="text"><input type="text">
+      </div>
+      <div>
+        <label>Aanvraagdatum:</label>
+        <input type="date"><input type="date"><input type="date"><input type="date">
+        <input type="date"><input type="date"><input type="date"><input type="date">
+      </div>
+      <div>
+        <label>Afgiftedatum:</label>
+        <input type="date"><input type="date"><input type="date"><input type="date">
+        <input type="date"><input type="date"><input type="date"><input type="date">
+      </div>
+      <div>
+        <label>Inkoopprijs (€):</label>
+        <input type="text"><input type="text"><input type="text"><input type="text">
+        <input type="text"><input type="text"><input type="text"><input type="text">
+      </div>
+      <div>
+        <label>Verkoopprijs (€):</label>
+        <input type="text"><input type="text"><input type="text"><input type="text">
+        <input type="text"><input type="text"><input type="text"><input type="text">
+      </div>
     </div>
 
     <div class="form-grid-three">
-        <label>Inkoopprijs totaal (€):
-            <input type="text" id="inkoop_totaal" readonly>
-        </label>
-        <label>Verkoopprijs totaal (€):
-            <input type="text" id="verkoop_totaal" readonly>
-        </label>
-        <label>Marge (€):
-            <input type="text" id="marge" readonly>
-        </label>
+      <label>Inkoopprijs totaal (€):
+        <input type="text" id="inkoop_totaal" readonly />
+      </label>
+      <label>Verkoopprijs totaal (€):
+        <input type="text" id="verkoop_totaal" readonly />
+      </label>
+      <label>Marge (€):
+        <input type="text" id="marge" readonly />
+      </label>
     </div>
 
-    
+    <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
+    <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
+  </main>
 
-
-
-
-
-  
-  
-  <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
-  <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
-
-<section id="pdf-view" style="display: none; font-family: Arial, sans-serif; font-size: 11pt; margin-top: 20px;">
-  <h2 style="text-align: center; margin-bottom: 10px;">ONTHEFFINGEN RAPPORT</h2>
-  <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
-    <tr>
-      <td><strong>Referentienummer:</strong></td>
-      <td id="refnummer_pdf"></td>
-      <td><strong>Behandelaar:</strong></td>
-      <td id="behandelaar_pdf"></td>
-    </tr>
-    <tr>
-      <td><strong>Opdrachtgever:</strong></td>
-      <td id="opdrachtgever_pdf"></td>
-      <td><strong>Vervoerder:</strong></td>
-      <td id="vervoerder_pdf"></td>
-    </tr>
-    <tr>
-      <td><strong>Referentie klant:</strong></td>
-      <td id="referentie_pdf" colspan="3"></td>
-    </tr>
-    <tr>
-      <td><strong>Omschrijving:</strong></td>
-      <td id="omschrijving_pdf" colspan="3"></td>
-    </tr>
-    <tr>
-      <td><strong>Opmerkingen t.a.v. facturatie:</strong></td>
-      <td id="facturatie_pdf" colspan="3"></td>
-    </tr>
-  </table>
-
-  <h3 style="margin-top: 10px;">Details per regel</h3>
-  <table id="detail-tabel-pdf" style="width: 100%; border-collapse: collapse;">
-    <thead>
-      <tr>
-        <th style="border: 1px solid #000; padding: 5px;">Aangevraagd bij</th>
-        <th style="border: 1px solid #000; padding: 5px;">Aanvraagdatum</th>
-        <th style="border: 1px solid #000; padding: 5px;">Afgiftedatum</th>
-        <th style="border: 1px solid #000; padding: 5px;">Inkoopprijs (€)</th>
-        <th style="border: 1px solid #000; padding: 5px;">Verkoopprijs (€)</th>
-      </tr>
-    </thead>
-    <tbody id="detail-body-pdf">
-      <!-- Rijen worden dynamisch gevuld -->
-    </tbody>
-  </table>
-
-  <div style="margin-top: 15px;">
-    <strong>Inkoopprijs totaal:</strong> <span id="inkoop_pdf"></span><br>
-    <strong>Verkoopprijs totaal:</strong> <span id="verkoop_pdf"></span><br>
-    <strong>Marge:</strong> <span id="marge_pdf"></span>
-  </div>
-</section>
-
-</main>
-
-<footer>
+  <footer>
     Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
-</footer>
+  </footer>
 
-<script>
-document.addEventListener('input', () => {
-  const inkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(4) input[type="number"]');
-  const verkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(5) input[type="number"]');
-
-  let inkoopTotaal = 0;
-  let verkoopTotaal = 0;
-
-  inkoopInputs.forEach(input => {
-    const waarde = parseFloat(input.value);
-    if (!isNaN(waarde)) {
-      inkoopTotaal += waarde;
+  <!-- BEREKENING & FORMATTERING -->
+  <script>
+    function parseEuroString(value) {
+      return parseFloat(value.replace(',', '.').replace('€', '').trim()) || 0;
     }
-  });
 
-  verkoopInputs.forEach(input => {
-    const waarde = parseFloat(input.value);
-    if (!isNaN(waarde)) {
-      verkoopTotaal += waarde;
+    function formatEuro(value) {
+      return value.toFixed(2).replace('.', ',');
     }
-  });
 
-  const marge = verkoopTotaal - inkoopTotaal;
+    function updateTotals() {
+      const inkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(4) input');
+      const verkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(5) input');
 
-  const format = waarde => `€ ${waarde.toFixed(2)}`;
+      let inkoopTotaal = 0;
+      let verkoopTotaal = 0;
 
-  document.getElementById('inkoop_totaal').value = format(inkoopTotaal);
-  document.getElementById('verkoop_totaal').value = format(verkoopTotaal);
-  document.getElementById('marge').value = format(marge);
-});
-</script>
+      inkoopInputs.forEach(input => {
+        const bedrag = parseEuroString(input.value);
+        inkoopTotaal += bedrag;
+      });
 
+      verkoopInputs.forEach(input => {
+        const bedrag = parseEuroString(input.value);
+        verkoopTotaal += bedrag;
+      });
 
+      const marge = verkoopTotaal - inkoopTotaal;
 
-<script>
-// oude functie verwijderd {
-  vulPdfVelden();
-  const element = document.getElementById("pdf-view");
-  element.style.display = "block";
-
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      const refnummer = document.getElementById("referentienummer")?.value || "rapport";
-      html2pdf().from(element).save(refnummer + ".pdf");
-    }, 300);
-  });
-
-  const element = document.getElementById("pdf-view"); element.style.display = "block";
-  const opt = {
-    margin:       0.5,
-    filename:     'rapport.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-  };
-  html2pdf().set(opt).from(element).then(() => {
-    const refnummer = document.getElementById('referentienummer')?.value || 'rapport';
-    html2pdf().from(element).save(refnummer + '.pdf');
-  });
-}
-</script>
-
-
-<script>
-// oude functie verwijderd {
-  vulPdfVelden();
-  const element = document.getElementById("pdf-view");
-  element.style.display = "block";
-
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      const refnummer = document.getElementById("referentienummer")?.value || "rapport";
-      html2pdf().from(element).save(refnummer + ".pdf");
-    }, 300);
-  });
-
-  const element = document.getElementById("pdf-view"); element.style.display = "block";
-  const opt = {
-    margin: [0.2, 0.2, 0.2, 0.2],
-    
-    const refnummer = document.getElementById('referentienummer')?.value;
-    const prefix = refnummer ? `rapport_${refnummer.replace(/\D/g, '')}` : 'rapport';
-    
-    const refnummer = document.getElementById('referentienummer')?.value;
-    const filename = refnummer ? `${refnummer}.pdf` : 'rapport.pdf';
-    
-        
-        
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-  };
-  html2pdf().set(opt).from(element).then(() => {
-    const refnummer = document.getElementById('referentienummer')?.value || 'rapport';
-    html2pdf().from(element).save(refnummer + '.pdf');
-  });
-}
-</script>
-
-<script>
-function vulPdfVelden() {
-  console.log("PDF-blok vullen gestart");
-
-  document.getElementById("refnummer_pdf").innerText = document.getElementById("referentienummer")?.value || "";
-  document.getElementById("behandelaar_pdf").innerText = document.getElementById("behandelaar")?.value || "";
-  document.getElementById("opdrachtgever_pdf").innerText = document.getElementById("opdrachtgever")?.value || "";
-  document.getElementById("vervoerder_pdf").innerText = document.getElementById("vervoerder")?.value || "";
-  document.getElementById("referentie_pdf").innerText = document.getElementById("referentie_klant")?.value || "";
-  document.getElementById("omschrijving_pdf").innerText = document.getElementById("omschrijving")?.value || "";
-  document.getElementById("facturatie_pdf").innerText = document.getElementById("opmerkingen_facturatie")?.value || "";
-
-  const inkoop = document.getElementById("inkoop_totaal")?.value || "";
-  const verkoop = document.getElementById("verkoop_totaal")?.value || "";
-  const marge = document.getElementById("marge")?.value || "";
-
-  document.getElementById("inkoop_pdf").innerText = inkoop;
-  document.getElementById("verkoop_pdf").innerText = verkoop;
-  document.getElementById("marge_pdf").innerText = marge;
-
-  // Rijen ophalen
-  const tabelBody = document.getElementById("detail-body-pdf");
-  tabelBody.innerHTML = "";
-
-  const rijen = 8;
-  for (let i = 0; i < rijen; i++) {
-    const aangevraagd = document.querySelectorAll(".form-grid-five > div:nth-child(1) input")[i]?.value || "";
-    const aanvraagdatum = document.querySelectorAll(".form-grid-five > div:nth-child(2) input")[i]?.value || "";
-    const afgiftedatum = document.querySelectorAll(".form-grid-five > div:nth-child(3) input")[i]?.value || "";
-    const inkoop = document.querySelectorAll(".form-grid-five > div:nth-child(4) input")[i]?.value || "";
-    const verkoop = document.querySelectorAll(".form-grid-five > div:nth-child(5) input")[i]?.value || "";
-
-    const rij = document.createElement("tr");
-    rij.innerHTML = `
-      <td style='border:1px solid #000; padding:5px;'>${aangevraagd}</td>
-      <td style='border:1px solid #000; padding:5px;'>${aanvraagdatum}</td>
-      <td style='border:1px solid #000; padding:5px;'>${afgiftedatum}</td>
-      <td style='border:1px solid #000; padding:5px;'>${inkoop}</td>
-      <td style='border:1px solid #000; padding:5px;'>${verkoop}</td>
-    `;
-    tabelBody.appendChild(rij);
-  }
-}
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<script>
-function genereerPDF() {
-  vulPdfVelden();
-  const element = document.getElementById("pdf-view");
-  element.style.display = "block";
-
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      const refnummer = document.getElementById("referentienummer")?.value || "rapport";
-      html2pdf().from(element).save(refnummer + ".pdf");
-    }, 300);
-  });
-}
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script>
-function genereerPDF() {
-  vulPdfVelden();
-  const element = document.getElementById("pdf-view");
-  element.style.display = "block";
-
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      const refnummer = document.getElementById("referentienummer")?.value || "rapport";
-      html2pdf().from(element).save(refnummer + ".pdf");
-    }, 300);
-  });
-}
-
-function vulPdfVelden() {
-  console.log("PDF-blok vullen gestart");
-
-  const val = (id) => document.getElementById(id)?.value || "";
-
-  
-  const prefix = document.querySelector(".split-input .prefix")?.textContent || "";
-  const nummer = document.querySelector(".split-input input")?.value || "";
-  document.getElementById("refnummer_pdf").innerText = prefix + nummer;
-
-  document.getElementById("behandelaar_pdf").innerText = val("behandelaar");
-  document.getElementById("opdrachtgever_pdf").innerText = val("opdrachtgever");
-  document.getElementById("vervoerder_pdf").innerText = val("vervoerder");
-  document.getElementById("referentie_pdf").innerText = val("referentie_klant");
-  document.getElementById("omschrijving_pdf").innerText = val("omschrijving");
-  document.getElementById("facturatie_pdf").innerText = val("opmerkingen_facturatie");
-
-  document.getElementById("inkoop_pdf").innerText = val("inkoop_totaal");
-  document.getElementById("verkoop_pdf").innerText = val("verkoop_totaal");
-  document.getElementById("marge_pdf").innerText = val("marge");
-
-  const tbody = document.getElementById("detail-body-pdf");
-  tbody.innerHTML = "";
-
-  for (let i = 0; i < 8; i++) {
-    const rij = document.createElement("tr");
-    rij.innerHTML = `
-      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(1) input")[i]?.value || ""}</td>
-      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(2) input")[i]?.value || ""}</td>
-      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(3) input")[i]?.value || ""}</td>
-      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(4) input")[i]?.value || ""}</td>
-      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(5) input")[i]?.value || ""}</td>
-    `;
-    tbody.appendChild(rij);
-  }
-}
-</script>
-
-
-<!-- jsPDF & autoTable CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
-<script>
-async function genereerPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  // Basisdata ophalen
-  const prefix = document.querySelector(".split-input .prefix")?.textContent || "";
-  const nummer = document.querySelector(".split-input input")?.value || "";
-  const refnummer = prefix + nummer;
-
-  const behandelaar = document.getElementById("behandelaar")?.value || "";
-  const opdrachtgever = document.getElementById("opdrachtgever")?.value || "";
-  const vervoerder = document.getElementById("vervoerder")?.value || "";
-  const referentie = document.getElementById("referentie_klant")?.value || "";
-  const omschrijving = document.getElementById("omschrijving")?.value || "";
-  const opmerkingen = document.getElementById("opmerkingen_facturatie")?.value || "";
-
-  const inkoop = document.getElementById("inkoop_totaal")?.value || "";
-  const verkoop = document.getElementById("verkoop_totaal")?.value || "";
-  const marge = document.getElementById("marge")?.value || "";
-
-  // Kop
-  doc.setFontSize(14);
-  doc.text("ONTHEFFINGEN RAPPORT", 105, 15, { align: "center" });
-  doc.setFontSize(11);
-  doc.text(`Referentienummer: ${refnummer}`, 14, 25);
-  doc.text(`Behandelaar: ${behandelaar}`, 110, 25);
-  doc.text(`Opdrachtgever: ${opdrachtgever}`, 14, 32);
-  doc.text(`Vervoerder: ${vervoerder}`, 110, 32);
-  doc.text(`Referentie klant: ${referentie}`, 14, 39);
-  doc.text("Omschrijving:", 14, 46);
-  doc.text(doc.splitTextToSize(omschrijving, 180), 14, 52);
-  doc.text("Opmerkingen t.a.v. facturatie:", 14, 72);
-  doc.text(doc.splitTextToSize(opmerkingen, 180), 14, 78);
-
-  // Tabelgegevens verzamelen
-  const body = [];
-  const kolommen = document.querySelectorAll(".form-grid-five > div");
-  for (let i = 0; i < 8; i++) {
-    const rij = [];
-    for (let j = 0; j < 5; j++) {
-      rij.push(kolommen[j]?.querySelectorAll("input")[i]?.value || "");
+      document.getElementById('inkoop_totaal').value = `€ ${formatEuro(inkoopTotaal)}`;
+      document.getElementById('verkoop_totaal').value = `€ ${formatEuro(verkoopTotaal)}`;
+      document.getElementById('marge').value = `€ ${formatEuro(marge)}`;
     }
-    if (rij.some(val => val !== "")) {
-      body.push(rij);
-    }
-  }
 
-  // Voeg tabel toe
-  doc.autoTable({
-    startY: 95,
-    head: [["Aangevraagd bij", "Aanvraagdatum", "Afgiftedatum", "Inkoopprijs (€)", "Verkoopprijs (€)"]],
-    body: body,
-    styles: { fontSize: 10, cellPadding: 2 },
-    theme: 'grid'
-  });
+    document.addEventListener('DOMContentLoaded', () => {
+      const inkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(4) input');
+      const verkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(5) input');
 
-  // Totale bedragen
-  let eindY = doc.lastAutoTable.finalY + 10;
-  doc.text(`Inkoopprijs totaal: ${inkoop}`, 14, eindY);
-  doc.text(`Verkoopprijs totaal: ${verkoop}`, 14, eindY + 6);
-  doc.text(`Marge: ${marge}`, 14, eindY + 12);
+      [...inkoopInputs, ...verkoopInputs].forEach(input => {
+        input.addEventListener('input', updateTotals);
+        input.addEventListener('blur', () => {
+          const waarde = parseEuroString(input.value);
+          input.value = formatEuro(waarde);
+          updateTotals();
+        });
+      });
 
-  // Opslaan
-  doc.save(`${refnummer || "rapport"}.pdf`);
-}
-</script>
+      updateTotals();
+    });
+  </script>
 
 </body>
 </html>
