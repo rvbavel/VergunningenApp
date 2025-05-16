@@ -5,37 +5,6 @@
   <title>Speciaal Transport Zwolle B.V. - Vergunningen</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
-  <style>
-    .status-geldig { color: green; font-weight: bold; }
-    .status-waarschuwing { color: orange; font-weight: bold; }
-    .status-vervallen { color: red; font-weight: bold; }
-    table#vergunningenTable th, table#vergunningenTable td {
-      padding: 6px 10px;
-      text-align: left;
-    }
-    table#vergunningenTable {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    table#vergunningenTable th {
-      background-color: #004466;
-      color: #fff;
-    }
-    table#vergunningenTable td, th {
-      border: 1px solid #ccc;
-    }
-    .table-wrapper {
-      overflow-x: auto;
-    }
-    .primary-btn.small {
-      font-size: 0.9rem;
-      padding: 4px 8px;
-      margin-right: 5px;
-      margin-top: 3px;
-      display: inline-block;
-    }
-  </style>
 </head>
 <body>
 
@@ -77,7 +46,7 @@
     <label>Waarschuwingsdrempel (dagen voor verval):
       <input type="number" id="waarschuwingsdrempel" placeholder="Bijvoorbeeld: 7">
     </label>
-    <label>Taalkeuze e-mail:
+    <label>Taal:
       <select id="taal">
         <option value="nl">Nederlands</option>
         <option value="en">Engels</option>
@@ -90,22 +59,20 @@
 
   <section class="saved-permits">
     <h3>Opgeslagen Vergunningen</h3>
-    <div class="table-wrapper">
-      <table id="vergunningenTable">
-        <thead>
-          <tr>
-            <th>Klantnaam</th>
-            <th>Vergunningsnummer</th>
-            <th>Vervaldatum</th>
-            <th>Status</th>
-            <th>Acties</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Dynamisch geladen -->
-        </tbody>
-      </table>
-    </div>
+    <table id="vergunningenTable">
+      <thead>
+        <tr>
+          <th>Klantnaam</th>
+          <th>Vergunningsnummer</th>
+          <th>Vervaldatum</th>
+          <th>Status</th>
+          <th>Acties</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamische rijen worden hier geplaatst -->
+      </tbody>
+    </table>
   </section>
 </main>
 
