@@ -164,6 +164,58 @@
       updateTotals();
     });
   </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+function vulPdfVelden() {
+  const val = (id) => document.getElementById(id)?.value || "";
+
+  const prefix = document.querySelector(".split-input .prefix")?.textContent || "";
+  const nummer = document.querySelector(".split-input input")?.value || "";
+  document.getElementById("refnummer_pdf").innerText = prefix + nummer;
+
+  document.getElementById("behandelaar_pdf").innerText = val("behandelaar");
+  document.getElementById("opdrachtgever_pdf").innerText = val("opdrachtgever");
+  document.getElementById("vervoerder_pdf").innerText = val("vervoerder");
+  document.getElementById("referentie_pdf").innerText = val("referentie_klant");
+  document.getElementById("omschrijving_pdf").innerText = val("omschrijving");
+  document.getElementById("facturatie_pdf").innerText = val("opmerkingen_facturatie");
+
+  document.getElementById("inkoop_pdf").innerText = val("inkoop_totaal");
+  document.getElementById("verkoop_pdf").innerText = val("verkoop_totaal");
+  document.getElementById("marge_pdf").innerText = val("marge");
+
+  const tbody = document.getElementById("detail-body-pdf");
+  tbody.innerHTML = "";
+
+  for (let i = 0; i < 8; i++) {
+    const rij = document.createElement("tr");
+    rij.innerHTML = `
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(1) input")[i]?.value || ""}</td>
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(2) input")[i]?.value || ""}</td>
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(3) input")[i]?.value || ""}</td>
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(4) input")[i]?.value || ""}</td>
+      <td style='border:1px solid #000; padding:5px;'>${document.querySelectorAll(".form-grid-five > div:nth-child(5) input")[i]?.value || ""}</td>
+    `;
+    tbody.appendChild(rij);
+  }
+}
+
+function genereerPDF() {
+  vulPdfVelden();
+  const element = document.getElementById("pdf-view");
+  element.style.display = "block";
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const prefix = document.querySelector(".split-input .prefix")?.textContent || "";
+      const nummer = document.querySelector(".split-input input")?.value || "";
+      const bestandsnaam = prefix + nummer || "rapport";
+      html2pdf().from(element).save(bestandsnaam + ".pdf");
+    }, 300);
+  });
+}
+</script>
 
 </body>
 </html>
