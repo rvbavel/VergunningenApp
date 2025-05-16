@@ -2,47 +2,14 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Transportbegeleiding Werkbon</title>
+  <title>Speciaal Transport Zwolle B.V. - Transportbegeleiding</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
-  <style>
-    .form-section {
-      background: #e6edff;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-    }
-    .form-grid,
-    .form-grid-transport {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .form-grid {
-      grid-template-columns: auto 1fr;
-      align-items: center;
-    }
-    .form-grid-transport {
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      align-items: center;
-    }
-    textarea {
-      width: 100%;
-      height: 100px;
-      resize: vertical;
-    }
-    input, select {
-      padding: 6px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-  </style>
 </head>
 <body>
-
 <header>
   <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-  <h1>WERKBON TRANSPORTBEGELEIDING</h1>
+  <h1>TRANSPORTBEGELEIDING</h1>
 </header>
 
 <nav class="top-menu">
@@ -50,87 +17,114 @@
   <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
   <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
   <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-  <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+  <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
 </nav>
 
 <main class="card">
-  <h2>Bestel-/Werkbon Transportbegeleiding</h2>
+  <h2>BESTELBON</h2>
+  <!-- Bestelbon velden hier -->
 
-  <div class="form-section">
-    <div class="form-grid">
-      <label for="attn">Ter attentie van:</label>
-      <input type="text" id="attn">
-
-      <label for="firma">Transport firma:</label>
-      <input type="text" id="firma">
-
-      <label for="refnr">Ons referentienummer:</label>
+  <h2>WERKBON</h2>
+  <div class="form-grid">
+    <label>Behandelaar STZ:
+      <select><option>--- Maak keuze ---</option></select>
+    </label>
+    <label>Referentienummer:
       <div class="split-input">
-        <span class="prefix">2025.</span>
-        <input type="text" id="refnr" maxlength="4" placeholder="4 cijfers">
+        <span class="prefix">2025.</span><input type="text">
       </div>
-
-      <label for="aanvrager">Aanvrager:</label>
-      <select id="aanvrager">
-        <option value="">--- Maak keuze ---</option>
-        <option value="René">René</option>
-        <option value="Anke">Anke</option>
-        <option value="Sia">Sia</option>
-        <option value="Martijn">Martijn</option>
-      </select>
-
-      <label for="rekening">Rekening aan:</label>
-      <input type="email" id="rekening" value="facturen@speciaaltransportzwolle.nl">
-    </div>
+    </label>
   </div>
 
-  <div class="form-section">
-    <h3>Transportafmetingen</h3>
-    <div class="form-grid-transport">
-      <label>Lengte (m):</label><input type="number">
-      <label>Breedte (m):</label><input type="number">
-      <label>Hoogte (m):</label><input type="number">
-      <label>Minimaal (m):</label><input type="number">
-      <label>Gewicht (t):</label><input type="number">
-    </div>
-
-    <div class="form-grid">
-      <label for="datum">Transportdatum:</label>
-      <input type="date" id="datum">
-
-      <label for="vertrektijd">Vertrektijd:</label>
-      <div style="display: flex; gap: 5px;">
-        <input type="number" min="0" max="23" placeholder="uu" style="width: 60px;">
-        <span>:</span>
-        <input type="number" min="0" max="59" placeholder="mm" style="width: 60px;">
-      </div>
-
-      <label for="van">Van:</label>
-      <input type="text" id="van">
-
-      <label for="naar">Naar:</label>
-      <input type="text" id="naar">
-
-      <label for="ontheffingnr">Ontheffingsnummer:</label>
-      <input type="text" id="ontheffingnr" placeholder="(in bijlage)">
-
-      <label for="chauffeur">Chauffeur & telefoonnummer:</label>
-      <input type="text" id="chauffeur">
-
-      <label for="kentekens">Kentekens:</label>
-      <input type="text" id="kentekens">
-    </div>
+  <div class="form-grid-two">
+    <label>Begeleidingsfirma:
+      <input type="text">
+    </label>
+    <label>Aanvraag datum:
+      <input type="date">
+    </label>
   </div>
 
-  <div class="form-section">
-    <label for="extra">Extra informatie:</label>
-    <textarea id="extra" placeholder="Opmerkingen, bijzonderheden, instructies..."></textarea>
+  <div class="form-grid-single">
+    <label>Transporteur:
+      <input type="text">
+    </label>
   </div>
+
+  <div class="form-grid-two">
+    <label>Van:
+      <input type="text">
+    </label>
+    <label>Naar:
+      <input type="text">
+    </label>
+  </div>
+
+  <div class="form-grid">
+    <label>Datum:
+      <input type="date">
+    </label>
+    <label>Tijd:
+      <input type="time">
+    </label>
+    <label>Aantal begeleiders:
+      <input type="number" step="1">
+    </label>
+    <label><input type="checkbox"> Graag 1 bon per begeleider retour</label>
+    <label><input type="checkbox"> Aanmelding België</label>
+    <label><input type="checkbox"> Tolkosten België</label>
+  </div>
+
+  <div class="form-grid-two">
+    <label>Kentekens:
+      <input type="text">
+    </label>
+    <label>Naam chauffeur + telefoonnummer:
+      <input type="text">
+    </label>
+  </div>
+
+  <div class="form-grid-single">
+    <strong>Deze werkbon graag gelijk na het transport per email of foto aan: begeleiding@speciaaltransportzwolle.nl</strong>
+  </div>
+
+  <table class="striped">
+    <thead>
+      <tr>
+        <th> </th>
+        <th>Tijd</th>
+        <th>Km-Stand (alleen bij rit per km)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Vertrek thuis:</td><td><input type="time"></td><td><input type="text"></td></tr>
+      <tr><td>Aanvang begeleiding:</td><td><input type="time"></td><td><input type="text"></td></tr>
+      <tr><td>Aankomst begeleiding:</td><td><input type="time"></td><td><input type="text"></td></tr>
+      <tr><td>Totaal uren begeleid:</td><td><input type="text"></td><td><input type="text"></td></tr>
+      <tr><td>Aankomst thuis:</td><td><input type="time"></td><td><input type="text"></td></tr>
+      <tr><td><strong>Totaal uren uit/thuis:</strong></td><td><input type="text"></td><td><input type="text"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="form-grid-single">
+    <label>Opmerkingen:
+      <textarea></textarea>
+    </label>
+  </div>
+
+  <div class="form-grid-two">
+    <label>Handtekening transportbegeleider:
+      <input type="text">
+    </label>
+    <label>Handtekening chauffeur:
+      <input type="text">
+    </label>
+  </div>
+
 </main>
 
 <footer>
   Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
 </footer>
-
 </body>
 </html>
