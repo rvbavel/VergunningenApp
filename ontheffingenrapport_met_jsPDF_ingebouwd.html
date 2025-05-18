@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
+  <h1>ONTHEFFINGENRAPPORT</h1>
+</header>
+
+<nav class="top-menu">
+  <button onclick="window.location.href='index.html'">🏠 HOME</button>
+  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+  <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+</nav>
+
+<main class="card">
+  <h2>ONTHEFFINGEN RAPPORT</h2>
+
+  <div class="form-grid">
+    <label>Referentienummer:
+      <div class="split-input">
+        <span class="prefix">2025.</span>
+        <input type="text" id="referentienummer" maxlength="4" placeholder="4 cijfers">
+      </div>
+    </label>
+    <label>Behandelaar:
+      <select id="behandelaar">
+        <option value="">--- Maak keuze ---</option>
+        <option value="René">René</option>
+        <option value="Anke">Anke</option>
+        <option value="Sia">Sia</option>
+        <option value="Martijn">Martijn</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="form-grid-three">
+    <label>Opdrachtgever:
+      <input type="text" id="opdrachtgever" placeholder="Naam opdrachtgever">
+    </label>
+    <label>Vervoerder:
+      <input type="text" id="vervoerder" placeholder="Naam vervoerder">
+    </label>
+    <label>Referentie klant:
+      <input type="text" id="referentie_klant" placeholder="Referentie klant">
+    </label>
+  </div>
+
+  <div class="form-grid-single">
+    <label>Omschrijving:
+      <textarea id="omschrijving" placeholder="Ontheffing, Afmetingen, Kentekens, Ontheffingsnummer, Geldigheid"></textarea>
+    </label>
+  </div>
+
+  <div class="form-grid-single">
+    <label>Opmerkingen t.a.v. facturatie:
+      <textarea id="opmerkingen_facturatie" placeholder="Bijvoorbeeld factuurreferenties of betaalafspraken"></textarea>
+    </label>
+  </div>
+
+  <h3>Details per regel</h3>
+  <div class="form-grid-five">
+    <div>
+      <label>Aangevraagd bij:</label>
+      <input type="text"><input type="text"><input type="text"><input type="text">
+      <input type="text"><input type="text"><input type="text"><input type="text">
+    </div>
+    <div>
+      <label>Aanvraagdatum:</label>
+      <input type="date"><input type="date"><input type="date"><input type="date">
+      <input type="date"><input type="date"><input type="date"><input type="date">
+    </div>
+    <div>
+      <label>Afgiftedatum:</label>
+      <input type="date"><input type="date"><input type="date"><input type="date">
+      <input type="date"><input type="date"><input type="date"><input type="date">
+    </div>
+    <div>
+      <label>Inkoopprijs (€):</label>
+      <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+      <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+    </div>
+    <div>
+      <label>Verkoopprijs (€):</label>
+      <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+      <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+    </div>
+  </div>
+
+  <div class="form-grid-three">
+    <label>Inkoopprijs totaal (€):
+      <input type="text" id="inkoop_totaal" readonly>
+    </label>
+    <label>Verkoopprijs totaal (€):
+      <input type="text" id="verkoop_totaal" readonly>
+    </label>
+    <label>Marge (€):
+      <input type="text" id="marge" readonly>
+    </label>
+  </div>
+
+  <button onclick="genereerPDF()" class="primary-btn">📅 DOWNLOAD ALS PDF</button>
+</main>
+
+<footer>
+  Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function genereerPDF() {
+  window.print();
+}
+</script>
+
+<script>
+function updateOntheffingenTotaal() {
+  const inkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(4) input');
+  const verkoopInputs = document.querySelectorAll('.form-grid-five > div:nth-child(5) input');
+
+  let inkoopTotaal = 0;
+  let verkoopTotaal = 0;
+
+  inkoopInputs.forEach((input) => {
+    let val = input.value.trim();
+    if (val !== '') {
+      let number = parseFloat(val.replace(',', '.'));
+      if (!isNaN(number)) {
+        inkoopTotaal += number;
+        input.value = number.toFixed(2).replace('.', ',');
+      }
+    }
+  });
+
+  verkoopInputs.forEach((input) => {
+    let val = input.value.trim();
+    if (val !== '') {
+      let number = parseFloat(val.replace(',', '.'));
+      if (!isNaN(number)) {
+        verkoopTotaal += number;
+        input.value = number.toFixed(2).replace('.', ',');
+      }
+    }
+  });
+
+  const marge = verkoopTotaal - inkoopTotaal;
+  document.getElementById('inkoop_totaal').value = `€ ${inkoopTotaal.toFixed(2).replace('.', ',')}`;
+  document.getElementById('verkoop_totaal').value = `€ ${verkoopTotaal.toFixed(2).replace('.', ',')}`;
+  document.getElementById('marge').value = `€ ${marge.toFixed(2).replace('.', ',')}`;
+}
+
+document.addEventListener('blur', (e) => {
+  if (e.target.closest('.form-grid-five')) {
+    updateOntheffingenTotaal();
+  }
+}, true);
+
+window.addEventListener('DOMContentLoaded', () => {
+  updateOntheffingenTotaal();
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  async function genereerPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const img = new Image();
+    img.src = 'ontheffing_sjabloon_a4.png';
+    await new Promise(resolve => { img.onload = resolve; });
+    doc.addImage(img, 'PNG', 0, 0, 210, 297);
+
+    const get = id => document.getElementById(id)?.value || "";
+
+    doc.setFontSize(10);
+    doc.text("2025." + get("referentienummer"), 160, 34);
+    doc.text(get("behandelaar"), 45, 49);
+    doc.text(get("opdrachtgever"), 45, 55);
+    doc.text(get("vervoerder"), 45, 61);
+    doc.text(get("referentie_klant"), 45, 67);
+    doc.text(get("omschrijving"), 20, 80, { maxWidth: 170 });
+    doc.text(get("opmerkingen_facturatie"), 20, 98, { maxWidth: 170 });
+
+    let startY = 118;
+    const rows = document.querySelectorAll("table.details-tabel tbody tr");
+    for (let i = 0; i < rows.length; i++) {
+      let x = 20;
+      const inputs = rows[i].querySelectorAll("input");
+      for (let j = 0; j < inputs.length; j++) {
+        doc.text(inputs[j].value || "", x, startY + i * 7);
+        x += (j < 2 ? 38 : 25);
+      }
+    }
+
+    doc.text("€ " + get("inkoop_totaal"), 45, 186);
+    doc.text("€ " + get("verkoop_totaal"), 95, 186);
+    doc.text("€ " + get("marge"), 145, 186);
+
+    doc.save("ontheffingenrapport.pdf");
+  }
+</script>
+
+</body>
+</html>
