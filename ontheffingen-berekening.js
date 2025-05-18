@@ -1,3 +1,4 @@
+
 function parseEuroString(value) {
   return parseFloat(value.replace(',', '.').replace('€', '').trim()) || 0;
 }
@@ -36,27 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
   inputs.forEach(input => {
     input.addEventListener('input', updateTotals);
     input.addEventListener('blur', () => {
-      const bedrag = parseEuroString(input.value);
-      input.value = bedrag ? bedrag.toFixed(2).replace('.', ',') : '';
+      const raw = input.value.trim();
+      if (raw !== '') {
+        const bedrag = parseEuroString(raw);
+        input.value = bedrag.toFixed(2).replace('.', ',');
+      }
+      updateTotals(); // herbereken altijd na formattering
     });
   });
 
   updateTotals(); // Initiale berekening bij laden
 });
-
-
-  // Zorg dat ingevoerde bedragen zichtbaar blijven in correcte notatie
-  function formatInvoerVelden() {
-    const euroInputs = document.querySelectorAll('input[data-type="inkoop"], input[data-type="verkoop"]');
-    euroInputs.forEach(input => {
-      input.addEventListener('blur', () => {
-        const raw = input.value.trim();
-        if (raw !== '') {
-          const waarde = parseEuroString(raw);
-          input.value = waarde.toFixed(2).replace('.', ',');
-        }
-      });
-    });
-  }
-
-  formatInvoerVelden();
