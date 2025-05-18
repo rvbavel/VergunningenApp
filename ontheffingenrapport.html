@@ -5,6 +5,7 @@
   <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -167,5 +168,63 @@ window.addEventListener('DOMContentLoaded', () => {
   updateOntheffingenTotaal();
 });
 </script>
+
+<script>
+async function genereerPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const get = id => document.getElementById(id)?.value || "";
+
+  doc.setFontSize(14);
+  doc.text("Speciaal Transport Zwolle B.V.", 20, 20);
+  doc.setFontSize(12);
+  doc.text("ONTHEFFINGEN RAPPORT", 20, 28);
+
+  doc.setFontSize(10);
+  let y = 40;
+  doc.text(`Referentienummer: 2025.${get("referentienummer")}`, 20, y);
+  doc.text(`Behandelaar: ${get("behandelaar")}`, 120, y);
+  y += 8;
+  doc.text(`Opdrachtgever: ${get("opdrachtgever")}`, 20, y);
+  doc.text(`Vervoerder: ${get("vervoerder")}`, 120, y);
+  y += 8;
+  doc.text(`Referentie klant: ${get("referentie_klant")}`, 20, y);
+  y += 10;
+
+  doc.text("Omschrijving:", 20, y);
+  y += 6;
+  doc.text(get("omschrijving"), 25, y, { maxWidth: 170 });
+  y += 12;
+
+  doc.text("Opmerkingen t.a.v. facturatie:", 20, y);
+  y += 6;
+  doc.text(get("opmerkingen_facturatie"), 25, y, { maxWidth: 170 });
+  y += 12;
+
+  doc.setFont("helvetica", "bold");
+  const headers = ["Aangevraagd bij", "Aanvraagdatum", "Afgiftedatum", "Inkoop (€)", "Verkoop (€)"];
+  const xCoords = [20, 70, 110, 150, 180];
+  headers.forEach((h, i) => doc.text(h, xCoords[i], y));
+  doc.setFont("helvetica", "normal");
+  y += 6;
+
+  const rows = document.querySelectorAll("table.details-tabel tbody tr");
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll("input");
+    inputs.forEach((inp, i) => doc.text(inp.value || "...", xCoords[i], y));
+    y += 6;
+  });
+
+  y += 5;
+  doc.text("Totaal inkoop: " + get("inkoop_totaal"), 20, y);
+  doc.text("Totaal verkoop: " + get("verkoop_totaal"), 90, y);
+  doc.text("Marge: " + get("marge"), 160, y);
+
+  const filename = "2025." + get("referentienummer").trim() || "rapport";
+  doc.save(filename + ".pdf");
+}
+</script>
+
 </body>
 </html>
