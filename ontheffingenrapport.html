@@ -203,7 +203,7 @@ async function genereerPDF() {
   y += 12;
 
   doc.setFont("helvetica", "bold");
-  const headers = ["Aangevraagd bij", "Aanvraagdatum", "Afgiftedatum", "Inkoop (€)", "Verkoop (€)"];
+  const headers = ['Aangevraagd bij', 'Aanvraagdatum', 'Afgiftedatum', 'Inkoopprijs (€)', 'Verkoopprijs (€)'];
   const xCoords = [20, 70, 110, 150, 180];
   doc.setFillColor(220, 220, 220);
 xCoords.forEach((x, i) => {
