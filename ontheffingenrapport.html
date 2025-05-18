@@ -205,19 +205,35 @@ async function genereerPDF() {
   doc.setFont("helvetica", "bold");
   const headers = ["Aangevraagd bij", "Aanvraagdatum", "Afgiftedatum", "Inkoop (€)", "Verkoop (€)"];
   const xCoords = [20, 70, 110, 150, 180];
-  headers.forEach((h, i) => doc.text(h, xCoords[i], y));
+  doc.setFillColor(220, 220, 220);
+xCoords.forEach((x, i) => {
+  doc.rect(x - 1, y - 4.5, (i === 0 ? 45 : (xCoords[i+1] || 200) - x - 2), 7, "F");
+});
+headers.forEach((h, i) => doc.text(h, xCoords[i], y));
   doc.setFont("helvetica", "normal");
   y += 6;
 
   const rows = document.querySelectorAll("table.details-tabel tbody tr");
+  
   rows.forEach(row => {
     const inputs = row.querySelectorAll("input");
-    inputs.forEach((inp, i) => doc.text(inp.value || "...", xCoords[i], y));
-    y += 6;
+    const values = Array.from(inputs).map(inp => inp.value.trim());
+    if (values.some(val => val !== "")) {
+      values.forEach((val, i) => doc.text(val || "...", xCoords[i], y));
+      y += 6;
+    }
   });
 
+
   y += 5;
-  doc.text("Totaal inkoop: " + get("inkoop_totaal"), 20, y);
+    
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.text("Totaal inkoop: " + get("inkoop_totaal") + "    Totaal verkoop: " + 
+    get("verkoop_totaal") + "    Marge: " + get("marge"), 20, y);
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+
   doc.text("Totaal verkoop: " + get("verkoop_totaal"), 90, y);
   doc.text("Marge: " + get("marge"), 160, y);
 
