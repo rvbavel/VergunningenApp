@@ -1,4 +1,3 @@
-
 function parseEuroString(value) {
   return parseFloat(value.replace(',', '.').replace('€', '').trim()) || 0;
 }
