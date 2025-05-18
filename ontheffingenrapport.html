@@ -208,15 +208,19 @@ async function genereerPDF() {
   doc.setFont("helvetica", "bold");
   const headers = ['Aangevraagd bij', 'Aanvraagdatum', 'Afgiftedatum', 'Inkoopprijs (€)', 'Verkoopprijs (€)'];
   const xCoords = [20, 70, 110, 150, 180];
-  doc.setFillColor(220, 220, 220);
-xCoords.forEach((x, i) => {
-  doc.rect(x - 1, y - 4.5, (i === 0 ? 45 : (xCoords[i+1] || 200) - x - 2), 7, "F");
-});
-headers.forEach((h, i) => doc.text(h, xCoords[i], y));
+  
+  doc.setFillColor(26, 188, 156); // Groen
+  xCoords.forEach((x, i) => {
+    doc.rect(x - 1, y - 4.5, (xCoords[i + 1] || 200) - x - 2, 7, "F");
+  });
+  doc.setTextColor(255, 255, 255);
+  headers.forEach((h, i) => doc.text(h, xCoords[i], y));
+  doc.setTextColor(0, 0, 0);
+
   doc.setFont("helvetica", "normal");
   y += 6;
 
-  const rows = document.querySelectorAll("table.details-tabel tbody tr");
+  const rows = document.querySelectorAll("table tbody tr");
   
   rows.forEach(row => {
     const inputs = row.querySelectorAll("input");
