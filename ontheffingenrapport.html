@@ -176,10 +176,13 @@ async function genereerPDF() {
 
   const get = id => document.getElementById(id)?.value || "";
 
-  doc.setFontSize(14);
-  doc.text("Speciaal Transport Zwolle B.V.", 20, 20);
-  doc.setFontSize(12);
-  doc.text("ONTHEFFINGEN RAPPORT", 20, 28);
+  
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("ONTHEFFINGEN RAPPORT", 105, 20, null, null, "center");
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+
 
   doc.setFontSize(10);
   let y = 40;
