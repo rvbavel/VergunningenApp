@@ -85,13 +85,13 @@
         </div>
         <div>
             <label>Inkoopprijs (€):</label>
-            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
-            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+            <input type="text"><input type="text"><input type="text"><input type="text">
+            <input type="text"><input type="text"><input type="text"><input type="text">
         </div>
         <div>
             <label>Verkoopprijs (€):</label>
-            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
-            <input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01"><input type="number" step="0.01">
+            <input type="text"><input type="text"><input type="text"><input type="text">
+            <input type="text"><input type="text"><input type="text"><input type="text">
         </div>
     </div>
 
@@ -468,23 +468,45 @@ async function genereerPDF() {
 
 
 <script>
-document.addEventListener("input", () => {
-  const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='number']");
-  const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='number']");
+document.addEventListener("DOMContentLoaded", () => {
+  const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='text']");
+  const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='text']");
 
   function format(waarde) {
     const getal = parseFloat(waarde.replace(",", "."));
-    if (!isNaN(getal)) {
-      return getal.toFixed(2).replace(".", ",");
-    }
-    return waarde;
+    return (!isNaN(getal) ? getal.toFixed(2).replace(".", ",") : "");
+  }
+
+  function updateTotalen() {
+    let inkoopTotaal = 0;
+    let verkoopTotaal = 0;
+
+    inkoopInputs.forEach(input => {
+      const val = parseFloat(input.value.replace(",", "."));
+      if (!isNaN(val)) inkoopTotaal += val;
+    });
+
+    verkoopInputs.forEach(input => {
+      const val = parseFloat(input.value.replace(",", "."));
+      if (!isNaN(val)) verkoopTotaal += val;
+    });
+
+    const marge = verkoopTotaal - inkoopTotaal;
+    const formatEuro = v => "€ " + v.toFixed(2).replace(".", ",");
+
+    document.getElementById("inkoop_totaal").value = inkoopTotaal ? formatEuro(inkoopTotaal) : "";
+    document.getElementById("verkoop_totaal").value = verkoopTotaal ? formatEuro(verkoopTotaal) : "";
+    document.getElementById("marge").value = marge ? formatEuro(marge) : "";
   }
 
   [...inkoopInputs, ...verkoopInputs].forEach(input => {
-    if (input.value !== "") {
+    input.addEventListener("blur", () => {
       input.value = format(input.value);
-    }
+      updateTotalen();
+    });
   });
+
+  updateTotalen();
 });
 </script>
 
