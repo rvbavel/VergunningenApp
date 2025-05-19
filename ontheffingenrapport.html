@@ -466,5 +466,27 @@ async function genereerPDF() {
 }
 </script>
 
+
+<script>
+document.addEventListener("input", () => {
+  const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='number']");
+  const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='number']");
+
+  function format(waarde) {
+    const getal = parseFloat(waarde.replace(",", "."));
+    if (!isNaN(getal)) {
+      return getal.toFixed(2).replace(".", ",");
+    }
+    return waarde;
+  }
+
+  [...inkoopInputs, ...verkoopInputs].forEach(input => {
+    if (input.value !== "") {
+      input.value = format(input.value);
+    }
+  });
+});
+</script>
+
 </body>
 </html>
