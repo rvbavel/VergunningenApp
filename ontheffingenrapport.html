@@ -399,6 +399,15 @@ function vulPdfVelden() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
 <script>
+
+function formatBedrag(val) {
+  if (!val) return "";
+  const num = parseFloat(val.replace(",", "."));
+  if (isNaN(num)) return val;
+  return num.toFixed(2).replace(".", ",");
+}
+
+<script>
 async function genereerPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
