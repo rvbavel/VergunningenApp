@@ -115,7 +115,7 @@
 
   
   
-  <button onclick="window.print()" class="primary-btn">AFDRUKKEN</button>
+  <<button onclick="opslaanRapport()" class="primary-btn">💾 RAPPORT OPSLAAN</button>
   <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
 
 <section id="pdf-view" style="display: none; font-family: Arial, sans-serif; font-size: 11pt; margin-top: 20px;">
@@ -509,6 +509,43 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTotalen();
 });
 </script>
+<script type="module">
+  async function opslaanRapport() {
+    const refnummer = document.querySelector(".split-input input").value;
+    const behandelaar = document.getElementById("behandelaar").value;
+    const opdrachtgever = document.getElementById("opdrachtgever").value;
+
+    if (!refnummer || !opdrachtgever) {
+      alert("Referentienummer en opdrachtgever zijn verplicht.");
+      return;
+    }
+
+    const rapport = {
+      referentienummer: "2025." + refnummer,
+      behandelaar,
+      opdrachtgever,
+      vervoerder: document.getElementById("vervoerder").value,
+      referentie_klant: document.getElementById("referentie_klant").value,
+      omschrijving: document.getElementById("omschrijving").value,
+      opmerkingen_facturatie: document.getElementById("opmerkingen_facturatie").value,
+      inkoop_totaal: document.getElementById("inkoop_totaal").value,
+      verkoop_totaal: document.getElementById("verkoop_totaal").value,
+      marge: document.getElementById("marge").value,
+      timestamp: serverTimestamp()
+    };
+
+    try {
+      await addDoc(collection(db, "ontheffingen"), rapport);
+      alert("Rapport opgeslagen in Firebase.");
+    } catch (error) {
+      console.error("Fout bij opslaan:", error);
+      alert("Er is een fout opgetreden bij het opslaan.");
+    }
+  }
+
+  window.opslaanRapport = opslaanRapport;
+</script>
+
 
 </body>
 </html>
