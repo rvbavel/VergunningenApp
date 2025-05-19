@@ -546,6 +546,57 @@ document.addEventListener("DOMContentLoaded", () => {
   window.opslaanRapport = opslaanRapport;
 </script>
 
+<!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+    authDomain: "vergunningenapp-8455e.firebaseapp.com",
+    projectId: "vergunningenapp-8455e",
+    storageBucket: "vergunningenapp-8455e.firebasestorage.app",
+    messagingSenderId: "882694266288",
+    appId: "1:882694266288:web:4b1cb14817e6ba2290ca75"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.opslaanOntheffing = async function() {
+    const refnummer = document.getElementById("referentienummer").value;
+    const opdrachtgever = document.getElementById("opdrachtgever").value;
+
+    const behandelaar = document.getElementById("behandelaar").value;
+    const vervoerder = document.getElementById("vervoerder").value;
+    const referentie = document.getElementById("referentie_klant").value;
+    const omschrijving = document.getElementById("omschrijving").value;
+    const opmerkingen = document.getElementById("opmerkingen_facturatie").value;
+    const inkoop_totaal = document.getElementById("inkoop_totaal").value;
+    const verkoop_totaal = document.getElementById("verkoop_totaal").value;
+    const marge = document.getElementById("marge").value;
+
+    // gegevens opslaan in firestore
+    try {
+      await addDoc(collection(db, "ontheffingen"), {
+        refnummer: "2025." + refnummer,
+        opdrachtgever,
+        behandelaar,
+        vervoerder,
+        referentie,
+        omschrijving,
+        opmerkingen,
+        inkoop_totaal,
+        verkoop_totaal,
+        marge,
+        timestamp: new Date()
+      });
+      alert("Rapport opgeslagen in Firestore.");
+    } catch (e) {
+      alert("Fout bij opslaan: " + e.message);
+    }
+  };
+</script>
 
 </body>
 </html>
