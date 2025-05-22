@@ -139,52 +139,87 @@ function parseEuroString(value) {
 function updateTotals() {
   const inkoopInputs = document.querySelectorAll('input[data-type="inkoop"]');
   const verkoopInputs = document.querySelectorAll('input[data-type="verkoop"]');
+  const begeleidingsInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(1) input');
 
   let inkoopTotaal = 0;
   let verkoopTotaal = 0;
 
   inkoopInputs.forEach(input => {
     const bedrag = parseEuroString(input.value);
-    inkoopTotaal += bedrag;
+    if (!isNaN(bedrag)) inkoopTotaal += bedrag;
   });
 
-  verkoopInputs.forEach(input => {
-    const bedrag = parseEuroString(input.value);
-    verkoopTotaal += bedrag;
+  verkoopInputs.forEach((input, index) => {
+    if (index === 0 && begeleidingsInputs[0]?.value.trim().toLowerCase() === 'bemiddeling stz') {
+      verkoopTotaal += 75.00;
+    } else {
+      const bedrag = parseEuroString(input.value);
+      if (!isNaN(bedrag)) verkoopTotaal += bedrag;
+    }
   });
 
   const marge = verkoopTotaal - inkoopTotaal;
 
-  document.getElementById('inkoop_totaal').value = `€ ${inkoopTotaal.toFixed(2).replace('.', ',')}`;
-  document.getElementById('verkoop_totaal').value = `€ ${verkoopTotaal.toFixed(2).replace('.', ',')}`;
-  document.getElementById('marge').value = `€ ${marge.toFixed(2).replace('.', ',')}`;
+  document.getElementById('inkoop_totaal').value = inkoopTotaal ? `€ ${inkoopTotaal.toFixed(2).replace('.', ',')}` : '';
+  document.getElementById('verkoop_totaal').value = verkoopTotaal ? `€ ${verkoopTotaal.toFixed(2).replace('.', ',')}` : '';
+  document.getElementById('marge').value = marge ? `€ ${marge.toFixed(2).replace('.', ',')}` : '';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const begeleidingsInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(1) input');
   const urenInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(5) input');
   const verkoopInputs = document.querySelectorAll('input[data-type="verkoop"]');
+  const inkoopInputs = document.querySelectorAll('input[data-type="inkoop"]');
 
+  // Regel 1: Bemiddeling STZ = vaste verkoopprijs 75,00
+  if (begeleidingsInputs[0] && verkoopInputs[0]) {
+    if (begeleidingsInputs[0].value.trim().toLowerCase() === 'bemiddeling stz') {
+      verkoopInputs[0].value = '75,00';
+    }
+    begeleidingsInputs[0].addEventListener('input', () => {
+      if (begeleidingsInputs[0].value.trim().toLowerCase() === 'bemiddeling stz') {
+        verkoopInputs[0].value = '75,00';
+        updateTotals();
+      }
+    });
+  }
+
+  // Berekening verkoopprijs via uren
   urenInputs.forEach((input, index) => {
     input.addEventListener('input', () => {
       const uren = parseFloat(input.value);
       if (!isNaN(uren)) {
-        verkoopInputs[index].value = (uren * 62.5).toFixed(2).replace('.', ',');
+        if (!(index === 0 && begeleidingsInputs[0].value.trim().toLowerCase() === 'bemiddeling stz')) {
+          verkoopInputs[index].value = (uren * 62.5).toFixed(2).replace('.', ',');
+        }
         updateTotals();
       }
     });
   });
 
-  document.querySelectorAll('input[data-type="inkoop"], input[data-type="verkoop"]').forEach(input => {
+  [...inkoopInputs, ...verkoopInputs].forEach(input => {
     input.addEventListener('blur', () => {
+      const raw = input.value.trim();
+      if (raw === '') {
+        input.value = '';
+        updateTotals();
+        return;
+      }
       const bedrag = parseEuroString(input.value);
-      input.value = formatEuro(bedrag);
+      if (!isNaN(bedrag)) input.value = formatEuro(bedrag);
       updateTotals();
+    });
+
+    input.addEventListener('focus', () => {
+      if (input.value === '0,00') input.value = '';
     });
   });
 
   updateTotals();
 });
 </script>
+
+
 
 </body>
 </html>
