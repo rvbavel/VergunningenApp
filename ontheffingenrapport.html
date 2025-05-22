@@ -4,180 +4,133 @@
   <meta charset="UTF-8">
   <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
   <link rel="stylesheet" href="style.css">
-<style>
-  .rapport-tabel {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-
-  .rapport-tabel th,
-  .rapport-tabel td {
-    border: 1px solid #ccc;
-    padding: 8px 12px;
-    text-align: left;
-  }
-
-  .rapport-tabel th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-
-  .rapport-tabel tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
-  .rapport-tabel tr:hover {
-    background-color: #eef;
-  }
-
-  .rapport-tabel button {
-    padding: 4px 8px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  .rapport-tabel button:hover {
-    background-color: #0056b3;
-  }
-
-  @media (max-width: 768px) {
-    .rapport-tabel,
-    .rapport-tabel thead,
-    .rapport-tabel tbody,
+  <style>
+    .rapport-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
     .rapport-tabel th,
-    .rapport-tabel td,
-    .rapport-tabel tr {
-      display: block;
-    }
-
-    .rapport-tabel thead tr {
-      display: none;
-    }
-
     .rapport-tabel td {
-      position: relative;
-      padding-left: 50%;
-      border: none;
-      border-bottom: 1px solid #ccc;
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
     }
-
-    .rapport-tabel td::before {
-      content: attr(data-label);
-      position: absolute;
-      left: 10px;
+    .rapport-tabel th {
+      background-color: #f2f2f2;
       font-weight: bold;
     }
-  }
-</style>
-
+    .rapport-tabel tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .rapport-tabel tr:hover {
+      background-color: #eef;
+    }
+    .rapport-tabel button {
+      padding: 4px 8px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .rapport-tabel button:hover {
+      background-color: #0056b3;
+    }
+    .rapport-tabel button.verwijder {
+      background-color: #dc3545;
+    }
+    .rapport-tabel button.verwijder:hover {
+      background-color: #a92828;
+    }
+  </style>
 </head>
 <body>
-
 <header>
   <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
   <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - ONTHEFFINGENRAPPORT</h1>
 </header>
-
-<nav class="top-menu">
-  <button onclick="window.location.href='index.html'">🏠 HOME</button>
-  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-  <button onclick="window.location.href='aanvraagtransportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-</nav>
-
 <main class="card">
   <h2>ONTHEFFINGEN RAPPORT</h2>
 
   <div class="form-grid">
-    <label>Referentienummer:
-      <div class="split-input">
-        <span class="prefix">2025.</span>
-        <input type="text" id="referentienummer" maxlength="4" placeholder="4 cijfers">
-      </div>
-    </label>
-    <label>Behandelaar:
-      <select id="behandelaar">
-        <option value="">--- Maak keuze ---</option>
-        <option value="René">René</option>
-        <option value="Anke">Anke</option>
-        <option value="Sia">Sia</option>
-        <option value="Martijn">Martijn</option>
-      </select>
-    </label>
-  </div>
-
-  <div class="form-grid-three">
-    <label>Opdrachtgever:
-      <input type="text" id="opdrachtgever" placeholder="Naam opdrachtgever">
-    </label>
-    <label>Vervoerder:
-      <input type="text" id="vervoerder" placeholder="Naam vervoerder">
-    </label>
-    <label>Referentie klant:
-      <input type="text" id="referentie_klant" placeholder="Referentie klant">
-    </label>
-  </div>
-
-  <div class="form-grid-single">
-    <label>Omschrijving:
-      <textarea id="omschrijving" placeholder="Details over ontheffing"></textarea>
-    </label>
-  </div>
-
-  <div class="form-grid-single">
-    <label>Opmerkingen t.a.v. facturatie:
-      <textarea id="opmerkingen_facturatie" placeholder="Facturatie-info"></textarea>
-    </label>
-  </div>
-
-  <h3>Details per regel</h3>
-  <div class="form-grid-five">
-    <div>
-      <label>Aangevraagd bij:</label>
-      <input type="text"><input type="text"><input type="text"><input type="text">
-      <input type="text"><input type="text"><input type="text"><input type="text">
+  <label>Referentienummer:
+    <div class="split-input">
+      <span class="prefix">2025.</span>
+      <input type="text" id="referentienummer" maxlength="4" placeholder="4 cijfers">
     </div>
-    <div>
-      <label>Aanvraagdatum:</label>
-      <input type="date"><input type="date"><input type="date"><input type="date">
-      <input type="date"><input type="date"><input type="date"><input type="date">
-    </div>
-    <div>
-      <label>Afgiftedatum:</label>
-      <input type="date"><input type="date"><input type="date"><input type="date">
-      <input type="date"><input type="date"><input type="date"><input type="date">
-    </div>
-    <div>
-      <label>Inkoopprijs (€):</label>
-      <input type="text"><input type="text"><input type="text"><input type="text">
-      <input type="text"><input type="text"><input type="text"><input type="text">
-    </div>
-    <div>
-      <label>Verkoopprijs (€):</label>
-      <input type="text"><input type="text"><input type="text"><input type="text">
-      <input type="text"><input type="text"><input type="text"><input type="text">
-    </div>
+  </label>
+  <label>Behandelaar:
+    <select id="behandelaar">
+      <option value="">--- Maak keuze ---</option>
+      <option value="René">René</option>
+      <option value="Anke">Anke</option>
+      <option value="Sia">Sia</option>
+      <option value="Martijn">Martijn</option>
+    </select>
+  </label>
+</div>
+<div class="form-grid-three">
+  <label>Opdrachtgever:
+    <input type="text" id="opdrachtgever" placeholder="Naam opdrachtgever">
+  </label>
+  <label>Vervoerder:
+    <input type="text" id="vervoerder" placeholder="Naam vervoerder">
+  </label>
+  <label>Referentie klant:
+    <input type="text" id="referentie_klant" placeholder="Referentie klant">
+  </label>
+</div>
+<div class="form-grid-single">
+  <label>Omschrijving:
+    <textarea id="omschrijving" placeholder="Details over ontheffing"></textarea>
+  </label>
+</div>
+<div class="form-grid-single">
+  <label>Opmerkingen t.a.v. facturatie:
+    <textarea id="opmerkingen_facturatie" placeholder="Facturatie-info"></textarea>
+  </label>
+</div>
+<h3>Details per regel</h3>
+<div class="form-grid-five">
+  <div>
+    <label>Aangevraagd bij:</label>
+    <input type="text"><input type="text"><input type="text"><input type="text">
+    <input type="text"><input type="text"><input type="text"><input type="text">
   </div>
-
-  <div class="form-grid-three">
-    <label>Inkoopprijs totaal (€):
-      <input type="text" id="inkoop_totaal" readonly>
-    </label>
-    <label>Verkoopprijs totaal (€):
-      <input type="text" id="verkoop_totaal" readonly>
-    </label>
-    <label>Marge (€):
-      <input type="text" id="marge" readonly>
-    </label>
+  <div>
+    <label>Aanvraagdatum:</label>
+    <input type="date"><input type="date"><input type="date"><input type="date">
+    <input type="date"><input type="date"><input type="date"><input type="date">
   </div>
-
-  <button onclick="opslaanOntheffing()" class="primary-btn">📁 RAPPORT OPSLAAN</button>
-  <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
+  <div>
+    <label>Afgiftedatum:</label>
+    <input type="date"><input type="date"><input type="date"><input type="date">
+    <input type="date"><input type="date"><input type="date"><input type="date">
+  </div>
+  <div>
+    <label>Inkoopprijs (€):</label>
+    <input type="text"><input type="text"><input type="text"><input type="text">
+    <input type="text"><input type="text"><input type="text"><input type="text">
+  </div>
+  <div>
+    <label>Verkoopprijs (€):</label>
+    <input type="text"><input type="text"><input type="text"><input type="text">
+    <input type="text"><input type="text"><input type="text"><input type="text">
+  </div>
+</div>
+<div class="form-grid-three">
+  <label>Inkoopprijs totaal (€):
+    <input type="text" id="inkoop_totaal" readonly>
+  </label>
+  <label>Verkoopprijs totaal (€):
+    <input type="text" id="verkoop_totaal" readonly>
+  </label>
+  <label>Marge (€):
+    <input type="text" id="marge" readonly>
+  </label>
+</div>
+<button onclick="opslaanOntheffing()" class="primary-btn">📁 RAPPORT OPSLAAN</button>
 
   <h3 style="margin-top: 30px;">Opgeslagen Rapporten</h3>
   <table id="rapportTabel" class="rapport-tabel">
@@ -190,26 +143,19 @@
         <th>Actie</th>
       </tr>
     </thead>
-    <tbody id="rapportTabelBody">
-      <!-- Dynamisch geladen rapporten -->
-    </tbody>
+    <tbody id="rapportTabelBody"></tbody>
   </table>
 </main>
-
-<footer>
-  Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
-</footer>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
     authDomain: "vergunningenapp-8455e.firebaseapp.com",
     projectId: "vergunningenapp-8455e",
-    storageBucket: "vergunningenapp-8455e.firebasestorage.app",
+    storageBucket: "vergunningenapp-8455e.appspot.com",
     messagingSenderId: "882694266288",
     appId: "1:882694266288:web:4b1cb14817e6ba2290ca75"
   };
@@ -219,17 +165,71 @@
   const auth = getAuth(app);
 
   let currentUser = null;
+  let huidigRapportId = null;
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       currentUser = user;
-      console.log("Ingelogd als:", user.email);
-      laadRapporten(); // laad data pas na succesvolle login
+      laadRapporten();
     } else {
       alert("Je bent niet ingelogd. Je wordt doorgestuurd naar de inlogpagina.");
-      window.location.href = "index.html"; // pas aan indien nodig
+      window.location.href = "index.html";
     }
   });
+
+  async function laadRapporten() {
+    const querySnapshot = await getDocs(collection(db, "ontheffingen"));
+    const tbody = document.getElementById("rapportTabelBody");
+    tbody.innerHTML = "";
+
+    querySnapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const rij = document.createElement("tr");
+      rij.innerHTML = `
+        <td data-label="Referentienummer">${data.refnummer || ''}</td>
+        <td data-label="Opdrachtgever">${data.opdrachtgever || ''}</td>
+        <td data-label="Behandelaar">${data.behandelaar || ''}</td>
+        <td data-label="Aanvraagdatum">${data.aanvraagdatum || ''}</td>
+        <td data-label="Actie">
+          <button onclick="bewerkRapport('${docSnap.id}')">✏️ Bewerken</button>
+          <button class="verwijder" onclick="verwijderRapport('${docSnap.id}')">🗑️ Verwijderen</button>
+        </td>
+      `;
+      tbody.appendChild(rij);
+    });
+  }
+
+  window.bewerkRapport = async function (id) {
+    const querySnapshot = await getDocs(collection(db, "ontheffingen"));
+    const docData = querySnapshot.docs.find(doc => doc.id === id)?.data();
+    if (!docData) return alert("Rapport niet gevonden.");
+    document.getElementById("referentienummer").value = docData.refnummer?.split(".")[1] || "";
+    document.getElementById("opdrachtgever").value = docData.opdrachtgever || "";
+    document.getElementById("behandelaar").value = docData.behandelaar || "";
+
+    const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='text']");
+    const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='text']");
+
+    if (docData.inkoopprijzen && docData.verkoopprijzen) {
+      docData.inkoopprijzen.forEach((val, idx) => inkoopInputs[idx].value = val);
+      docData.verkoopprijzen.forEach((val, idx) => verkoopInputs[idx].value = val);
+    }
+
+    huidigRapportId = id;
+    updateTotalen();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  window.verwijderRapport = async function(id) {
+    if (!confirm("Weet je zeker dat je dit rapport wilt verwijderen?")) return;
+    try {
+      await deleteDoc(doc(db, "ontheffingen", id));
+      alert("Rapport verwijderd.");
+      laadRapporten();
+    } catch (e) {
+      alert("Fout bij verwijderen: " + e.message);
+    }
+  }
 
   window.opslaanOntheffing = async function () {
     const refnummer = document.getElementById("referentienummer").value;
@@ -237,103 +237,95 @@
     const behandelaar = document.getElementById("behandelaar").value;
     const aanvraagdatum = new Date().toISOString().split('T')[0];
 
-    if (!refnummer || !opdrachtgever) {
-      alert("Referentienummer en opdrachtgever zijn verplicht.");
-      return;
-    }
+    const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='text']");
+    const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='text']");
 
-    if (!currentUser) {
-      alert("Je moet ingelogd zijn om op te slaan.");
-      return;
-    }
+    const inkoopprijzen = Array.from(inkoopInputs).map(input => input.value);
+    const verkoopprijzen = Array.from(verkoopInputs).map(input => input.value);
+
+    if (!refnummer || !opdrachtgever) return alert("Referentienummer en opdrachtgever zijn verplicht.");
+    if (!currentUser) return alert("Je moet ingelogd zijn om op te slaan.");
+
+    const docData = {
+      refnummer: "2025." + refnummer,
+      opdrachtgever,
+      behandelaar,
+      aanvraagdatum,
+      user: currentUser.uid,
+      timestamp: new Date(),
+      inkoopprijzen,
+      verkoopprijzen
+    };
 
     try {
-      await addDoc(collection(db, "ontheffingen"), {
-        refnummer: "2025." + refnummer,
-        opdrachtgever,
-        behandelaar,
-        aanvraagdatum,
-        user: currentUser.uid,
-        timestamp: new Date()
-      });
-      alert("Rapport opgeslagen.");
+      if (huidigRapportId) {
+        await setDoc(doc(db, "ontheffingen", huidigRapportId), docData);
+        alert("Rapport bijgewerkt.");
+        huidigRapportId = null;
+      } else {
+        await addDoc(collection(db, "ontheffingen"), docData);
+        alert("Rapport opgeslagen.");
+      }
+
+      document.getElementById("referentienummer").value = "";
+      document.getElementById("opdrachtgever").value = "";
+      document.getElementById("behandelaar").value = "";
+
+      inkoopInputs.forEach(input => input.value = "");
+      verkoopInputs.forEach(input => input.value = "");
+      updateTotalen();
       laadRapporten();
     } catch (e) {
       alert("Fout bij opslaan: " + e.message);
     }
-  };
-
-  async function laadRapporten() {
-    const querySnapshot = await getDocs(collection(db, "ontheffingen"));
-    const tbody = document.getElementById("rapportTabelBody");
-    if (!tbody) return;
-    tbody.innerHTML = "";
-
-    querySnapshot.forEach(doc => {
-      const data = doc.data();
-      const rij = document.createElement("tr");
-      rij.innerHTML = `
-  <td data-label="Referentienummer">${data.refnummer || ''}</td>
-  <td data-label="Opdrachtgever">${data.opdrachtgever || ''}</td>
-  <td data-label="Behandelaar">${data.behandelaar || ''}</td>
-  <td data-label="Aanvraagdatum">${data.aanvraagdatum || ''}</td>
-  <td data-label="Actie"><button onclick="bewerkRapport('${doc.id}')">✏️ Bewerken</button></td>
-`;
-      tbody.appendChild(rij);
-    });
   }
-
-  window.bewerkRapport = function (id) {
-    alert("Bewerk-functie komt binnenkort. ID: " + id);
-  };
 </script>
 <script>
-function formatEuro(waarde) {
-  const getal = parseFloat(waarde.replace(",", "."));
-  return (!isNaN(getal) ? getal.toFixed(2).replace(".", ",") : "");
-}
+  function formatEuro(waarde) {
+    const getal = parseFloat(waarde.replace(",", "."));
+    return (!isNaN(getal) ? getal.toFixed(2).replace(".", ",") : "");
+  }
 
-function updateTotalen() {
-  const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='text']");
-  const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='text']");
+  function updateTotalen() {
+    const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='text']");
+    const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='text']");
 
-  let inkoopTotaal = 0;
-  let verkoopTotaal = 0;
+    let inkoopTotaal = 0;
+    let verkoopTotaal = 0;
 
-  inkoopInputs.forEach(input => {
-    const val = parseFloat(input.value.replace(",", "."));
-    if (!isNaN(val)) inkoopTotaal += val;
-  });
-
-  verkoopInputs.forEach(input => {
-    const val = parseFloat(input.value.replace(",", "."));
-    if (!isNaN(val)) verkoopTotaal += val;
-  });
-
-  const marge = verkoopTotaal - inkoopTotaal;
-
-  const format = v => "€ " + v.toFixed(2).replace(".", ",");
-
-  document.getElementById("inkoop_totaal").value = inkoopTotaal ? format(inkoopTotaal) : "";
-  document.getElementById("verkoop_totaal").value = verkoopTotaal ? format(verkoopTotaal) : "";
-  document.getElementById("marge").value = marge ? format(marge) : "";
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='text']");
-  const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='text']");
-
-  [...inkoopInputs, ...verkoopInputs].forEach(input => {
-    input.addEventListener("blur", () => {
-      input.value = formatEuro(input.value);
-      updateTotalen();
+    inkoopInputs.forEach(input => {
+      const val = parseFloat(input.value.replace(",", "."));
+      if (!isNaN(val)) inkoopTotaal += val;
     });
+
+    verkoopInputs.forEach(input => {
+      const val = parseFloat(input.value.replace(",", "."));
+      if (!isNaN(val)) verkoopTotaal += val;
+    });
+
+    const marge = verkoopTotaal - inkoopTotaal;
+
+    const format = v => "€ " + v.toFixed(2).replace(".", ",");
+
+    document.getElementById("inkoop_totaal").value = inkoopTotaal ? format(inkoopTotaal) : "";
+    document.getElementById("verkoop_totaal").value = verkoopTotaal ? format(verkoopTotaal) : "";
+    document.getElementById("marge").value = marge ? format(marge) : "";
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='text']");
+    const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='text']");
+
+    [...inkoopInputs, ...verkoopInputs].forEach(input => {
+      input.addEventListener("blur", () => {
+        input.value = formatEuro(input.value);
+        updateTotalen();
+      });
+    });
+
+    updateTotalen();
   });
-
-  updateTotalen();
-});
 </script>
-
-
 </body>
 </html>
+
