@@ -4,6 +4,76 @@
   <meta charset="UTF-8">
   <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
   <link rel="stylesheet" href="style.css">
+<style>
+  .rapport-tabel {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .rapport-tabel th,
+  .rapport-tabel td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  .rapport-tabel th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  .rapport-tabel tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .rapport-tabel tr:hover {
+    background-color: #eef;
+  }
+
+  .rapport-tabel button {
+    padding: 4px 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .rapport-tabel button:hover {
+    background-color: #0056b3;
+  }
+
+  @media (max-width: 768px) {
+    .rapport-tabel,
+    .rapport-tabel thead,
+    .rapport-tabel tbody,
+    .rapport-tabel th,
+    .rapport-tabel td,
+    .rapport-tabel tr {
+      display: block;
+    }
+
+    .rapport-tabel thead tr {
+      display: none;
+    }
+
+    .rapport-tabel td {
+      position: relative;
+      padding-left: 50%;
+      border: none;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .rapport-tabel td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      font-weight: bold;
+    }
+  }
+</style>
+
 </head>
 <body>
 
@@ -203,12 +273,12 @@
       const data = doc.data();
       const rij = document.createElement("tr");
       rij.innerHTML = `
-        <td>${data.refnummer || ''}</td>
-        <td>${data.opdrachtgever || ''}</td>
-        <td>${data.behandelaar || ''}</td>
-        <td>${data.aanvraagdatum || ''}</td>
-        <td><button onclick="bewerkRapport('${doc.id}')">✏️ Bewerken</button></td>
-      `;
+  <td data-label="Referentienummer">${data.refnummer || ''}</td>
+  <td data-label="Opdrachtgever">${data.opdrachtgever || ''}</td>
+  <td data-label="Behandelaar">${data.behandelaar || ''}</td>
+  <td data-label="Aanvraagdatum">${data.aanvraagdatum || ''}</td>
+  <td data-label="Actie"><button onclick="bewerkRapport('${doc.id}')">✏️ Bewerken</button></td>
+`;
       tbody.appendChild(rij);
     });
   }
