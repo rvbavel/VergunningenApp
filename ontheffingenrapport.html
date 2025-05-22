@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <title>Speciaal Transport Zwolle B.V. - Ontheffingenrapport</title>
   <link rel="stylesheet" href="style.css">
-  <style>
+  <link rel="stylesheet" href="print.css" media="print">
+  
+<style>
     .rapport-tabel {
       width: 100%;
       border-collapse: collapse;
@@ -46,18 +48,20 @@
   </style>
 </head>
 <body>
-  
+
 <header>
-  <nav class="top-menu">
+  <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
+  <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - ONTHEFFINGENRAPPORT</h1>
+</header>
+
+<nav class="top-menu">
     <button onclick="window.location.href='index.html'">🏠 HOME</button>
     <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
     <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
     <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
     <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
   </nav>
-  <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-  <h1>SPECIAAL TRANSPORT ZWOLLE B.V. - ONTHEFFINGENRAPPORT</h1>
-</header>
+
 <main class="card">
   <h2>ONTHEFFINGEN RAPPORT</h2>
 
@@ -334,9 +338,10 @@
     updateTotalen();
   });
 </script>
-  <footer>
+
+<footer>
   ©2025 - Ontwikkeld door René van Bavel - VMSbeheer.nl
 </footer>
+
 </body>
 </html>
-
