@@ -266,7 +266,8 @@ window.bewerkRapport = async function (id) {
   const refnummer = document.getElementById("referentienummer").value;
   const opdrachtgever = document.getElementById("opdrachtgever").value;
   const behandelaar = document.getElementById("behandelaar").value;
-  const aanvraagdatum = new Date().toISOString().split('T')[0];
+  const today = new Date();
+  const aanvraagdatum = `${today.getDate().toString().padStart(2, '0')}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getFullYear()}`;
 
   const omschrijving = document.getElementById("omschrijving").value;
   const opmerkingen_facturatie = document.getElementById("opmerkingen_facturatie").value;
