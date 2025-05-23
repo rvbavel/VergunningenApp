@@ -211,26 +211,45 @@
     });
   }
 
-  window.bewerkRapport = async function (id) {
-    const querySnapshot = await getDocs(collection(db, "ontheffingen"));
-    const docData = querySnapshot.docs.find(doc => doc.id === id)?.data();
-    if (!docData) return alert("Rapport niet gevonden.");
-    document.getElementById("referentienummer").value = docData.refnummer?.split(".")[1] || "";
-    document.getElementById("opdrachtgever").value = docData.opdrachtgever || "";
-    document.getElementById("behandelaar").value = docData.behandelaar || "";
+window.bewerkRapport = async function (id) {
+  const querySnapshot = await getDocs(collection(db, "ontheffingen"));
+  const docData = querySnapshot.docs.find(doc => doc.id === id)?.data();
+  if (!docData) return alert("Rapport niet gevonden.");
 
-    const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='text']");
-    const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='text']");
+  document.getElementById("referentienummer").value = docData.refnummer?.split(".")[1] || "";
+  document.getElementById("opdrachtgever").value = docData.opdrachtgever || "";
+  document.getElementById("referentie_klant").value = docData.referentie_klant || "";
+  document.getElementById("behandelaar").value = docData.behandelaar || "";
+  document.getElementById("omschrijving").value = docData.omschrijving || "";
+  document.getElementById("opmerkingen_facturatie").value = docData.opmerkingen_facturatie || "";
 
-    if (docData.inkoopprijzen && docData.verkoopprijzen) {
-      docData.inkoopprijzen.forEach((val, idx) => inkoopInputs[idx].value = val);
-      docData.verkoopprijzen.forEach((val, idx) => verkoopInputs[idx].value = val);
-    }
+  const aangevraagdInputs = document.querySelectorAll(".form-grid-five > div:nth-child(1) input");
+  const aanvraagdatumInputs = document.querySelectorAll(".form-grid-five > div:nth-child(2) input");
+  const afgiftedatumInputs = document.querySelectorAll(".form-grid-five > div:nth-child(3) input");
+  const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input");
+  const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input");
 
-    huidigRapportId = id;
-    updateTotalen();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  if (docData.aangevraagdBij) {
+    docData.aangevraagdBij.forEach((val, idx) => aangevraagdInputs[idx].value = val);
   }
+  if (docData.aanvraagdatums) {
+    docData.aanvraagdatums.forEach((val, idx) => aanvraagdatumInputs[idx].value = val);
+  }
+  if (docData.afgiftedatums) {
+    docData.afgiftedatums.forEach((val, idx) => afgiftedatumInputs[idx].value = val);
+  }
+  if (docData.inkoopprijzen) {
+    docData.inkoopprijzen.forEach((val, idx) => inkoopInputs[idx].value = val);
+  }
+  if (docData.verkoopprijzen) {
+    docData.verkoopprijzen.forEach((val, idx) => verkoopInputs[idx].value = val);
+  }
+
+  huidigRapportId = id;
+  updateTotalen();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 
   window.verwijderRapport = async function(id) {
     if (!confirm("Weet je zeker dat je dit rapport wilt verwijderen?")) return;
@@ -244,53 +263,67 @@
   }
 
   window.opslaanOntheffing = async function () {
-    const refnummer = document.getElementById("referentienummer").value;
-    const opdrachtgever = document.getElementById("opdrachtgever").value;
-    const behandelaar = document.getElementById("behandelaar").value;
-    const aanvraagdatum = new Date().toISOString().split('T')[0];
+  const refnummer = document.getElementById("referentienummer").value;
+  const opdrachtgever = document.getElementById("opdrachtgever").value;
+  const behandelaar = document.getElementById("behandelaar").value;
+  const aanvraagdatum = new Date().toISOString().split('T')[0];
 
-    const inkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(4) input[type='text']");
-    const verkoopInputs = document.querySelectorAll(".form-grid-five > div:nth-child(5) input[type='text']");
+  const omschrijving = document.getElementById("omschrijving").value;
+  const opmerkingen_facturatie = document.getElementById("opmerkingen_facturatie").value;
 
-    const inkoopprijzen = Array.from(inkoopInputs).map(input => input.value);
-    const verkoopprijzen = Array.from(verkoopInputs).map(input => input.value);
+  const aangevraagdBij = Array.from(document.querySelectorAll(".form-grid-five > div:nth-child(1) input")).map(i => i.value);
+  const aanvraagdatums = Array.from(document.querySelectorAll(".form-grid-five > div:nth-child(2) input")).map(i => i.value);
+  const afgiftedatums = Array.from(document.querySelectorAll(".form-grid-five > div:nth-child(3) input")).map(i => i.value);
+  const inkoopprijzen = Array.from(document.querySelectorAll(".form-grid-five > div:nth-child(4) input")).map(i => i.value);
+  const verkoopprijzen = Array.from(document.querySelectorAll(".form-grid-five > div:nth-child(5) input")).map(i => i.value);
 
-    if (!refnummer || !opdrachtgever) return alert("Referentienummer en opdrachtgever zijn verplicht.");
-    if (!currentUser) return alert("Je moet ingelogd zijn om op te slaan.");
+  if (!refnummer || !opdrachtgever) return alert("Referentienummer en opdrachtgever zijn verplicht.");
+  if (!currentUser) return alert("Je moet ingelogd zijn om op te slaan.");
 
-    const docData = {
-      refnummer: "2025." + refnummer,
-      opdrachtgever,
-      behandelaar,
-      aanvraagdatum,
-      user: currentUser.uid,
-      timestamp: new Date(),
-      inkoopprijzen,
-      verkoopprijzen
-    };
+  const referentie_klant = document.getElementById("referentie_klant").value;
 
-    try {
-      if (huidigRapportId) {
-        await setDoc(doc(db, "ontheffingen", huidigRapportId), docData);
-        alert("Rapport bijgewerkt.");
-        huidigRapportId = null;
-      } else {
-        await addDoc(collection(db, "ontheffingen"), docData);
-        alert("Rapport opgeslagen.");
-      }
+const docData = {
+  refnummer: "2025." + refnummer,
+  opdrachtgever,
+  behandelaar,
+  aanvraagdatum,
+  omschrijving,
+  opmerkingen_facturatie,
+  referentie_klant, // ✅ Voeg deze regel toe
+  aangevraagdBij,
+  aanvraagdatums,
+  afgiftedatums,
+  inkoopprijzen,
+  verkoopprijzen,
+  user: currentUser.uid,
+  timestamp: new Date()
+};
 
-      document.getElementById("referentienummer").value = "";
-      document.getElementById("opdrachtgever").value = "";
-      document.getElementById("behandelaar").value = "";
-
-      inkoopInputs.forEach(input => input.value = "");
-      verkoopInputs.forEach(input => input.value = "");
-      updateTotalen();
-      laadRapporten();
-    } catch (e) {
-      alert("Fout bij opslaan: " + e.message);
+  try {
+    if (huidigRapportId) {
+      await setDoc(doc(db, "ontheffingen", huidigRapportId), docData);
+      alert("Rapport bijgewerkt.");
+      huidigRapportId = null;
+    } else {
+      await addDoc(collection(db, "ontheffingen"), docData);
+      alert("Rapport opgeslagen.");
     }
+
+    // Reset alle velden
+    document.getElementById("referentienummer").value = "";
+    document.getElementById("opdrachtgever").value = "";
+    document.getElementById("behandelaar").value = "";
+    document.getElementById("omschrijving").value = "";
+    document.getElementById("opmerkingen_facturatie").value = "";
+    document.querySelectorAll(".form-grid-five input").forEach(input => input.value = "");
+
+    updateTotalen();
+    laadRapporten();
+  } catch (e) {
+    alert("Fout bij opslaan: " + e.message);
   }
+}
+
 </script>
 <script>
   function formatEuro(waarde) {
