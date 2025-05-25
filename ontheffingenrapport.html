@@ -143,6 +143,7 @@
   </label>
 </div>
 <button onclick="opslaanOntheffing()" class="primary-btn">📁 RAPPORT OPSLAAN</button>
+<button onclick="genereerPDF()" class="primary-btn">📥 OPSLAAN ALS PDF</button>
 
   <h3 style="margin-top: 30px;">Opgeslagen Rapporten</h3>
   <table id="rapportTabel" class="rapport-tabel">
@@ -263,7 +264,9 @@ window.bewerkRapport = async function (id) {
   }
 
   window.opslaanOntheffing = async function () {
-  const refnummer = document.getElementById("referentienummer").value;
+  const prefix = document.querySelector(".split-input .prefix")?.textContent || "2025.";
+  const nummer = document.querySelector(".split-input input")?.value || "";
+  const refnummer = prefix + nummer;
   const opdrachtgever = document.getElementById("opdrachtgever").value;
   const behandelaar = document.getElementById("behandelaar").value;
   const today = new Date();
@@ -372,6 +375,101 @@ const docData = {
     updateTotalen();
   });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+  async function genereerPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const prefix = document.querySelector(".split-input .prefix")?.textContent || "2025.";
+  const nummer = document.querySelector(".split-input input")?.value || "";
+  const refnummer = prefix + nummer;
+
+  const behandelaar = document.getElementById("behandelaar")?.value || "";
+  const opdrachtgever = document.getElementById("opdrachtgever")?.value || "";
+  const vervoerder = document.getElementById("vervoerder")?.value || "";
+  const referentie = document.getElementById("referentie_klant")?.value || "";
+  const omschrijving = document.getElementById("omschrijving")?.value || "";
+  const opmerkingen = document.getElementById("opmerkingen_facturatie")?.value || "";
+
+  const inkoop = document.getElementById("inkoop_totaal")?.value || "";
+  const verkoop = document.getElementById("verkoop_totaal")?.value || "";
+  const marge = document.getElementById("marge")?.value || "";
+
+  doc.setFontSize(14);
+doc.setFont("helvetica", "bold");
+doc.text("ONTHEFFINGEN RAPPORT", 105, 15, { align: "center" });
+
+doc.setFontSize(11);
+
+doc.setFont("helvetica", "bold");
+doc.text("Referentienummer:", 14, 25);
+doc.setFont("helvetica", "normal");
+doc.text(refnummer, 60, 25);
+
+doc.setFont("helvetica", "bold");
+doc.text("Behandelaar:", 14, 30);
+doc.setFont("helvetica", "normal");
+doc.text(behandelaar, 60, 30);
+
+doc.setFont("helvetica", "bold");
+doc.text("Opdrachtgever:", 14, 37);
+doc.setFont("helvetica", "normal");
+doc.text(opdrachtgever, 60, 37);
+
+doc.setFont("helvetica", "bold");
+doc.text("Vervoerder:", 14, 44);
+doc.setFont("helvetica", "normal");
+doc.text(vervoerder, 60, 44);
+
+doc.setFont("helvetica", "bold");
+doc.text("Referentie klant:", 14, 51);
+doc.setFont("helvetica", "normal");
+doc.text(referentie, 60, 51);
+
+doc.setFont("helvetica", "bold");
+doc.text("Omschrijving:", 14, 58);
+doc.setFont("helvetica", "normal");
+doc.text(doc.splitTextToSize(omschrijving, 180), 14, 64);
+
+doc.setFont("helvetica", "bold");
+doc.text("Opmerkingen t.a.v. facturatie:", 14, 84);
+doc.setFont("helvetica", "normal");
+doc.text(doc.splitTextToSize(opmerkingen, 180), 14, 90);
+
+
+  const body = [];
+  const kolommen = document.querySelectorAll(".form-grid-five > div");
+  for (let i = 0; i < 8; i++) {
+    const rij = [];
+    for (let j = 0; j < 5; j++) {
+      rij.push(kolommen[j]?.querySelectorAll("input")[i]?.value || "");
+    }
+    if (rij.some(val => val !== "")) {
+      body.push(rij);
+    }
+  }
+
+  doc.autoTable({
+    startY: 95,
+    head: [["Aangevraagd bij", "Aanvraagdatum", "Afgiftedatum", "Inkoopprijs (€)", "Verkoopprijs (€)"]],
+    body: body,
+    styles: { fontSize: 10, cellPadding: 2 },
+    theme: 'grid'
+  });
+
+  const eindY = doc.lastAutoTable.finalY + 10;
+  doc.text(`Inkoopprijs totaal: ${inkoop}`, 14, eindY);
+  doc.text(`Verkoopprijs totaal: ${verkoop}`, 14, eindY + 6);
+  doc.text(`Marge: ${marge}`, 14, eindY + 12);
+
+  doc.save(`${refnummer || "rapport"}.pdf`);
+}
+
+</script>
+
 
 <footer>
   ©2025 - Ontwikkeld door René van Bavel - VMSbeheer.nl
