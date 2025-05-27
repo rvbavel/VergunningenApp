@@ -5,6 +5,46 @@
   <title>Speciaal Transport Zwolle B.V. - Begeleidingenrapport</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
+  <style>
+    .rapport-tabel {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .rapport-tabel th,
+    .rapport-tabel td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .rapport-tabel th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+    .rapport-tabel tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .rapport-tabel tr:hover {
+      background-color: #eef;
+    }
+    .rapport-tabel button {
+      padding: 4px 8px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .rapport-tabel button:hover {
+      background-color: #0056b3;
+    }
+    .rapport-tabel button.verwijder {
+      background-color: #dc3545;
+    }
+    .rapport-tabel button.verwijder:hover {
+      background-color: #a92828;
+    }
+  </style>
 </head>
 <body>
 
@@ -124,13 +164,13 @@
 </main>
 
 <h3 style="margin-top: 30px;">Opgeslagen Rapporten</h3>
-<table class="rapport-tabel" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+<table class="rapport-tabel">
   <thead>
     <tr>
-      <th style="border: 1px solid #ccc; padding: 8px;">Referentienummer</th>
-      <th style="border: 1px solid #ccc; padding: 8px;">Opdrachtgever</th>
-      <th style="border: 1px solid #ccc; padding: 8px;">Behandelaar</th>
-      <th style="border: 1px solid #ccc; padding: 8px;">Actie</th>
+      <th>Referentienummer</th>
+      <th>Opdrachtgever</th>
+      <th>Behandelaar</th>
+      <th>Actie</th>
     </tr>
   </thead>
   <tbody id="rapportTabelBody"></tbody>
@@ -297,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     doc.autoTable({
       startY: y,
-      head: [["Begeleidingsfirma", "Datum", "Van", "Naar", "Uren", "Inkoop (€)", "Verkoop (€)"]],
+      head: [["Firma", "Datum", "Van", "Naar", "Uren", "Inkoop (€)", "Verkoop (€)"]],
       body: body,
       styles: { fontSize: 10, cellPadding: 2 },
       theme: 'grid'
@@ -394,8 +434,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${data.opdrachtgever || ''}</td>
         <td>${data.behandelaar || ''}</td>
         <td>
-          <button onclick="bewerkRapport('${docSnap.id}')">✏️ Bewerken</button>
-          <button onclick="verwijderRapport('${docSnap.id}')" style="color:red;">🗑️ Verwijderen</button>
+          <button onclick="bewerkRapport('${docSnap.id}')"✏️ Bewerken</button>
+          <button class="verwijder" onclick="verwijderRapport('${docSnap.id}')">🗑️ Verwijderen</button>
         </td>
       `;
       rapportenBody.appendChild(rij);
@@ -403,13 +443,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   window.bewerkRapport = async function (id) {
-    const docSnap = await getDocs(collection(db, "begeleidingen"));
-    const data = docSnap.docs.find(doc => doc.id === id)?.data();
-    if (!data) return alert("Rapport niet gevonden");
+    const querySnapshot = await getDocs(collection(db, "begeleidingen"));
+    const docData = querySnapshot.docs.find(doc => doc.id === id)?.data();
+    if (!docData) return alert("Rapport niet gevonden");
 
-    document.getElementById("referentienummer").value = data.refnummer?.split(".")[1] || "";
-    document.getElementById("opdrachtgever").value = data.opdrachtgever || "";
-    document.getElementById("behandelaar").value = data.behandelaar || "";
+    document.getElementById("referentienummer").value = docData.refnummer?.split(".")[1] || "";
+    document.getElementById("opdrachtgever").value = docData.opdrachtgever || "";
+    document.getElementById("behandelaar").value = docData.behandelaar || "";
 
     huidigRapportId = id;
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -426,8 +466,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 </script>
-
-
 
 <footer>
   ©2025 - Ontwikkeld door René van Bavel - VMSbeheer.nl
