@@ -123,10 +123,6 @@
   <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
 </main>
 
-<footer>
-  Ontwikkeld door René van Bavel ©2025 Speciaal Transport Zwolle B.V.
-</footer>
-
 <script>
 function formatEuro(value) {
   const number = parseFloat(value);
@@ -221,9 +217,101 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script>
+  async function genereerPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const refnummer = "2025." + (document.getElementById("referentienummer").value || "");
+    const behandelaar = document.getElementById("behandelaar").value || "";
+    const opdrachtgever = document.getElementById("opdrachtgever").value || "";
+    const vervoerder = document.getElementById("vervoerder").value || "";
+    const referentie = document.getElementById("referentie_klant").value || "";
+    const omschrijving = document.getElementById("omschrijving").value || "";
+    const opmerkingen = document.getElementById("opmerkingen_facturatie").value || "";
+    const inkoop = document.getElementById("inkoop_totaal").value || "";
+    const verkoop = document.getElementById("verkoop_totaal").value || "";
+    const marge = document.getElementById("marge").value || "";
+
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("BEGELEIDINGEN RAPPORT", 105, 15, { align: "center" });
+
+    doc.setFontSize(11);
+
+    const veld = (label, val, y) => {
+      doc.setFont("helvetica", "bold");
+      doc.text(`${label}`, 14, y);
+      doc.setFont("helvetica", "normal");
+      doc.text(val, 60, y);
+    };
+
+    let y = 25;
+    veld("Referentienummer:", refnummer, y); y += 6;
+    veld("Behandelaar:", behandelaar, y); y += 6;
+    veld("Opdrachtgever:", opdrachtgever, y); y += 6;
+    veld("Vervoerder:", vervoerder, y); y += 6;
+    veld("Referentie klant:", referentie, y); y += 6;
+    doc.setFont("helvetica", "bold");
+    doc.text("Omschrijving:", 14, y); y += 6;
+    doc.setFont("helvetica", "normal");
+    doc.text(doc.splitTextToSize(omschrijving, 180), 14, y); y += 14;
+
+    // Tabeldata
+    const body = [];
+    const kolommen = document.querySelectorAll(".form-grid-seven > div");
+
+    for (let i = 0; i < 8; i++) {
+      const rij = [];
+      for (let j = 0; j < 7; j++) {
+        let val = kolommen[j]?.querySelectorAll("input")[i]?.value || "";
+
+        // Transportdatum formatteren
+        if (j === 1 && val.includes("-")) {
+          const [jaar, maand, dag] = val.split("-");
+          val = `${dag}-${maand}-${jaar}`;
+        }
+
+        rij.push(val);
+      }
+      if (rij.some(v => v !== "")) {
+        body.push(rij);
+      }
+    }
+
+    doc.autoTable({
+      startY: y,
+      head: [["Firma", "Datum", "Van", "Naar", "Uren", "Inkoop (€)", "Verkoop (€)"]],
+      body: body,
+      styles: { fontSize: 10, cellPadding: 2 },
+      theme: 'grid'
+    });
+
+    let eindY = doc.lastAutoTable.finalY + 10;
+    veld("Inkoopprijs totaal:", inkoop, eindY); eindY += 6;
+    veld("Verkoopprijs totaal:", verkoop, eindY); eindY += 6;
+    veld("Marge:", marge, eindY); eindY += 10;
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Opmerkingen t.a.v. facturatie:", 14, eindY);
+    doc.setFont("helvetica", "normal");
+    doc.text(doc.splitTextToSize(opmerkingen, 180), 14, eindY + 6);
+
+    doc.save(`${refnummer || "begeleiding"}.pdf`);
+  }
+</script>
+
+
 <footer>
   ©2025 - Ontwikkeld door René van Bavel - VMSbeheer.nl
 </footer>
+
+
+</body>
+</html>
+
 
 
 </body>
