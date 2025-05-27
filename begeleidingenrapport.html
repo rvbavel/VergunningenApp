@@ -52,16 +52,16 @@
   <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
   <h1>BEGELEIDINGENRAPPORT</h1>
 </header>
-  
-   <nav class="top-menu">
-    <button onclick="window.location.href='index.html'">🏠 HOME</button>
-    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-    <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-    <button id="admin-gebruikersbeheer" onclick="window.location.href='gebruikersbeheer.html'" style="display:none;">GEBRUIKERSBEHEER</button>
-    <button id="admin-statistieken" onclick="window.location.href='statistieken.html'" style="display:none;">STATISTIEKEN</button>
-  </nav>
+
+<nav class="top-menu">
+  <button onclick="window.location.href='index.html'">🏠 HOME</button>
+  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+  <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+  <button id="admin-gebruikersbeheer" onclick="window.location.href='gebruikersbeheer.html'" style="display:none;">GEBRUIKERSBEHEER</button>
+  <button id="admin-statistieken" onclick="window.location.href='statistieken.html'" style="display:none;">STATISTIEKEN</button>
+</nav>
 
 <main class="card">
   <h2>BEGELEIDINGEN RAPPORT</h2>
@@ -161,21 +161,20 @@
   </div>
   <button onclick="opslaanRapport()" class="primary-btn">📁 RAPPORT OPSLAAN</button>
   <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
-</main>
 
 <h3 style="margin-top: 30px;">Opgeslagen Rapporten</h3>
-<table class="rapport-tabel">
-  <thead>
-    <tr>
-      <th>Referentienummer</th>
-      <th>Opdrachtgever</th>
-      <th>Behandelaar</th>
-      <th>Actie</th>
-    </tr>
-  </thead>
-  <tbody id="rapportTabelBody"></tbody>
-</table>
-
+  <table id="rapportTabel" class="rapport-tabel">
+    <thead>
+      <tr>
+        <th>Referentienummer</th>
+        <th>Opdrachtgever</th>
+        <th>Behandelaar</th>
+        <th>Actie</th>
+      </tr>
+    </thead>
+    <tbody id="rapportTabelBody"></tbody>
+  </table>
+</main>
 
 <script>
 function formatEuro(value) {
@@ -429,16 +428,16 @@ document.addEventListener('DOMContentLoaded', () => {
     querySnapshot.forEach((docSnap) => {
       const data = docSnap.data();
       const rij = document.createElement("tr");
-      rij.innerHTML = `
-        <td>${data.refnummer || ''}</td>
-        <td>${data.opdrachtgever || ''}</td>
-        <td>${data.behandelaar || ''}</td>
-        <td>
-          <button onclick="bewerkRapport('${docSnap.id}')"✏️ Bewerken</button>
-          <button class="verwijder" onclick="verwijderRapport('${docSnap.id}')">🗑️ Verwijderen</button>
-        </td>
-      `;
-      rapportenBody.appendChild(rij);
+rij.innerHTML = `
+  <td data-label="Referentienummer">${data.refnummer || ''}</td>
+  <td data-label="Opdrachtgever">${data.opdrachtgever || ''}</td>
+  <td data-label="Behandelaar">${data.behandelaar || ''}</td>
+  <td data-label="Actie">
+    <button onclick="bewerkRapport('${docSnap.id}')">✏️ Bewerken</button>
+    <button class="verwijder" onclick="verwijderRapport('${docSnap.id}')">🗑️ Verwijderen</button>
+  </td>
+`;
+rapportenBody.appendChild(rij);
     });
   };
 
