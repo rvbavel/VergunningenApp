@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Speciaal Transport Zwolle B.V. - VMS</title>
+  <title>VMS Dashboard</title>
   <link rel="stylesheet" href="style.css">
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
@@ -27,83 +27,59 @@
         window.location.href = "index.html";
         return;
       }
+
       try {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        const welkomElement = document.getElementById("welkom-paragraaf");
-        if (!welkomElement) return;
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          welkomElement.innerHTML = `Welkom ${data.voornaam}, bij het Vergunningen Management Systeem van Speciaal Transport Zwolle B.V.
-            <br><br>Via deze applicatie beheert u eenvoudig uw vergunningen en transportbegeleidingen.
-            Gebruik het menu bovenaan om snel te navigeren naar de gewenste modules, zoals het inboeken van nieuwe vergunningen, bekijken van rapportages of aanvragen van transportbegeleiding.`;
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const welkom = document.getElementById("welkom-paragraaf");
+        const beheerBtn = document.getElementById("admin-gebruikersbeheer");
+        const statBtn = document.getElementById("admin-statistieken");
+
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          welkom.innerHTML = `Welkom ${data.voornaam}, bij het Vergunningen Management Systeem van Speciaal Transport Zwolle B.V.
+            <br><br>Via deze applicatie beheert u eenvoudig uw vergunningen en transportbegeleidingen.`;
+
+          if (data.isAdmin) {
+            beheerBtn.style.display = "inline-block";
+            statBtn.style.display = "inline-block";
+          }
         } else {
-          welkomElement.textContent = "Welkom, gebruiker.";
+          welkom.textContent = "Welkom, gebruiker.";
         }
-      } catch (err) {
-        console.error("Fout bij ophalen gebruikersdata:", err);
+      } catch (error) {
+        console.error("Fout bij ophalen gebruikersgegevens:", error);
       }
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const logoutBtn = document.getElementById("logout");
-      if (logoutBtn) {
-        logoutBtn.addEventListener("click", () => {
-          signOut(auth).then(() => {
-            window.location.href = "index.html";
-          });
-        });
-      }
-    });
+    window.logout = async () => {
+      await signOut(auth);
+      window.location.href = "index.html";
+    };
   </script>
 </head>
 <body>
+  <header>
+    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
+    <h1>VMS DASHBOARD</h1>
+  </header>
 
-<header>
-  <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
-  <h1>VERGUNNINGEN MANAGEMENT SYSTEEM</h1>
-</header>
+  <nav class="top-menu">
+    <button onclick="window.location.href='index.html'">🏠 HOME</button>
+    <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
+    <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
+    <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
+    <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
+    <button id="admin-gebruikersbeheer" onclick="window.location.href='gebruikersbeheer.html'" style="display:none;">GEBRUIKERSBEHEER</button>
+    <button id="admin-statistieken" onclick="window.location.href='statistieken.html'" style="display:none;">STATISTIEKEN</button>
+  </nav>
 
-<nav class="top-menu">
-  <button onclick="window.location.href='index.html'">🏠 HOME</button>
-  <button onclick="window.location.href='vergunningen.html'">INBOEKEN VERGUNNINGEN</button>
-  <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
-  <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
-  <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-</nav>
+  <main class="card">
+    <p id="welkom-paragraaf">Welkom bij het VMS platform...</p>
+    <button onclick="logout()">Uitloggen</button>
+  </main>
 
-<main class="card">
-  <h2>VERGUNNINGEN MANAGEMENT SYSTEEM</h2>
-  <p id="welkom-paragraaf">
-    Welkom ..., even geduld terwijl we je naam ophalen.<br><br>
-    Via deze applicatie beheert u eenvoudig uw vergunningen en transportbegeleidingen.
-    Gebruik het menu bovenaan om snel te navigeren naar de gewenste modules, zoals het inboeken van nieuwe vergunningen,
-    bekijken van rapportages of aanvragen van transportbegeleiding.
-  </p>
-  <p>
-    Heeft u vragen of ondersteuning nodig? Neem gerust contact op met ons team.
-  </p>
-
-  <div style="text-align: right; margin-top: 20px;">
-    <button id="logout" class="primary-btn">Uitloggen</button>
-  </div>
-</main>
-
-<footer>
-  ©2025 - Ontwikkeld door René van Bavel - VMSbeheer.nl
-</footer>
-
-<script>
-function begeleidingenRapport() {
-  alert('BEGELEIDINGEN RAPPORT: Deze functie wordt later toegevoegd.');
-}
-function voorbladOntheffing() {
-  alert('VOORBLAD ONTHEFFING: Deze functie wordt later toegevoegd.');
-}
-function aanvraagTransportbegeleiding() {
-  alert('AANVRAAG TRANSPORTBEGELEIDING: Deze functie wordt later toegevoegd.');
-}
-</script>
-
+  <footer>
+    &copy; 2025 VMSbeheer.nl
+  </footer>
 </body>
 </html>
