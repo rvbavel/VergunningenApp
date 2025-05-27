@@ -60,8 +60,6 @@
     <button onclick="window.location.href='ontheffingenrapport.html'">ONTHEFFINGEN RAPPORT</button>
     <button onclick="window.location.href='begeleidingenrapport.html'">BEGELEIDINGEN RAPPORT</button>
     <button onclick="window.location.href='transportbegeleiding.html'">AANVRAAG TRANSPORTBEGELEIDING</button>
-    <button id="admin-gebruikersbeheer" onclick="window.location.href='gebruikersbeheer.html'" style="display:none;">GEBRUIKERSBEHEER</button>
-    <button id="admin-statistieken" onclick="window.location.href='statistieken.html'" style="display:none;">STATISTIEKEN</button>
   </nav>
 
 <main class="card">
@@ -382,113 +380,117 @@ const docData = {
 
 <script>
   async function genereerPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
 
-    const prefix = document.querySelector(".split-input .prefix")?.textContent || "2025.";
-    const nummer = document.querySelector(".split-input input")?.value || "";
-    const refnummer = prefix + nummer;
+  // Basisgegevens ophalen
+  const prefix = document.querySelector(".split-input .prefix")?.textContent || "2025.";
+  const nummer = document.querySelector(".split-input input")?.value || "";
+  const refnummer = prefix + nummer;
 
-    const behandelaar = document.getElementById("behandelaar")?.value || "";
-    const opdrachtgever = document.getElementById("opdrachtgever")?.value || "";
-    const vervoerder = document.getElementById("vervoerder")?.value || "";
-    const referentie = document.getElementById("referentie_klant")?.value || "";
-    const omschrijving = document.getElementById("omschrijving")?.value || "";
-    const opmerkingen = document.getElementById("opmerkingen_facturatie")?.value || "";
+  const behandelaar = document.getElementById("behandelaar")?.value || "";
+  const opdrachtgever = document.getElementById("opdrachtgever")?.value || "";
+  const vervoerder = document.getElementById("vervoerder")?.value || "";
+  const referentie = document.getElementById("referentie_klant")?.value || "";
+  const omschrijving = document.getElementById("omschrijving")?.value || "";
+  const opmerkingen = document.getElementById("opmerkingen_facturatie")?.value || "";
 
-    const inkoop = document.getElementById("inkoop_totaal")?.value || "";
-    const verkoop = document.getElementById("verkoop_totaal")?.value || "";
-    const marge = document.getElementById("marge")?.value || "";
+  const inkoop = document.getElementById("inkoop_totaal")?.value || "";
+  const verkoop = document.getElementById("verkoop_totaal")?.value || "";
+  const marge = document.getElementById("marge")?.value || "";
 
-    doc.setFontSize(14);
+  // Titel
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.text("ONTHEFFINGEN RAPPORT", 105, 15, { align: "center" });
+
+  doc.setFontSize(11);
+
+  // Basisinfo
+  const info = [
+    ["Referentienummer:", refnummer],
+    ["Behandelaar:", behandelaar],
+    ["Opdrachtgever:", opdrachtgever],
+    ["Vervoerder:", vervoerder],
+    ["Referentie klant:", referentie]
+  ];
+
+  let y = 25;
+  info.forEach(([label, value]) => {
     doc.setFont("helvetica", "bold");
-    doc.text("ONTHEFFINGEN RAPPORT", 105, 15, { align: "center" });
-
-    doc.setFontSize(11);
-
-    doc.setFont("helvetica", "bold");
-    doc.text("Referentienummer:", 14, 25);
+    doc.text(label, 14, y);
     doc.setFont("helvetica", "normal");
-    doc.text(refnummer, 60, 25);
+    doc.text(value, 60, y);
+    y += 7;
+  });
 
-    doc.setFont("helvetica", "bold");
-    doc.text("Behandelaar:", 14, 30);
-    doc.setFont("helvetica", "normal");
-    doc.text(behandelaar, 60, 30);
+  // Omschrijving
+  doc.setFont("helvetica", "bold");
+  doc.text("Omschrijving:", 14, y);
+  y += 6;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  const omschrijvingsTekst = doc.splitTextToSize(omschrijving, 180);
+  doc.text(omschrijvingsTekst, 14, y);
+  y += omschrijvingsTekst.length * 5 + 4;
 
-    doc.setFont("helvetica", "bold");
-    doc.text("Opdrachtgever:", 14, 37);
-    doc.setFont("helvetica", "normal");
-    doc.text(opdrachtgever, 60, 37);
-
-    doc.setFont("helvetica", "bold");
-    doc.text("Vervoerder:", 14, 44);
-    doc.setFont("helvetica", "normal");
-    doc.text(vervoerder, 60, 44);
-
-    doc.setFont("helvetica", "bold");
-    doc.text("Referentie klant:", 14, 51);
-    doc.setFont("helvetica", "normal");
-    doc.text(referentie, 60, 51);
-
-    doc.setFont("helvetica", "bold");
-    doc.text("Omschrijving:", 14, 58);
-    doc.setFont("helvetica", "normal");
-    doc.text(doc.splitTextToSize(omschrijving, 180), 14, 64);
-
-    doc.setFont("helvetica", "bold");
-    doc.text("Opmerkingen t.a.v. facturatie:", 14, 84);
-    doc.setFont("helvetica", "normal");
-    doc.text(doc.splitTextToSize(opmerkingen, 180), 14, 90);
-
-    // Verzamelen van rijen uit het formulier
-    const body = [];
-    const kolommen = document.querySelectorAll(".form-grid-five > div");
-
-    for (let i = 0; i < 8; i++) {
-      const rij = [];
-      for (let j = 0; j < 5; j++) {
-        let val = kolommen[j]?.querySelectorAll("input")[i]?.value || "";
-
-        // Datumformaat aanpassen voor kolommen 1 (aanvraagdatum) en 2 (afgiftedatum)
-        if ((j === 1 || j === 2) && val.includes("-")) {
-          const [jaar, maand, dag] = val.split("-");
-          val = `${dag}-${maand}-${jaar}`;
-        }
-
-        rij.push(val);
+  // Tabelgegevens ophalen
+  const body = [];
+  const kolommen = document.querySelectorAll(".form-grid-five > div");
+  for (let i = 0; i < 8; i++) {
+    const rij = [];
+    for (let j = 0; j < 5; j++) {
+      let val = kolommen[j]?.querySelectorAll("input")[i]?.value || "";
+      if ((j === 1 || j === 2) && val.includes("-")) {
+        const [jaar, maand, dag] = val.split("-");
+        val = `${dag}-${maand}-${jaar}`;
       }
-      if (rij.some(val => val !== "")) {
-        body.push(rij);
-      }
+      rij.push(val);
     }
-
-    doc.autoTable({
-      startY: 95,
-      head: [["Aangevraagd bij", "Aanvraagdatum", "Afgiftedatum", "Inkoopprijs (€)", "Verkoopprijs (€)"]],
-      body: body,
-      styles: { fontSize: 10, cellPadding: 2 },
-      theme: 'grid'
-    });
-
-    const eindY = doc.lastAutoTable.finalY + 10;
-    doc.setFont("helvetica", "bold");
-    doc.text(`Inkoopprijs totaal:`, 14, eindY);
-    doc.setFont("helvetica", "normal");
-    doc.text(inkoop, 60, eindY);
-
-    doc.setFont("helvetica", "bold");
-    doc.text(`Verkoopprijs totaal:`, 14, eindY + 6);
-    doc.setFont("helvetica", "normal");
-    doc.text(verkoop, 60, eindY + 6);
-
-    doc.setFont("helvetica", "bold");
-    doc.text(`Marge:`, 14, eindY + 12);
-    doc.setFont("helvetica", "normal");
-    doc.text(marge, 60, eindY + 12);
-
-    doc.save(`${refnummer || "rapport"}.pdf`);
+    if (rij.some(val => val !== "")) {
+      body.push(rij);
+    }
   }
+
+  // Tabel renderen
+  doc.autoTable({
+    startY: y,
+    head: [["Aangevraagd bij", "Aanvraagdatum", "Afgiftedatum", "Inkoopprijs (€)", "Verkoopprijs (€)"]],
+    body: body,
+    styles: { fontSize: 9, cellPadding: 2 },
+    theme: 'grid'
+  });
+
+  y = doc.lastAutoTable.finalY + 10;
+
+  // Totalen
+  const totalen = [
+    ["Inkoopprijs totaal:", inkoop],
+    ["Verkoopprijs totaal:", verkoop],
+    ["Marge:", marge]
+  ];
+
+  totalen.forEach(([label, value], i) => {
+    doc.setFont("helvetica", "bold");
+    doc.text(label, 14, y + i * 6);
+    doc.setFont("helvetica", "normal");
+    doc.text(value, 60, y + i * 6);
+  });
+
+  y += totalen.length * 6 + 6;
+
+  // Opmerkingen t.a.v. facturatie (onderaan)
+  doc.setFont("helvetica", "bold");
+  doc.text("Opmerkingen t.a.v. facturatie:", 14, y);
+  y += 6;
+  doc.setFont("helvetica", "normal");
+  const opmerkingenTekst = doc.splitTextToSize(opmerkingen, 180);
+  doc.text(opmerkingenTekst, 14, y);
+
+  // PDF opslaan
+  doc.save(`${refnummer || "rapport"}.pdf`);
+}
+
 </script>
 
 
