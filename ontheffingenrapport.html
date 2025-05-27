@@ -287,13 +287,13 @@ window.bewerkRapport = async function (id) {
   const referentie_klant = document.getElementById("referentie_klant").value;
 
 const docData = {
-  refnummer: "2025." + refnummer,
+  refnummer: refnummer,
   opdrachtgever,
   behandelaar,
   aanvraagdatum,
   omschrijving,
   opmerkingen_facturatie,
-  referentie_klant, // ✅ Voeg deze regel toe
+  referentie_klant,
   aangevraagdBij,
   aanvraagdatums,
   afgiftedatums,
