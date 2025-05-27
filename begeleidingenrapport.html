@@ -119,9 +119,23 @@
       <input type="text" id="marge" readonly>
     </label>
   </div>
-
-  <button onclick="genereerPDF()" class="primary-btn">📥 OPSLAAN ALS PDF</button>
+  <button onclick="opslaanRapport()" class="primary-btn">📁 RAPPORT OPSLAAN</button>
+  <button onclick="genereerPDF()" class="primary-btn">📥 DOWNLOAD ALS PDF</button>
 </main>
+
+<h3 style="margin-top: 30px;">Opgeslagen Rapporten</h3>
+<table class="rapport-tabel" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid #ccc; padding: 8px;">Referentienummer</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Opdrachtgever</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Behandelaar</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Actie</th>
+    </tr>
+  </thead>
+  <tbody id="rapportTabelBody"></tbody>
+</table>
+
 
 <script>
 function formatEuro(value) {
@@ -302,6 +316,117 @@ document.addEventListener('DOMContentLoaded', () => {
     doc.save(`${refnummer || "begeleiding"}.pdf`);
   }
 </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, getDocs, doc, setDoc, deleteDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+    authDomain: "vergunningenapp-8455e.firebaseapp.com",
+    projectId: "vergunningenapp-8455e",
+    storageBucket: "vergunningenapp-8455e.appspot.com",
+    messagingSenderId: "882694266288",
+    appId: "1:882694266288:web:4b1cb14817e6ba2290ca75"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  let currentUser = null;
+  let huidigRapportId = null;
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      currentUser = user;
+      laadRapporten();
+    } else {
+      alert("Je bent niet ingelogd.");
+      window.location.href = "index.html";
+    }
+  });
+
+  window.opslaanRapport = async function () {
+    const refnummer = document.querySelector("#referentienummer")?.value || "";
+    const opdrachtgever = document.getElementById("opdrachtgever").value;
+    const behandelaar = document.getElementById("behandelaar").value;
+
+    if (!refnummer || !opdrachtgever || !behandelaar) {
+      return alert("Vul alle verplichte velden in.");
+    }
+
+    const docData = {
+      refnummer: "2025." + refnummer,
+      opdrachtgever,
+      behandelaar,
+      timestamp: new Date(),
+      user: currentUser.uid
+    };
+
+    try {
+      if (huidigRapportId) {
+        await setDoc(doc(db, "begeleidingen", huidigRapportId), docData);
+        alert("Rapport bijgewerkt.");
+        huidigRapportId = null;
+      } else {
+        await addDoc(collection(db, "begeleidingen"), docData);
+        alert("Rapport opgeslagen.");
+      }
+      laadRapporten();
+    } catch (err) {
+      alert("Fout bij opslaan: " + err.message);
+    }
+  };
+
+  window.laadRapporten = async function () {
+    const rapportenBody = document.getElementById("rapportTabelBody");
+    rapportenBody.innerHTML = "";
+
+    const querySnapshot = await getDocs(collection(db, "begeleidingen"));
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const rij = document.createElement("tr");
+      rij.innerHTML = `
+        <td>${data.refnummer || ''}</td>
+        <td>${data.opdrachtgever || ''}</td>
+        <td>${data.behandelaar || ''}</td>
+        <td>
+          <button onclick="bewerkRapport('${docSnap.id}')">✏️ Bewerken</button>
+          <button onclick="verwijderRapport('${docSnap.id}')" style="color:red;">🗑️ Verwijderen</button>
+        </td>
+      `;
+      rapportenBody.appendChild(rij);
+    });
+  };
+
+  window.bewerkRapport = async function (id) {
+    const docSnap = await getDocs(collection(db, "begeleidingen"));
+    const data = docSnap.docs.find(doc => doc.id === id)?.data();
+    if (!data) return alert("Rapport niet gevonden");
+
+    document.getElementById("referentienummer").value = data.refnummer?.split(".")[1] || "";
+    document.getElementById("opdrachtgever").value = data.opdrachtgever || "";
+    document.getElementById("behandelaar").value = data.behandelaar || "";
+
+    huidigRapportId = id;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  window.verwijderRapport = async function (id) {
+    if (!confirm("Weet je zeker dat je dit rapport wilt verwijderen?")) return;
+    try {
+      await deleteDoc(doc(db, "begeleidingen", id));
+      alert("Rapport verwijderd.");
+      laadRapporten();
+    } catch (e) {
+      alert("Fout bij verwijderen: " + e.message);
+    }
+  };
+</script>
+
 
 
 <footer>
