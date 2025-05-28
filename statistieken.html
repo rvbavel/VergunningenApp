@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="nl">
+<!DOCTYPE html><html lang="nl">
 <head>
   <meta charset="UTF-8">
   <title>Statistieken - VMS</title>
@@ -8,98 +7,100 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
-    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";const firebaseConfig = {
+  apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
+  authDomain: "vergunningenapp-8455e.firebaseapp.com",
+  projectId: "vergunningenapp-8455e",
+  storageBucket: "vergunningenapp-8455e.appspot.com",
+  messagingSenderId: "882694266288",
+  appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+};
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
-      authDomain: "vergunningenapp-8455e.firebaseapp.com",
-      projectId: "vergunningenapp-8455e",
-      storageBucket: "vergunningenapp-8455e.appspot.com",
-      messagingSenderId: "882694266288",
-      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
-    };
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+async function loadStats() {
+  const maand = document.getElementById("maand-select").value;
+  const gebruiker = document.getElementById("gebruiker-select").value;
 
-    let currentMonth = new Date().toISOString().slice(0, 7); // yyyy-mm
+  const vergunningenSnap = await getDocs(collection(db, "ontheffingen"));
+  const begeleidingenSnap = await getDocs(collection(db, "begeleidingen"));
 
-    async function loadStats() {
-      const maand = document.getElementById("maand-select").value;
-      const gebruiker = document.getElementById("gebruiker-select").value;
+  let totalInkoop = 0, totalVerkoop = 0, vergunningTeller = 0, begeleidingTeller = 0;
 
-      const vergunningenSnap = await getDocs(collection(db, "ontheffingen"));
-      const begeleidingenSnap = await getDocs(collection(db, "begeleidingen"));
-
-      let totalInkoop = 0, totalVerkoop = 0, vergunningTeller = 0, begeleidingTeller = 0;
-
-      vergunningenSnap.forEach((doc) => {
-        const data = doc.data();
-        if (data.datum?.startsWith(maand) && (gebruiker === "alle" || data.uid === gebruiker)) {
-          vergunningTeller++;
-          totalInkoop += parseFloat(data.inkoop || 0);
-          totalVerkoop += parseFloat(data.verkoop || 0);
-        }
-      });
-
-      begeleidingenSnap.forEach((doc) => {
-        const data = doc.data();
-        if (data.datum?.startsWith(maand) && (gebruiker === "alle" || data.uid === gebruiker)) {
-          begeleidingTeller++;
-          totalInkoop += parseFloat(data.inkoop || 0);
-          totalVerkoop += parseFloat(data.verkoop || 0);
-        }
-      });
-
-      document.getElementById("vergunningenCount").textContent = vergunningTeller;
-      document.getElementById("begeleidingenCount").textContent = begeleidingTeller;
-      document.getElementById("inkoopTotaal").textContent = totalInkoop.toFixed(2).replace('.', ',');
-      document.getElementById("verkoopTotaal").textContent = totalVerkoop.toFixed(2).replace('.', ',');
-
-      const chart = new Chart(document.getElementById("omzetChart"), {
-        type: "bar",
-        data: {
-          labels: ["Inkoop", "Verkoop"],
-          datasets: [{
-            label: "€ Omzet",
-            data: [totalInkoop, totalVerkoop],
-            backgroundColor: ["#ff9999", "#99ff99"]
-          }]
-        }
-      });
-    }
-
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = "index.html";
-        return;
+  vergunningenSnap.forEach((doc) => {
+    const data = doc.data();
+    const ts = data.timestamp?.toDate?.();
+    if (ts) {
+      const docMaand = ts.toISOString().slice(0, 7);
+      if (docMaand === maand && (gebruiker === "alle" || data.user === gebruiker)) {
+        vergunningTeller++;
+        totalInkoop += parseFloat(data.inkoop?.replace(',', '.') || 0);
+        totalVerkoop += parseFloat(data.verkoop?.replace(',', '.') || 0);
       }
+    }
+  });
 
-      const userSnap = await getDocs(collection(db, "users"));
-      const select = document.getElementById("gebruiker-select");
-      userSnap.forEach((doc) => {
-        const data = doc.data();
-        const opt = document.createElement("option");
-        opt.value = doc.id;
-        opt.textContent = data.voornaam || doc.id;
-        select.appendChild(opt);
-      });
+  begeleidingenSnap.forEach((doc) => {
+    const data = doc.data();
+    const ts = data.timestamp?.toDate?.();
+    if (ts) {
+      const docMaand = ts.toISOString().slice(0, 7);
+      if (docMaand === maand && (gebruiker === "alle" || data.user === gebruiker)) {
+        begeleidingTeller++;
+        totalInkoop += parseFloat(data.inkoop_totaal?.replace(',', '.') || 0);
+        totalVerkoop += parseFloat(data.verkoop_totaal?.replace(',', '.') || 0);
+      }
+    }
+  });
 
-      await loadStats();
-    });
+  document.getElementById("vergunningenCount").textContent = vergunningTeller;
+  document.getElementById("begeleidingenCount").textContent = begeleidingTeller;
+  document.getElementById("inkoopTotaal").textContent = totalInkoop.toFixed(2).replace('.', ',');
+  document.getElementById("verkoopTotaal").textContent = totalVerkoop.toFixed(2).replace('.', ',');
 
-    window.applyFilter = loadStats;
+  new Chart(document.getElementById("omzetChart"), {
+    type: "bar",
+    data: {
+      labels: ["Inkoop", "Verkoop"],
+      datasets: [{
+        label: "€ Omzet",
+        data: [totalInkoop, totalVerkoop],
+        backgroundColor: ["#ff9999", "#99ff99"]
+      }]
+    }
+  });
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  const userSnap = await getDocs(collection(db, "users"));
+  const select = document.getElementById("gebruiker-select");
+  userSnap.forEach((doc) => {
+    const data = doc.data();
+    const opt = document.createElement("option");
+    opt.value = doc.id;
+    opt.textContent = data.voornaam || doc.id;
+    select.appendChild(opt);
+  });
+
+  await loadStats();
+});
+
+window.applyFilter = loadStats;
+
   </script>
 </head>
 <body>
-
   <header>
-  <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
-  <h1>STATISTIEKEN DASHBOARD</h1>
-  </header>
-
-  <main class="card">
+    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
+    <h1>STATISTIEKEN DASHBOARD</h1>
+  </header>  <main class="card">
     <label>Filter op maand:
       <input type="month" id="maand-select" value="2025-05" onchange="applyFilter()">
     </label>
@@ -107,17 +108,15 @@
       <select id="gebruiker-select" onchange="applyFilter()">
         <option value="alle">Alle gebruikers</option>
       </select>
-    </label>
+    </label><div class="dashboard">
+  <div class="stat-card">Vergunningen: <strong id="vergunningenCount">0</strong></div>
+  <div class="stat-card">Begeleidingen: <strong id="begeleidingenCount">0</strong></div>
+  <div class="stat-card">Inkoop totaal: € <strong id="inkoopTotaal">0,00</strong></div>
+  <div class="stat-card">Verkoop totaal: € <strong id="verkoopTotaal">0,00</strong></div>
+</div>
 
-    <div class="dashboard">
-      <div class="stat-card">Vergunningen: <strong id="vergunningenCount">0</strong></div>
-      <div class="stat-card">Begeleidingen: <strong id="begeleidingenCount">0</strong></div>
-      <div class="stat-card">Inkoop totaal: € <strong id="inkoopTotaal">0,00</strong></div>
-      <div class="stat-card">Verkoop totaal: € <strong id="verkoopTotaal">0,00</strong></div>
-    </div>
+<canvas id="omzetChart" width="400" height="200"></canvas>
 
-    <canvas id="omzetChart" width="400" height="200"></canvas>
-  </main>
-  <footer>©2025 - Statistieken VMSbeheer</footer>
+  </main>  <footer>© 2025 - Statistieken VMSbeheer</footer>
 </body>
 </html>
