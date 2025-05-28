@@ -1,4 +1,4 @@
-# 🚛 Ontheffingen Management Systeem - Speciaal Transport Zwolle B.V.
+# 🚛 Ontheffingen Management Systeem - VMSbeheer.nl
 
 Dit systeem is ontwikkeld voor **Speciaal Transport Zwolle B.V.**  
 Het is een gebruiksvriendelijk frontend-rapportagesysteem voor het registreren, beheren en exporteren van ontheffingenrapporten.
@@ -84,8 +84,8 @@ Klik op OPSLAAN ALS PDF om het rapport als PDF te genereren.
 
 👨‍💼 Ontwikkelaar
 René van Bavel
-Speciaal Transport Zwolle B.V.
-📧 info@speciaaltransportzwolle.nl (voorbeeldadres)
+VMSbeheer.nl
+📧 info@VMSbeheer.nl (voorbeeldadres)
 
 📜 Licentie
 Dit project is eigendom van René van Bavel VMSbeheer.nl en is bedoeld voor intern gebruik.
