@@ -83,6 +83,15 @@
       <option value="Martijn">Martijn</option>
     </select>
   </label>
+<label>Eindcontrole:
+  <select id="eindcontrole">
+    <option value="">--- Maak keuze ---</option>
+    <option value="René">René</option>
+    <option value="Anke">Anke</option>
+    <option value="Sia">Sia</option>
+    <option value="Martijn">Martijn</option>
+  </select>
+</label>
 </div>
 <div class="form-grid-three">
   <label>Opdrachtgever:
@@ -271,6 +280,7 @@ window.bewerkRapport = async function (id) {
   const refnummer = prefix + nummer;
   const opdrachtgever = document.getElementById("opdrachtgever").value;
   const behandelaar = document.getElementById("behandelaar").value;
+  const eindcontrole = document.getElementById("eindcontrole").value;
   const today = new Date();
   const aanvraagdatum = `${today.getDate().toString().padStart(2, '0')}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getFullYear()}`;
 
@@ -292,6 +302,7 @@ const docData = {
   refnummer: refnummer,
   opdrachtgever,
   behandelaar,
+  eindcontrole,
   aanvraagdatum,
   omschrijving,
   opmerkingen_facturatie,
@@ -319,6 +330,7 @@ const docData = {
     document.getElementById("referentienummer").value = "";
     document.getElementById("opdrachtgever").value = "";
     document.getElementById("behandelaar").value = "";
+    document.getElementById("eindcontrole").value = docData.eindcontrole || "";
     document.getElementById("omschrijving").value = "";
     document.getElementById("opmerkingen_facturatie").value = "";
     document.querySelectorAll(".form-grid-five input").forEach(input => input.value = "");
@@ -389,8 +401,8 @@ const docData = {
   const prefix = document.querySelector(".split-input .prefix")?.textContent || "2025.";
   const nummer = document.querySelector(".split-input input")?.value || "";
   const refnummer = prefix + nummer;
-
   const behandelaar = document.getElementById("behandelaar")?.value || "";
+  const eindcontrole = document.getElementById("eindcontrole").value || "";
   const opdrachtgever = document.getElementById("opdrachtgever")?.value || "";
   const vervoerder = document.getElementById("vervoerder")?.value || "";
   const referentie = document.getElementById("referentie_klant")?.value || "";
@@ -412,6 +424,7 @@ const docData = {
   const info = [
     ["Referentienummer:", refnummer],
     ["Behandelaar:", behandelaar],
+    ["Eindcontrole:", eindcontrole],
     ["Opdrachtgever:", opdrachtgever],
     ["Vervoerder:", vervoerder],
     ["Referentie klant:", referentie]
