@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <title>Gebruikersbeheer - VMSbeheer</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Gebruikersbeheer - VMS</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
     table {
       width: 100%;
@@ -12,40 +12,48 @@
     }
     th, td {
       border: 1px solid #ccc;
-      padding: 8px;
+      padding: 10px;
       text-align: left;
     }
     th {
       background-color: #f2f2f2;
     }
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
     button {
-      padding: 5px 10px;
+      margin-right: 5px;
+      padding: 4px 8px;
       border: none;
-      background-color: #007bff;
-      color: white;
       border-radius: 4px;
       cursor: pointer;
     }
-    button:hover {
-      background-color: #0056b3;
+    button.verwijder {
+      background-color: #dc3545;
+      color: white;
+    }
+    button.verwijder:hover {
+      background-color: #a92828;
+    }
+    button.goedkeuren {
+      background-color: #28a745;
+      color: white;
+    }
+    button.goedkeuren:hover {
+      background-color: #1c7c31;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Gebruikersbeheer</h1>
+    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
+    <h1>GEBRUIKERSBEHEER</h1>
   </header>
 
   <main class="card">
+    <h2>Overzicht gebruikers</h2>
     <table>
       <thead>
         <tr>
-          <th>UID</th>
-          <th>Voornaam</th>
-          <th>Achternaam</th>
+          <th>Email</th>
+          <th>Naam</th>
           <th>Rol</th>
           <th>Goedgekeurd</th>
           <th>Actie</th>
@@ -56,9 +64,16 @@
   </main>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      updateDoc,
+      deleteDoc,
+      doc,
+    } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
@@ -66,70 +81,70 @@
       projectId: "vergunningenapp-8455e",
       storageBucket: "vergunningenapp-8455e.appspot.com",
       messagingSenderId: "882694266288",
-      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
+      appId: "1:882694266288:web:832a85a80dea1b6190ca75",
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
     const auth = getAuth(app);
-
-    async function laadGebruikers() {
-      const gebruikersTabel = document.getElementById("gebruikersTabelBody");
-      gebruikersTabel.innerHTML = "";
-
-      const snapshot = await getDocs(collection(db, "users"));
-      let nietGoedgekeurdAantal = 0;
-
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const tr = document.createElement("tr");
-
-        if (!data.approved) nietGoedgekeurdAantal++;
-
-        tr.innerHTML = `
-          <td>${doc.id}</td>
-          <td>${data.voornaam || ""}</td>
-          <td>${data.achternaam || ""}</td>
-          <td>${data.role || "gebruiker"}</td>
-          <td>${data.approved ? "✅" : "❌"}</td>
-          <td>
-            ${data.approved ? `
-              <button onclick="setGoedkeuring('${doc.id}', false)">Intrekken</button>
-            ` : `
-              <button onclick="setGoedkeuring('${doc.id}', true)">Goedkeuren</button>
-            `}
-          </td>
-        `;
-        gebruikersTabel.appendChild(tr);
-      });
-
-      if (nietGoedgekeurdAantal > 0) {
-        alert(`🔔 ${nietGoedgekeurdAantal} gebruiker(s) wachten op goedkeuring.`);
-      }
-    }
-
-    window.setGoedkeuring = async function (uid, goedkeuren) {
-      try {
-        await updateDoc(doc(db, "users", uid), {
-          approved: goedkeuren
-        });
-        laadGebruikers();
-      } catch (e) {
-        alert("Fout bij bijwerken: " + e.message);
-      }
-    };
+    const db = getFirestore(app);
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         window.location.href = "index.html";
         return;
       }
-      laadGebruikers();
+
+      const docSnap = await getDocs(collection(db, "users"));
+      const gebruikersTabelBody = document.getElementById("gebruikersTabelBody");
+      gebruikersTabelBody.innerHTML = "";
+
+      docSnap.forEach((docu) => {
+        const data = docu.data();
+        const rij = document.createElement("tr");
+        const uid = docu.id;
+        rij.innerHTML = `
+          <td>${data.email || "(geen e-mail)"}</td>
+          <td>${data.voornaam || "(geen naam)"}</td>
+          <td>${data.role || "gebruiker"}</td>
+          <td>${data.approved ? "✅" : "❌"}</td>
+          <td>
+            <button class="goedkeuren" onclick="toggleGoedkeuring('${uid}', ${data.approved})">
+              ${data.approved ? "❌ Intrekken" : "✅ Goedkeuren"}
+            </button>
+            <button class="verwijder" onclick="verwijderGebruiker('${uid}')">🗑️ Verwijderen</button>
+          </td>
+        `;
+        gebruikersTabelBody.appendChild(rij);
+      });
     });
+
+    window.toggleGoedkeuring = async function (uid, huidig) {
+      try {
+        await updateDoc(doc(db, "users", uid), {
+          approved: !huidig,
+        });
+        alert("Status bijgewerkt");
+        location.reload();
+      } catch (e) {
+        alert("Fout bij bijwerken: " + e.message);
+      }
+    };
+
+    window.verwijderGebruiker = async function (uid) {
+      if (!confirm("Weet je zeker dat je deze gebruiker wilt verwijderen?")) return;
+
+      try {
+        await deleteDoc(doc(db, "users", uid));
+        alert("Gebruiker verwijderd uit Firestore.");
+        location.reload();
+      } catch (error) {
+        alert("Fout bij verwijderen: " + error.message);
+      }
+    };
   </script>
 
   <footer>
-    ©2025 - Gebruikersbeheer VMSbeheer
+    ©2025 - Gebruikersbeheer VMSbeheer.nl
   </footer>
 </body>
 </html>
