@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Gebruikersbeheer - VMS</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
   <style>
     table {
       width: 100%;
@@ -12,51 +12,36 @@
     }
     th, td {
       border: 1px solid #ccc;
-      padding: 8px;
+      padding: 10px;
       text-align: left;
     }
     th {
-      background-color: #f4f4f4;
+      background-color: #f2f2f2;
+      font-weight: bold;
     }
-    tr.pending {
-      background-color: #fff6d6;
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tr:hover {
+      background-color: #eef;
     }
     .btn {
-      padding: 4px 10px;
+      padding: 6px 10px;
+      margin: 2px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      margin-right: 5px;
+      color: white;
     }
-    .btn-approve { background-color: #28a745; color: white; }
-    .btn-revoke { background-color: #ffc107; color: black; }
-    .btn-delete { background-color: #dc3545; color: white; }
+    .btn-goedkeuren { background-color: #28a745; }
+    .btn-intrekken { background-color: #ffc107; color: black; }
+    .btn-verwijder { background-color: #dc3545; }
+    .btn:hover { opacity: 0.85; }
   </style>
-</head>
-<body>
-  <header>
-    <h1>Gebruikersbeheer</h1>
-  </header>
-  <main>
-    <table>
-      <thead>
-        <tr>
-          <th>Naam</th>
-          <th>Email</th>
-          <th>Rol</th>
-          <th>Goedkeuring</th>
-          <th>Actie</th>
-        </tr>
-      </thead>
-      <tbody id="gebruikersTabel"></tbody>
-    </table>
-  </main>
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getFirestore, collection, getDocs, updateDoc, deleteDoc, doc
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
@@ -64,69 +49,45 @@
       projectId: "vergunningenapp-8455e",
       storageBucket: "vergunningenapp-8455e.appspot.com",
       messagingSenderId: "882694266288",
-      appId: "1:882694266288:web:4b1cb14817e6ba2290ca75"
+      appId: "1:882694266288:web:832a85a80dea1b6190ca75"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        alert("Je bent niet ingelogd.");
-        window.location.href = "index.html";
-        return;
-      }
-
-      const userDoc = await getDocs(collection(db, "users"));
-      const currentUserData = userDoc.docs.find(d => d.id === user.uid)?.data();
-
-      if (!currentUserData?.role === "beheerder" || !currentUserData?.approved) {
-        alert("Je hebt geen toegang tot deze pagina.");
-        window.location.href = "index.html";
-        return;
-      }
-
-      laadGebruikers();
-    });
-
     async function laadGebruikers() {
-      const querySnapshot = await getDocs(collection(db, "users"));
-      const gebruikersTabel = document.getElementById("gebruikersTabel");
+      const gebruikersTabel = document.getElementById("gebruikersTabelBody");
       gebruikersTabel.innerHTML = "";
-
-      const docs = querySnapshot.docs.sort((a, b) => {
-        const aApproved = a.data().approved === true ? 1 : 0;
-        const bApproved = b.data().approved === true ? 1 : 0;
-        return aApproved - bApproved; // ongekeurd eerst
-      });
-
-      docs.forEach((docSnap) => {
+      const snapshot = await getDocs(collection(db, "users"));
+      snapshot.forEach(docSnap => {
         const data = docSnap.data();
         const rij = document.createElement("tr");
-        if (!data.approved) rij.classList.add("pending");
+
+        const goedgekeurd = data.approved === true;
+        const admin = data.role === "beheerder";
 
         rij.innerHTML = `
           <td>${data.voornaam || "-"}</td>
           <td>${data.email || "-"}</td>
-          <td>${data.role || "-"}</td>
-          <td>${data.approved ? "✅ Goedgekeurd" : "⏳ In afwachting"}</td>
+          <td>${admin ? "Beheerder" : "Gebruiker"}</td>
+          <td>${goedgekeurd ? "Ja" : "Nee"}</td>
           <td>
-            <button class="btn ${data.approved ? 'btn-revoke' : 'btn-approve'}" onclick="toggleGoedkeuring('${docSnap.id}', ${data.approved})">
-              ${data.approved ? '❌ Intrekken' : '✅ Goedkeuren'}
-            </button>
-            <button class="btn btn-delete" onclick="verwijderGebruiker('${docSnap.id}')">🗑️ Verwijderen</button>
+            ${!goedgekeurd ? `<button class="btn btn-goedkeuren" onclick="goedkeurenGebruiker('${docSnap.id}')">Goedkeuren</button>` : `<button class="btn btn-intrekken" onclick="intrekkenGebruiker('${docSnap.id}')">Intrekken</button>`}
+            <button class="btn btn-verwijder" onclick="verwijderGebruiker('${docSnap.id}')">Verwijderen</button>
           </td>
         `;
         gebruikersTabel.appendChild(rij);
       });
     }
 
-    window.toggleGoedkeuring = async function(id, huidigeStatus) {
-      const userRef = doc(db, "users", id);
-      await updateDoc(userRef, {
-        approved: !huidigeStatus
-      });
+    window.goedkeurenGebruiker = async function(id) {
+      await updateDoc(doc(db, "users", id), { approved: true });
+      laadGebruikers();
+    }
+
+    window.intrekkenGebruiker = async function(id) {
+      await updateDoc(doc(db, "users", id), { approved: false });
       laadGebruikers();
     }
 
@@ -135,6 +96,51 @@
       await deleteDoc(doc(db, "users", id));
       laadGebruikers();
     }
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      const docSnap = await getDocs(collection(db, "users"));
+      const currentUser = docSnap.docs.find(d => d.id === user.uid);
+      const currentData = currentUser?.data();
+
+      if (!currentData?.approved || currentData?.role !== "beheerder") {
+        alert("Toegang geweigerd. Alleen goedgekeurde beheerders mogen deze pagina bekijken.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      laadGebruikers();
+    });
   </script>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo">
+    <h1>GEBRUIKERSBEHEER</h1>
+  </header>
+
+  <main class="card">
+    <h2>Overzicht gebruikers</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Naam</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Goedgekeurd</th>
+          <th>Actie</th>
+        </tr>
+      </thead>
+      <tbody id="gebruikersTabelBody"></tbody>
+    </table>
+  </main>
+
+  <footer>
+    &copy;2025 - Gebruikersbeheer Speciaal Transport Zwolle B.V.
+  </footer>
 </body>
 </html>
