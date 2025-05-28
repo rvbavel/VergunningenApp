@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Gebruikersbeheer</title>
+  <title>Gebruikersbeheer - VMSbeheer</title>
   <link rel="stylesheet" href="style.css">
   <style>
     table {
@@ -16,27 +16,49 @@
       text-align: left;
     }
     th {
-      background-color: #f5f5f5;
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
     }
     button {
       padding: 5px 10px;
       border: none;
-      cursor: pointer;
+      background-color: #007bff;
+      color: white;
       border-radius: 4px;
+      cursor: pointer;
     }
-    .approve {
-      background-color: #28a745;
-      color: white;
-    }
-    .deny {
-      background-color: #dc3545;
-      color: white;
+    button:hover {
+      background-color: #0056b3;
     }
   </style>
+</head>
+<body>
+  <header>
+    <h1>Gebruikersbeheer</h1>
+  </header>
+
+  <main class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>UID</th>
+          <th>Voornaam</th>
+          <th>Achternaam</th>
+          <th>Rol</th>
+          <th>Goedgekeurd</th>
+          <th>Actie</th>
+        </tr>
+      </thead>
+      <tbody id="gebruikersTabelBody"></tbody>
+    </table>
+  </main>
+
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
@@ -51,62 +73,63 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    const gebruikersTabel = document.getElementById("gebruikersTabelBody");
-
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) return window.location.href = "index.html";
-
-      const userDoc = await getDocs(collection(db, "users"));
-      const beheerder = userDoc.docs.find(d => d.id === user.uid);
-      if (!beheerder || beheerder.data().role !== "beheerder") return alert("Geen toegang tot gebruikersbeheer.");
+    async function laadGebruikers() {
+      const gebruikersTabel = document.getElementById("gebruikersTabelBody");
+      gebruikersTabel.innerHTML = "";
 
       const snapshot = await getDocs(collection(db, "users"));
-      gebruikersTabel.innerHTML = "";
-      snapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        const rij = document.createElement("tr");
-        rij.innerHTML = `
-          <td>${docSnap.id}</td>
-          <td>${data.voornaam || "-"}</td>
-          <td>${data.achternaam || "-"}</td>
-          <td>${data.role || "-"}</td>
+      let nietGoedgekeurdAantal = 0;
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const tr = document.createElement("tr");
+
+        if (!data.approved) nietGoedgekeurdAantal++;
+
+        tr.innerHTML = `
+          <td>${doc.id}</td>
+          <td>${data.voornaam || ""}</td>
+          <td>${data.achternaam || ""}</td>
+          <td>${data.role || "gebruiker"}</td>
           <td>${data.approved ? "✅" : "❌"}</td>
           <td>
-            ${!data.approved ? `<button class="approve" onclick="wijzigStatus('${docSnap.id}', true)">Goedkeuren</button>` : ''}
-            ${data.approved ? `<button class="deny" onclick="wijzigStatus('${docSnap.id}', false)">Intrekken</button>` : ''}
+            ${data.approved ? `
+              <button onclick="setGoedkeuring('${doc.id}', false)">Intrekken</button>
+            ` : `
+              <button onclick="setGoedkeuring('${doc.id}', true)">Goedkeuren</button>
+            `}
           </td>
         `;
-        gebruikersTabel.appendChild(rij);
+        gebruikersTabel.appendChild(tr);
       });
-    });
 
-    window.wijzigStatus = async function (uid, status) {
-      await updateDoc(doc(db, "users", uid), {
-        approved: status
-      });
-      location.reload();
+      if (nietGoedgekeurdAantal > 0) {
+        alert(`🔔 ${nietGoedgekeurdAantal} gebruiker(s) wachten op goedkeuring.`);
+      }
     }
+
+    window.setGoedkeuring = async function (uid, goedkeuren) {
+      try {
+        await updateDoc(doc(db, "users", uid), {
+          approved: goedkeuren
+        });
+        laadGebruikers();
+      } catch (e) {
+        alert("Fout bij bijwerken: " + e.message);
+      }
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+      laadGebruikers();
+    });
   </script>
-</head>
-<body>
-  <header>
-    <h1>Gebruikersbeheer</h1>
-  </header>
-  <main class="card">
-    <table>
-      <thead>
-        <tr>
-          <th>Gebruiker (UID)</th>
-          <th>Voornaam</th>
-          <th>Achternaam</th>
-          <th>Rol</th>
-          <th>Goedgekeurd</th>
-          <th>Actie</th>
-        </tr>
-      </thead>
-      <tbody id="gebruikersTabelBody"></tbody>
-    </table>
-  </main>
-  <footer>©2025 - Gebruikersbeheer VMSbeheer</footer>
+
+  <footer>
+    ©2025 - Gebruikersbeheer VMSbeheer
+  </footer>
 </body>
 </html>
