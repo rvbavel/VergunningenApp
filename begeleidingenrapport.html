@@ -82,6 +82,15 @@
         <option value="Martijn">Martijn</option>
       </select>
     </label>
+<label>Eindcontrole:
+  <select id="eindcontrole">
+    <option value="">--- Maak keuze ---</option>
+    <option value="René">René</option>
+    <option value="Anke">Anke</option>
+    <option value="Sia">Sia</option>
+    <option value="Martijn">Martijn</option>
+  </select>
+</label>
   </div>
 
   <div class="form-grid-three">
@@ -279,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const refnummer = "2025." + (document.getElementById("referentienummer").value || "");
     const behandelaar = document.getElementById("behandelaar").value || "";
+    const eindcontrole = document.getElementById("eindcontrole").value || "";
     const opdrachtgever = document.getElementById("opdrachtgever").value || "";
     const vervoerder = document.getElementById("vervoerder").value || "";
     const referentie = document.getElementById("referentie_klant").value || "";
@@ -304,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let y = 25;
     veld("Referentienummer:", refnummer, y); y += 6;
     veld("Behandelaar:", behandelaar, y); y += 6;
+    veld("Eindcontrole:", eindcontrole, y); y += 6;
     veld("Opdrachtgever:", opdrachtgever, y); y += 6;
     veld("Vervoerder:", vervoerder, y); y += 6;
     veld("Referentie klant:", referentie, y); y += 6;
