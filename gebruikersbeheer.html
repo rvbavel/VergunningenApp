@@ -2,22 +2,41 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Gebruikersbeheer - VMS</title>
+  <title>Gebruikersbeheer</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f5f5f5;
+    }
+    button {
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .approve {
+      background-color: #28a745;
+      color: white;
+    }
+    .deny {
+      background-color: #dc3545;
+      color: white;
+    }
+  </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      getDocs,
-      updateDoc,
-      doc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
@@ -32,57 +51,41 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    async function laadGebruikers() {
-      const usersRef = collection(db, "users");
-      const snapshot = await getDocs(usersRef);
-      const tbody = document.getElementById("gebruikers-body");
-      tbody.innerHTML = "";
-
-      snapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        const tr = document.createElement("tr");
-        const goedgekeurd = data.approved ? "✅" : "❌";
-
-        tr.innerHTML = `
-          <td>${data.voornaam || "-"}</td>
-          <td>${data.email || docSnap.id}</td>
-          <td>${data.role || "-"}</td>
-          <td>${goedgekeurd}</td>
-          <td>
-            ${!data.approved ? `<button onclick="goedkeuren('${docSnap.id}')">Goedkeuren</button>` : "-"}
-          </td>
-        `;
-
-        tbody.appendChild(tr);
-      });
-    }
-
-    async function goedkeuren(uid) {
-      const userRef = doc(db, "users", uid);
-      await updateDoc(userRef, {
-        approved: true
-      });
-      alert("Gebruiker is goedgekeurd.");
-      laadGebruikers();
-    }
+    const gebruikersTabel = document.getElementById("gebruikersTabelBody");
 
     onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        alert("Je bent niet ingelogd.");
-        window.location.href = "index.html";
-        return;
-      }
+      if (!user) return window.location.href = "index.html";
 
-      const docSnap = await getDoc(doc(db, "users", user.uid));
-      const data = docSnap.data();
-      if (!data || data.role !== "beheerder" || !data.approved) {
-        alert("Geen toegang tot gebruikersbeheer.");
-        window.location.href = "index.html";
-        return;
-      }
+      const userDoc = await getDocs(collection(db, "users"));
+      const beheerder = userDoc.docs.find(d => d.id === user.uid);
+      if (!beheerder || beheerder.data().role !== "beheerder") return alert("Geen toegang tot gebruikersbeheer.");
 
-      laadGebruikers();
+      const snapshot = await getDocs(collection(db, "users"));
+      gebruikersTabel.innerHTML = "";
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const rij = document.createElement("tr");
+        rij.innerHTML = `
+          <td>${docSnap.id}</td>
+          <td>${data.voornaam || "-"}</td>
+          <td>${data.achternaam || "-"}</td>
+          <td>${data.role || "-"}</td>
+          <td>${data.approved ? "✅" : "❌"}</td>
+          <td>
+            ${!data.approved ? `<button class="approve" onclick="wijzigStatus('${docSnap.id}', true)">Goedkeuren</button>` : ''}
+            ${data.approved ? `<button class="deny" onclick="wijzigStatus('${docSnap.id}', false)">Intrekken</button>` : ''}
+          </td>
+        `;
+        gebruikersTabel.appendChild(rij);
+      });
     });
+
+    window.wijzigStatus = async function (uid, status) {
+      await updateDoc(doc(db, "users", uid), {
+        approved: status
+      });
+      location.reload();
+    }
   </script>
 </head>
 <body>
@@ -93,18 +96,17 @@
     <table>
       <thead>
         <tr>
+          <th>Gebruiker (UID)</th>
           <th>Voornaam</th>
-          <th>Email / UID</th>
+          <th>Achternaam</th>
           <th>Rol</th>
           <th>Goedgekeurd</th>
           <th>Actie</th>
         </tr>
       </thead>
-      <tbody id="gebruikers-body"></tbody>
+      <tbody id="gebruikersTabelBody"></tbody>
     </table>
   </main>
-  <footer>
-    ©2025 - Beheer VMSbeheer
-  </footer>
+  <footer>©2025 - Gebruikersbeheer VMSbeheer</footer>
 </body>
 </html>
