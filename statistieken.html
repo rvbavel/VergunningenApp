@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <title>Statistieken - VMS</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="module">
+<meta charset="utf-8"/>
+<title>Statistieken - VMS</title>
+<link href="style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
     import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
@@ -93,31 +94,27 @@
   </script>
 </head>
 <body>
-
-  <header>
-  <img src="logo.png" alt="Speciaal Transport Zwolle B.V." class="logo" />
-  <h1>STATISTIEKEN DASHBOARD</h1>
-  </header>
-
-  <main class="card">
-    <label>Filter op maand:
-      <input type="month" id="maand-select" value="2025-05" onchange="applyFilter()">
-    </label>
-    <label>Filter op gebruiker:
+<header>
+<img alt="Speciaal Transport Zwolle B.V." class="logo" src="logo.png"/>
+<h1>STATISTIEKEN DASHBOARD</h1>
+</header>
+<main class="card">
+<label>Filter op maand:
+      <input id="maand-select" onchange="applyFilter()" type="month" value="2025-05"/>
+</label>
+<label>Filter op gebruiker:
       <select id="gebruiker-select" onchange="applyFilter()">
-        <option value="alle">Alle gebruikers</option>
-      </select>
-    </label>
-
-    <div class="dashboard">
-      <div class="stat-card">Vergunningen: <strong id="vergunningenCount">0</strong></div>
-      <div class="stat-card">Begeleidingen: <strong id="begeleidingenCount">0</strong></div>
-      <div class="stat-card">Inkoop totaal: € <strong id="inkoopTotaal">0,00</strong></div>
-      <div class="stat-card">Verkoop totaal: € <strong id="verkoopTotaal">0,00</strong></div>
-    </div>
-
-    <canvas id="omzetChart" width="400" height="200"></canvas>
-  </main>
-  <footer>©2025 - Statistieken VMSbeheer</footer>
+<option value="alle">Alle gebruikers</option>
+</select>
+</label>
+<div class="dashboard">
+<div class="stat-card">Vergunningen: <strong id="vergunningenCount">0</strong></div>
+<div class="stat-card">Begeleidingen: <strong id="begeleidingenCount">0</strong></div>
+<div class="stat-card">Inkoop totaal: € <strong id="inkoopTotaal">0,00</strong></div>
+<div class="stat-card">Verkoop totaal: € <strong id="verkoopTotaal">0,00</strong></div>
+</div>
+<canvas height="200" id="omzetChart" width="400"></canvas>
+</main>
+<footer>©2025 - Statistieken VMSbeheer</footer>
 </body>
 </html>
