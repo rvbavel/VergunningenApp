@@ -357,10 +357,10 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getFirestore, collection, addDoc, getDocs, doc, setDoc, deleteDoc
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
   const firebaseConfig = {
     apiKey: "AIzaSyDhYR1OuoDaIFeN4-JITfyTdsleadSMTNo",
@@ -389,36 +389,66 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   window.opslaanRapport = async function () {
-    const refnummer = document.querySelector("#referentienummer")?.value || "";
-    const opdrachtgever = document.getElementById("opdrachtgever").value;
-    const behandelaar = document.getElementById("behandelaar").value;
+  const refnummer = document.querySelector("#referentienummer")?.value || "";
+  const opdrachtgever = document.getElementById("opdrachtgever").value;
+  const behandelaar = document.getElementById("behandelaar").value;
+  const vervoerder = document.getElementById("vervoerder").value;
+  const referentie_klant = document.getElementById("referentie_klant").value;
+  const omschrijving = document.getElementById("omschrijving").value;
+  const opmerkingen_facturatie = document.getElementById("opmerkingen_facturatie").value;
+  const inkoop_totaal = (document.getElementById("inkoop_totaal").value || "").replace("€", "").trim().replace(",", ".");
+  const verkoop_totaal = (document.getElementById("verkoop_totaal").value || "").replace("€", "").trim().replace(",", ".");
+  const marge = (document.getElementById("marge").value || "").replace("€", "").trim().replace(",", ".");
 
-    if (!refnummer || !opdrachtgever || !behandelaar) {
-      return alert("Vul alle verplichte velden in.");
-    }
+  function verzamelWaarden(selector) {
+    return Array.from(document.querySelectorAll(selector)).map(input => input.value);
+  }
 
-    const docData = {
-      refnummer: "2025." + refnummer,
-      opdrachtgever,
-      behandelaar,
-      timestamp: new Date(),
-      user: currentUser.uid
-    };
+  const firma = verzamelWaarden('.form-grid-seven > div:nth-child(1) input');
+  const transportdatums = verzamelWaarden('.form-grid-seven > div:nth-child(2) input');
+  const van = verzamelWaarden('.form-grid-seven > div:nth-child(3) input');
+  const naar = verzamelWaarden('.form-grid-seven > div:nth-child(4) input');
+  const uren = verzamelWaarden('.form-grid-seven > div:nth-child(5) input');
+  const inkoopprijzen = verzamelWaarden('input[data-type="inkoop"]');
+  const verkoopprijzen = verzamelWaarden('input[data-type="verkoop"]');
 
-    try {
-      if (huidigRapportId) {
-        await setDoc(doc(db, "begeleidingen", huidigRapportId), docData);
-        alert("Rapport bijgewerkt.");
-        huidigRapportId = null;
-      } else {
-        await addDoc(collection(db, "begeleidingen"), docData);
-        alert("Rapport opgeslagen.");
-      }
-      laadRapporten();
-    } catch (err) {
-      alert("Fout bij opslaan: " + err.message);
-    }
+  const docData = {
+    refnummer: "2025." + refnummer,
+    opdrachtgever,
+    behandelaar,
+    vervoerder,
+    referentie_klant,
+    omschrijving,
+    opmerkingen_facturatie,
+    inkoop_totaal,
+    verkoop_totaal,
+    marge,
+    firma,
+    transportdatums,
+    van,
+    naar,
+    uren,
+    inkoopprijzen,
+    verkoopprijzen,
+    timestamp: new Date(),
+    user: currentUser.uid
   };
+
+  try {
+    if (huidigRapportId) {
+      await setDoc(doc(db, "begeleidingen", huidigRapportId), docData);
+      alert("Rapport bijgewerkt.");
+      huidigRapportId = null;
+    } else {
+      await addDoc(collection(db, "begeleidingen"), docData);
+      alert("Rapport opgeslagen.");
+    }
+    laadRapporten();
+  } catch (err) {
+    alert("Fout bij opslaan: " + err.message);
+  }
+};
+
 
   window.laadRapporten = async function () {
     const rapportenBody = document.getElementById("rapportTabelBody");
@@ -432,38 +462,78 @@ rij.innerHTML = `
   <td data-label="Referentienummer">${data.refnummer || ''}</td>
   <td data-label="Opdrachtgever">${data.opdrachtgever || ''}</td>
   <td data-label="Behandelaar">${data.behandelaar || ''}</td>
-  <td data-label="Actie">
-    <button onclick="bewerkRapport('${docSnap.id}')">✏️ Bewerken</button>
-    <button class="verwijder" onclick="verwijderRapport('${docSnap.id}')">🗑️ Verwijderen</button>
-  </td>
+  <td>
+  <button onclick="bewerkRapport('${docSnap.id}')">✏️ Bewerken</button>
+  <button class="verwijder" onclick="verwijderRapport('${docSnap.id}')">🗑️ Verwijderen</button>
+</td>
+
 `;
 rapportenBody.appendChild(rij);
     });
   };
+window.verwijderRapport = async function (id) {
+  if (!confirm("Weet je zeker dat je dit rapport wilt verwijderen?")) return;
+  try {
+    await deleteDoc(doc(db, "begeleidingen", id));
+    alert("Rapport verwijderd.");
+    laadRapporten();
+  } catch (e) {
+    alert("Fout bij verwijderen: " + e.message);
+  }
+};
+
 
   window.bewerkRapport = async function (id) {
-    const querySnapshot = await getDocs(collection(db, "begeleidingen"));
-    const docData = querySnapshot.docs.find(doc => doc.id === id)?.data();
-    if (!docData) return alert("Rapport niet gevonden");
+  const docRef = doc(db, "begeleidingen", id);
+  const docSnap = await getDoc(docRef);
 
-    document.getElementById("referentienummer").value = docData.refnummer?.split(".")[1] || "";
-    document.getElementById("opdrachtgever").value = docData.opdrachtgever || "";
-    document.getElementById("behandelaar").value = docData.behandelaar || "";
+  if (!docSnap.exists()) return alert("Rapport niet gevonden");
 
-    huidigRapportId = id;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const data = docSnap.data();
+
+  // Basisvelden
+  document.getElementById("referentienummer").value = data.refnummer?.split(".")[1] || "";
+  document.getElementById("opdrachtgever").value = data.opdrachtgever || "";
+  document.getElementById("behandelaar").value = data.behandelaar || "";
+  document.getElementById("vervoerder").value = data.vervoerder || "";
+  document.getElementById("referentie_klant").value = data.referentie_klant || "";
+  document.getElementById("omschrijving").value = data.omschrijving || "";
+  document.getElementById("opmerkingen_facturatie").value = data.opmerkingen_facturatie || "";
+  document.getElementById("inkoop_totaal").value = data.inkoop_totaal ? `€ ${parseFloat(data.inkoop_totaal).toFixed(2).replace('.', ',')}` : "";
+  document.getElementById("verkoop_totaal").value = data.verkoop_totaal ? `€ ${parseFloat(data.verkoop_totaal).toFixed(2).replace('.', ',')}` : "";
+  document.getElementById("marge").value = data.marge ? `€ ${parseFloat(data.marge).toFixed(2).replace('.', ',')}` : "";
+
+  // Arrayvelden invullen
+  const firmaInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(1) input');
+  const datumInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(2) input');
+  const vanInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(3) input');
+  const naarInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(4) input');
+  const urenInputs = document.querySelectorAll('.form-grid-seven > div:nth-child(5) input');
+  const inkoopInputs = document.querySelectorAll('input[data-type="inkoop"]');
+  const verkoopInputs = document.querySelectorAll('input[data-type="verkoop"]');
+
+  const arrays = {
+    firma: data.firma || [],
+    transportdatums: data.transportdatums || [],
+    van: data.van || [],
+    naar: data.naar || [],
+    uren: data.uren || [],
+    inkoopprijzen: data.inkoopprijzen || [],
+    verkoopprijzen: data.verkoopprijzen || [],
   };
 
-  window.verwijderRapport = async function (id) {
-    if (!confirm("Weet je zeker dat je dit rapport wilt verwijderen?")) return;
-    try {
-      await deleteDoc(doc(db, "begeleidingen", id));
-      alert("Rapport verwijderd.");
-      laadRapporten();
-    } catch (e) {
-      alert("Fout bij verwijderen: " + e.message);
-    }
-  };
+  arrays.firma.forEach((val, i) => firmaInputs[i] && (firmaInputs[i].value = val || ""));
+  arrays.transportdatums.forEach((val, i) => datumInputs[i] && (datumInputs[i].value = val ? val.split("-").reverse().join("-") : ""));
+  arrays.van.forEach((val, i) => vanInputs[i] && (vanInputs[i].value = val || ""));
+  arrays.naar.forEach((val, i) => naarInputs[i] && (naarInputs[i].value = val || ""));
+  arrays.uren.forEach((val, i) => urenInputs[i] && (urenInputs[i].value = val || ""));
+  arrays.inkoopprijzen.forEach((val, i) => inkoopInputs[i] && (inkoopInputs[i].value = val ? val.toString().replace('.', ',') : ""));
+  arrays.verkoopprijzen.forEach((val, i) => verkoopInputs[i] && (verkoopInputs[i].value = val ? val.toString().replace('.', ',') : ""));
+
+  huidigRapportId = id;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
 </script>
 
 <footer>
