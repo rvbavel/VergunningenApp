@@ -1,92 +1,112 @@
-# 🚛 Ontheffingen Management Systeem - VMSbeheer.nl
+# VMSbeheer
 
-Dit systeem is ontwikkeld voor **Speciaal Transport Zwolle B.V.**  
-Het is een gebruiksvriendelijk frontend-rapportagesysteem voor het registreren, beheren en exporteren van ontheffingenrapporten.
-
----
-
-## 📄 Inhoud van dit project
-
-| Bestand                  | Beschrijving                                                      |
-|--------------------------|--------------------------------------------------------------------|
-| `ontheffingenrapport.html` | Hoofdpagina voor het invoeren van rapportgegevens               |
-| `style.css`               | Styling in lijn met de huisstijl van Speciaal Transport Zwolle B.V. |
-| `script.js`               | JavaScript-functionaliteit voor formulierverwerking              |
-| `print.css`               | Afdrukstijl voor PDF-export                                       |
+**VMSbeheer** is een professioneel webgebaseerd systeem voor het beheren van transportvergunningen, ontheffingen en begeleidingen. Het systeem bevat toegangscontrole via Firebase Authentication, Firestore-database voor opslag, PDF-export, statistieken en gebruikersbeheer.
 
 ---
 
-## 💡 Functionaliteiten
+## 🚀 Functionaliteiten
 
-- ✅ Invoer van referentienummer met automatisch prefix `2025.`
-- ✅ Selectie van behandelaar uit vaste lijst (René, Anke, Sia, Martijn)
-- ✅ Klant- en vervoerdersgegevens
-- ✅ Tekstvelden voor omschrijving en opmerkingen m.b.t. facturatie
-- ✅ Dynamische tabel met invoervelden voor:
-  - Aangevraagd bij
-  - Aanvraagdatum
-  - Afgiftedatum
-  - Inkoopprijs
-  - Verkoopprijs
-- ✅ Automatische berekening van totaalbedragen en marge
-- ✅ Console-log van alle gegevens bij klikken op **VERSTUREN**
-- ✅ Voorbereid op opslag in Firebase Firestore (optioneel)
-- ✅ Export naar PDF met lay-outbehoud (via `html2canvas` en `jsPDF`)
+### ✅ Gebruikersbeheer
+- Inloggen / registreren via Firebase Auth
+- Goedkeuring door beheerder vereist
+- Rollen: gebruiker / beheerder
 
----
+### ✅ Vergunningen
+- Inboeken van vergunningen met vervaldatum en klantgegevens
+- Automatische berekening van status (geldig, verlopen, waarschuwing)
+- Mogelijkheid tot verzenden van e-mail aan klanten
 
-## 🔧 Technologieën gebruikt
+### ✅ Begeleidingenrapport
+- Invoer van transportdetails en prijzen
+- Automatische berekening van marge
+- PDF-generatie van rapport
+- Validatie op velden + rijen vereist
 
-- HTML5 & CSS3
-- JavaScript (ES6)
-- [jsPDF](https://github.com/parallax/jsPDF) + [html2canvas](https://github.com/niklasvh/html2canvas)
-- *(optioneel)* Firebase Firestore voor data-opslag
+### ✅ Ontheffingenrapport
+- Invoer van ontheffingsaanvragen
+- Veldvalidatie + bewerkingsoptie
+- Opslag in Firestore per gebruiker
 
----
+### ✅ Statistieken
+- Margeoverzicht
+- Maandelijkse trendgrafiek
+- Jaar- en gebruikerfilter
+- Begeleiding + ontheffing gecombineerd
 
-## 📁 Projectstructuur
-
-VergunningenApp/
-├── ontheffingenrapport.html
-├── style.css
-├── print.css
-├── script.js
-└── logo.png
-
+### ✅ Vervaloverzicht
+- Overzicht van vergunningen die binnenkort verlopen
+- Automatische kleuraanduiding (groen, geel, rood)
+- Actieknop om e-mail te sturen naar de klant
 
 ---
 
-## 🚀 Instructies
+## 📁 Mappenstructuur (aanbevolen)
 
-1. **Download of clone** dit project:
-   ```bash
-   git clone https://github.com/rvbavel/VergunningenApp.git
-   cd VergunningenApp
+```
+/index.html
+/dashboard.html
+/gebruikersbeheer.html
+/vergunningen.html
+/verval.html
+/begeleidingenrapport.html
+/ontheffingenrapport.html
+/statistieken.html
+/transportbegeleiding.html
 
-Open ontheffingenrapport.html in een browser.
+/js/
+  firebase-config.js
+  script.js
+  begeleidingen-berekening.js
+  ontheffingenrapport_validatie.js
+  statistieken.js
 
-Vul het formulier in.
+/assets/
+  logo.png
+```
 
-Klik op VERSTUREN om gegevens te testen.
+---
 
-Klik op OPSLAAN ALS PDF om het rapport als PDF te genereren.
+## 🧩 Technologieën
 
-📌 Toekomstige uitbreidingen
-🔒 Inloggen en gebruikersbeheer
+- HTML + Tailwind CSS
+- JavaScript (modulair)
+- Firebase Authentication
+- Firestore Database
+- jsPDF + autotable (PDF)
+- Chart.js (grafieken)
 
-☁️ Firebase Firestore opslag & ophalen van rapporten
+---
 
-🧾 Toevoegen van meerdere rapporttypes (zoals begeleidingen)
+## 🔐 Beveiliging
 
-🌙 Dark mode & Tailwind CSS-integratie
+- Alleen goedgekeurde gebruikers hebben toegang
+- Beheerder bepaalt rol en toegang
+- Firebase Security Rules aanbevolen voor Firestore bescherming
 
-📊 Dashboard voor beheerders
+---
 
-👨‍💼 Ontwikkelaar
-René van Bavel
-VMSbeheer.nl
-📧 info@VMSbeheer.nl (voorbeeldadres)
+## ⚙️ Installatie / Gebruik
 
-📜 Licentie
-Dit project is eigendom van René van Bavel VMSbeheer.nl en is bedoeld voor intern gebruik.
+1. **Firebase project opzetten**
+   - Maak project aan via Firebase Console
+   - Activeer Authentication (Email/Password)
+   - Activeer Firestore Database (region: `europe-west4`)
+   - Voeg een `users` collectie toe met velden:
+     - `email`, `approved: false`, `role: "gebruiker"`, `voornaam`
 
+2. **Deploy**
+   - Upload bestanden naar Firebase Hosting, GitHub Pages of een eigen server
+   - Zorg dat Firebase-config klopt in `firebase-config.js`
+
+3. **Start**
+   - Ga naar `index.html` en registreer je eerste gebruiker
+   - Log in als beheerder en keur andere gebruikers goed via `gebruikersbeheer.html`
+
+---
+
+## 🧑‍💼 Auteur
+
+**René van Bavel**  
+[https://vmsbeheer.nl](https://vmsbeheer.nl)
+
+© 2025 VMSbeheer.nl
